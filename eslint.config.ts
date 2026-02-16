@@ -1,11 +1,7 @@
-/**
- * ESLint configuration.
- */
-
-/** Dependencies - Framework. */
+// DPU framework
 import datapos from '@datapos/eslint-config-datapos';
 
-/** Exposures - Configuration. */
+// ESLint configuration
 export default [
     ...datapos,
     {

@@ -1,26 +1,26 @@
-const z = "useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict";
-let j = (e = 21) => {
+const j = "useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict";
+let z = (e = 21) => {
   let t = "", i = crypto.getRandomValues(new Uint8Array(e |= 0));
   for (; e--; )
-    t += z[i[e] & 63];
+    t += j[i[e] & 63];
   return t;
-}, A = class extends Error {
+};
+class A extends Error {
   locator;
   /** Logical source of the error. */
   constructor(t, i, d) {
     super(t, d), this.name = new.target.name, this.locator = i;
   }
-}, v = class extends A {
-};
-class u extends v {
+}
+let v = class extends A {
+}, u = class extends v {
   body;
   /** Sanitized HTTP response body. */
   constructor(t, i, d, s) {
     super(t, i, s), this.name = new.target.name, this.body = g(d ?? void 0);
   }
-}
-class C extends A {
-}
+}, C = class extends A {
+};
 async function h(e, t, i) {
   const d = ` - ${e.statusText}`, s = `${t} Response status '${e.status}${e.statusText ? d : ""}' received.`;
   let o;
@@ -36,7 +36,7 @@ function p(e) {
   if (typeof e == "string") return new Error(e);
   if (typeof e == "number" || typeof e == "boolean" || typeof e == "bigint") return new Error(String(e));
   if (typeof e == "symbol") return new Error(e.description ?? "Unknown error");
-  if (e != null && typeof e == "object")
+  if (typeof e == "object")
     try {
       return new Error(JSON.stringify(e));
     } catch {
@@ -60,7 +60,7 @@ function R(e) {
     if (t !== -1) return e.slice(Math.max(0, t + 1));
   }
 }
-function P(e) {
+function E(e) {
   switch (e) {
     case "csv":
       return "text/csv";
@@ -85,7 +85,7 @@ const n = (e) => new Map(Object.entries(e));
 n({ "en-gb": "Data Positioning Events" }), n({ "en-gb": "Delimited Text" }), n({ "en-gb": "JSON" }), n({ "en-gb": "SPSS" }), n({ "en-gb": "XLSX" }), n({ "en-gb": "XML" });
 n({ "en-gb": "Newline" }), n({ "en-gb": "Carriage Return" }), n({ "en-gb": "Carriage Return/Newline" });
 n({ "en-gb": "Colon" }), n({ "en-gb": "Comma" }), n({ "en-gb": "Exclamation Mark" }), n({ "en-gb": "Record Separator" }), n({ "en-gb": "Semicolon" }), n({ "en-gb": "Space" }), n({ "en-gb": "Tab" }), n({ "en-gb": "Underscore" }), n({ "en-gb": "Unit Separator" }), n({ "en-gb": "Vertical Bar" });
-const E = [",", ";", "	", "|", " ", ":", "_", "!", "0x1F", "0x1E"], S = "datapos-connector-file-store-emulator", T = { en: "File Store Emulator" }, x = { "en-gb": "Imitates a cloud-based file storage solution. It hosts a read-only set of files for demonstration, evaluation and testing purposes and is freely available to all users." }, _ = null, k = "fileStore", F = { default: { authMethodId: "none", maxConnectionCount: 1 } }, O = '<svg fill="#000000" height="100%" viewBox="0 0 576 512"><path d="M320 32H64C46.33 32 32 46.33 32 64V448C32 465.7 46.33 480 64 480H296.2C305.1 491.8 317.3 502.3 329.7 511.3C326.6 511.7 323.3 512 320 512H64C28.65 512 0 483.3 0 448V64C0 28.65 28.65 0 64 0H320C355.3 0 384 28.65 384 64V198.6C372.8 201.8 362.1 206 352 211.2V64C352 46.33 337.7 32 320 32V32zM64 144C64 135.2 71.16 128 80 128H304C312.8 128 320 135.2 320 144C320 152.8 312.8 160 304 160H80C71.16 160 64 152.8 64 144zM272 224C280.8 224 288 231.2 288 240C288 248.8 280.8 256 272 256H80C71.16 256 64 248.8 64 240C64 231.2 71.16 224 80 224H272zM208 320C216.8 320 224 327.2 224 336C224 344.8 216.8 352 208 352H80C71.16 352 64 344.8 64 336C64 327.2 71.16 320 80 320H208zM476.7 324.7C482.9 318.4 493.1 318.4 499.3 324.7C505.6 330.9 505.6 341.1 499.3 347.3L427.3 419.3C421.1 425.6 410.9 425.6 404.7 419.3L364.7 379.3C358.4 373.1 358.4 362.9 364.7 356.7C370.9 350.4 381.1 350.4 387.3 356.7L416 385.4L476.7 324.7zM288 368C288 288.5 352.5 224 432 224C511.5 224 576 288.5 576 368C576 447.5 511.5 512 432 512C352.5 512 288 447.5 288 368zM432 480C493.9 480 544 429.9 544 368C544 306.1 493.9 256 432 256C370.1 256 320 306.1 320 368C320 429.9 370.1 480 432 480z"/></svg>', N = '<svg fill="#ffffff" height="100%" viewBox="0 0 576 512"><path d="M320 32H64C46.33 32 32 46.33 32 64V448C32 465.7 46.33 480 64 480H296.2C305.1 491.8 317.3 502.3 329.7 511.3C326.6 511.7 323.3 512 320 512H64C28.65 512 0 483.3 0 448V64C0 28.65 28.65 0 64 0H320C355.3 0 384 28.65 384 64V198.6C372.8 201.8 362.1 206 352 211.2V64C352 46.33 337.7 32 320 32V32zM64 144C64 135.2 71.16 128 80 128H304C312.8 128 320 135.2 320 144C320 152.8 312.8 160 304 160H80C71.16 160 64 152.8 64 144zM272 224C280.8 224 288 231.2 288 240C288 248.8 280.8 256 272 256H80C71.16 256 64 248.8 64 240C64 231.2 71.16 224 80 224H272zM208 320C216.8 320 224 327.2 224 336C224 344.8 216.8 352 208 352H80C71.16 352 64 344.8 64 336C64 327.2 71.16 320 80 320H208zM476.7 324.7C482.9 318.4 493.1 318.4 499.3 324.7C505.6 330.9 505.6 341.1 499.3 347.3L427.3 419.3C421.1 425.6 410.9 425.6 404.7 419.3L364.7 379.3C358.4 373.1 358.4 362.9 364.7 356.7C370.9 350.4 381.1 350.4 387.3 356.7L416 385.4L476.7 324.7zM288 368C288 288.5 352.5 224 432 224C511.5 224 576 288.5 576 368C576 447.5 511.5 512 432 512C352.5 512 288 447.5 288 368zM432 480C493.9 480 544 429.9 544 368C544 306.1 493.9 256 432 256C370.1 256 320 306.1 320 368C320 429.9 370.1 480 432 480z"/></svg>', U = null, L = ["abortOperation", "auditObjectContent", "findObjectFolderPath", "getReadableStream", "listNodes", "previewObject", "retrieveRecords"], D = null, V = "beta", B = "connector", G = "source", H = null, q = null, Z = null, K = "0.2.454", Q = {
+const P = [",", ";", "	", "|", " ", ":", "_", "!", "0x1F", "0x1E"], S = "datapos-connector-file-store-emulator", T = { en: "File Store Emulator" }, x = { "en-gb": "Imitates a cloud-based file storage solution. It hosts a read-only set of files for demonstration, evaluation and testing purposes and is freely available to all users." }, _ = null, k = "fileStore", F = { default: { authMethodId: "none", maxConnectionCount: 1 } }, O = '<svg fill="#000000" height="100%" viewBox="0 0 576 512"><path d="M320 32H64C46.33 32 32 46.33 32 64V448C32 465.7 46.33 480 64 480H296.2C305.1 491.8 317.3 502.3 329.7 511.3C326.6 511.7 323.3 512 320 512H64C28.65 512 0 483.3 0 448V64C0 28.65 28.65 0 64 0H320C355.3 0 384 28.65 384 64V198.6C372.8 201.8 362.1 206 352 211.2V64C352 46.33 337.7 32 320 32V32zM64 144C64 135.2 71.16 128 80 128H304C312.8 128 320 135.2 320 144C320 152.8 312.8 160 304 160H80C71.16 160 64 152.8 64 144zM272 224C280.8 224 288 231.2 288 240C288 248.8 280.8 256 272 256H80C71.16 256 64 248.8 64 240C64 231.2 71.16 224 80 224H272zM208 320C216.8 320 224 327.2 224 336C224 344.8 216.8 352 208 352H80C71.16 352 64 344.8 64 336C64 327.2 71.16 320 80 320H208zM476.7 324.7C482.9 318.4 493.1 318.4 499.3 324.7C505.6 330.9 505.6 341.1 499.3 347.3L427.3 419.3C421.1 425.6 410.9 425.6 404.7 419.3L364.7 379.3C358.4 373.1 358.4 362.9 364.7 356.7C370.9 350.4 381.1 350.4 387.3 356.7L416 385.4L476.7 324.7zM288 368C288 288.5 352.5 224 432 224C511.5 224 576 288.5 576 368C576 447.5 511.5 512 432 512C352.5 512 288 447.5 288 368zM432 480C493.9 480 544 429.9 544 368C544 306.1 493.9 256 432 256C370.1 256 320 306.1 320 368C320 429.9 370.1 480 432 480z"/></svg>', N = '<svg fill="#ffffff" height="100%" viewBox="0 0 576 512"><path d="M320 32H64C46.33 32 32 46.33 32 64V448C32 465.7 46.33 480 64 480H296.2C305.1 491.8 317.3 502.3 329.7 511.3C326.6 511.7 323.3 512 320 512H64C28.65 512 0 483.3 0 448V64C0 28.65 28.65 0 64 0H320C355.3 0 384 28.65 384 64V198.6C372.8 201.8 362.1 206 352 211.2V64C352 46.33 337.7 32 320 32V32zM64 144C64 135.2 71.16 128 80 128H304C312.8 128 320 135.2 320 144C320 152.8 312.8 160 304 160H80C71.16 160 64 152.8 64 144zM272 224C280.8 224 288 231.2 288 240C288 248.8 280.8 256 272 256H80C71.16 256 64 248.8 64 240C64 231.2 71.16 224 80 224H272zM208 320C216.8 320 224 327.2 224 336C224 344.8 216.8 352 208 352H80C71.16 352 64 344.8 64 336C64 327.2 71.16 320 80 320H208zM476.7 324.7C482.9 318.4 493.1 318.4 499.3 324.7C505.6 330.9 505.6 341.1 499.3 347.3L427.3 419.3C421.1 425.6 410.9 425.6 404.7 419.3L364.7 379.3C358.4 373.1 358.4 362.9 364.7 356.7C370.9 350.4 381.1 350.4 387.3 356.7L416 385.4L476.7 324.7zM288 368C288 288.5 352.5 224 432 224C511.5 224 576 288.5 576 368C576 447.5 511.5 512 432 512C352.5 512 288 447.5 288 368zM432 480C493.9 480 544 429.9 544 368C544 306.1 493.9 256 432 256C370.1 256 320 306.1 320 368C320 429.9 370.1 480 432 480z"/></svg>', U = null, L = ["abortOperation", "auditObjectContent", "findObject", "getReadableStream", "listNodes", "previewObject", "retrieveRecords"], D = null, V = "beta", B = "connector", G = "source", H = null, q = null, Z = null, K = "0.2.455", Q = {
   id: S,
   label: T,
   description: x,
@@ -137,8 +137,8 @@ async function X(e) {
 async function M() {
   return y ??= import("./datapos_connector_file_store_emulator_core-CBVDrOML.js"), y;
 }
-const f = "https://sample-data-eu.datapos.app";
-class te {
+const f = "https://sample-data-eu.datapos.app/fileStore";
+class ie {
   abortController;
   config;
   engineUtilities;
@@ -146,52 +146,20 @@ class te {
   constructor(t, i) {
     this.abortController = void 0, this.config = Q, this.engineUtilities = t, this.toolConfigs = i;
   }
-  //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  //#region: Operations.
-  //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  /**
-   * Abort the currently running operation.
-   */
+  // Operations ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // Abort the currently running operation
   abortOperation() {
     this.abortController && (this.abortController.abort(), this.abortController = void 0);
   }
-  // /**
-  //  * Audit the content of a CSV file using Rust CSV parser.
-  //  * Automatically selects the appropriate processing mode based on browser capabilities.
-  //  */
-  // async auditContent(path: string, supportsTransferableStreams: boolean, onProgress?: (rowCount: number) => void): Promise<{ processedRowCount: number; durationMs?: number }> {
-  //     this.abortController = new AbortController();
-  //     try {
-  //         // Get the readable stream
-  //         const stream = await this.getReadableStream({ id: '', path });
-  //         // Load the Rust CSV core tool
-  //         const rustCsvTool = await loadTool<RustCsvCoreTool>(this.toolConfigs, 'rust-csv-core');
-  //         // Choose processing mode based on browser capability
-  //         const options = { delimiter: ',', hasHeaders: true };
-  //         const result = supportsTransferableStreams
-  //             ? await rustCsvTool.processWithTransferableStream(stream, options, onProgress)
-  //             : await rustCsvTool.processWithChunks(stream, options, onProgress);
-  //         return {
-  //             processedRowCount: result.processedRowCount,
-  //             durationMs: result.durationMs ?? 0
-  //         };
-  //     } catch (error) {
-  //         throw normalizeToError(error);
-  //     } finally {
-  //         this.abortController = undefined;
-  //     }
-  // }
-  /**
-   * Audit object content.
-   */
+  // Audit object content
   async auditObjectContent(t, i) {
     this.abortController = new AbortController();
     try {
-      if (console.log(3333, t), t.parsingToolName === "datapos-tool-rust-csv-core") {
-        const l = await this.getReadableStream({ id: "", path: t.path }), c = await m(this.toolConfigs, "rust-csv-core"), r = { delimiter: ",", hasHeaders: !0 }, b = t.supportsTransferableStreams ? await c.processWithTransferableStream(l, r, i) : await c.processWithChunks(l, r, i);
+      if (t.parsingToolName === "datapos-tool-rust-csv-core") {
+        const c = await this.getReadableStream({ id: "", path: t.path }), l = await m(this.toolConfigs, "rust-csv-core"), r = { delimiter: ",", hasHeaders: !0 }, b = t.supportsTransferableStreams ? await l.processWithTransferableStream(c, r, i) : await l.processWithChunks(c, r, i);
         return { processedRowCount: b.processedRowCount, durationMs: b.durationMs ?? 0 };
       }
-      const d = await m(this.toolConfigs, "csv-parse"), s = { delimiter: t.valueDelimiterId, relax_column_count: !0, relax_quotes: !0 }, o = `${f}/fileStore${t.path}`, a = await d.parseStream(t, s, o, this.abortController, i);
+      const d = await m(this.toolConfigs, "csv-parse"), s = { delimiter: t.valueDelimiterId, relax_column_count: !0, relax_quotes: !0 }, o = `${f}${t.path}`, a = await d.parseStream(t, s, o, this.abortController, (c) => console.log(c));
       return console.log("summary", a), { processedRowCount: 0, durationMs: 0 };
     } catch (d) {
       throw p(d);
@@ -199,23 +167,19 @@ class te {
       this.abortController = void 0;
     }
   }
-  /**
-   * Find the folder path containing the specified object node.
-   */
-  findObjectFolderPath(t) {
+  // Find the folder path containing the specified object node
+  findObject(t) {
     const i = I;
     for (const d in i)
       if (Object.hasOwn(i, d) && i[d]?.find((a) => a.typeId === "object" && a.id === t.nodeId))
-        return Promise.resolve(d);
-    return Promise.resolve(null);
+        return Promise.resolve({ folderPath: d, object: void 0 });
+    return Promise.reject(new Error("Not found."));
   }
-  /**
-   * Get a readable stream for the specified object node path.
-   */
+  // Get a readable stream for the specified object node path
   async getReadableStream(t) {
     const { signal: i } = this.abortController = new AbortController();
     try {
-      const d = await fetch(`${f}/fileStore${t.path}`, { signal: i });
+      const d = await fetch(`${f}${t.path}`, { signal: i });
       if (!d.ok)
         throw await h(d, `Failed to fetch '${t.path}' file.`, "datapos-connector-file-store-emulator|Connector|getReadableStream");
       if (d.body == null)
@@ -228,25 +192,21 @@ class te {
       this.abortController = void 0;
     }
   }
-  /**
-   * Lists all nodes (folders and objects) in the specified folder path.
-   */
+  // Lists all nodes (folders and objects) in the specified folder path
   listNodes(t) {
     const d = I[t.folderPath] ?? [], s = [];
     for (const o of d)
       o.typeId === "folder" ? s.push(Y(t.folderPath, o.name, o.childCount)) : s.push(W(t.folderPath, o.id, o.name, o.lastModifiedAt, o.size));
     return Promise.resolve({ cursor: void 0, isMore: !1, connectionNodeConfigs: s, totalCount: s.length });
   }
-  /**
-   * Preview the contents of the object node with the specified path.
-   */
+  // Preview the contents of the object node with the specified path
   async previewObject(t) {
     const { signal: i } = this.abortController = new AbortController();
     try {
-      const d = Date.now(), s = performance.now(), a = await (await m(this.toolConfigs, "file-operators")).previewFile(`${f}/fileStore${t.path}`, i, t.chunkSize);
+      const d = Date.now(), s = performance.now(), a = await (await m(this.toolConfigs, "file-operators")).previewFile(`${f}${t.path}`, i, t.chunkSize);
       if (a.dataFormatId == null) throw new Error(`File '${t.path}' has unknown type.`);
       if (a.text == null) throw new Error(`File '${t.path}' is empty.`);
-      const c = await (await m(this.toolConfigs, "csv-parse")).parseText(a.text, E), r = this.engineUtilities.inferDataTypes(c.parsedRecords);
+      const l = await (await m(this.toolConfigs, "csv-parse")).parseText(a.text, P), r = this.engineUtilities.inferDataTypes(l.parsedRecords);
       return {
         asAt: d,
         columnConfigs: r.columnConfigs,
@@ -256,12 +216,12 @@ class te {
         encodingConfidenceLevel: a.encodingConfidenceLevel,
         fileType: a.fileTypeConfig,
         hasHeaders: r.hasHeaderRow,
-        recordDelimiterId: c.recordDelimiterId,
-        parsedRecords: c.parsedRecords,
+        recordDelimiterId: l.recordDelimiterId,
+        parsedRecords: l.parsedRecords,
         inferenceRecords: r.typedRecords,
         size: a.bytes.length,
         text: a.text,
-        valueDelimiterId: c.valueDelimiterId
+        valueDelimiterId: l.valueDelimiterId
       };
     } catch (d) {
       throw p(d);
@@ -269,21 +229,18 @@ class te {
       this.abortController = void 0;
     }
   }
-  /**
-   * Retrieves all records from a CSV object node using streaming and chunked processing.
-   */
+  // Retrieves all records from a CSV object node using streaming and chunked processing
   async retrieveRecords(t, i, d) {
     this.abortController = new AbortController();
     try {
-      const s = await m(this.toolConfigs, "csv-parse"), o = { delimiter: t.valueDelimiterId, info: !0, relax_column_count: !0, relax_quotes: !0 }, a = `${f}/fileStore${t.path}`, l = await s.parseStream(t, o, a, this.abortController, i);
-      d(l);
+      const s = await m(this.toolConfigs, "csv-parse"), o = { delimiter: t.valueDelimiterId, info: !0, relax_column_count: !0, relax_quotes: !0 }, a = `${f}${t.path}`, c = await s.parseStream(t, o, a, this.abortController, i);
+      d(c);
     } catch (s) {
       throw p(s);
     } finally {
       this.abortController = void 0;
     }
   }
-  //#endregion ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 }
 function Y(e, t, i) {
   return {
@@ -292,7 +249,7 @@ function Y(e, t, i) {
     extension: void 0,
     folderPath: e,
     handle: void 0,
-    id: j(),
+    id: z(),
     label: t,
     lastModifiedAt: void 0,
     mimeType: void 0,
@@ -302,7 +259,7 @@ function Y(e, t, i) {
   };
 }
 function W(e, t, i, d, s) {
-  const o = w(i) ?? "", a = R(i), l = d, c = P(a);
+  const o = w(i) ?? "", a = R(i), c = d, l = E(a);
   return {
     childCount: void 0,
     childNodes: [],
@@ -311,14 +268,14 @@ function W(e, t, i, d, s) {
     handle: void 0,
     id: t,
     label: i,
-    lastModifiedAt: l,
-    mimeType: c,
+    lastModifiedAt: c,
+    mimeType: l,
     name: o,
     size: s,
     typeId: "object"
   };
 }
 export {
-  te as Connector
+  ie as Connector
 };
 //# sourceMappingURL=datapos-connector-file-store-emulator.es.js.map

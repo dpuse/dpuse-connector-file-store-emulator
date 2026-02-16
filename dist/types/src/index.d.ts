@@ -1,43 +1,18 @@
 import { EngineUtilities } from '@datapos/datapos-shared/engine';
-import { AuditObjectContentOptions, AuditObjectContentResult, ConnectorConfig, ConnectorInterface, FindObjectFolderPathOptions, GetReadableStreamOptions, ListNodesOptions, ListNodesResult, PreviewObjectOptions, RetrieveRecordsOptions, RetrieveRecordsSummary } from '@datapos/datapos-shared/component/connector';
+import { AuditObjectContentOptions, AuditObjectContentResult, ConnectorConfig, ConnectorInterface, FindObjectOptions, FindObjectResult, GetReadableStreamOptions, ListNodesOptions, ListNodesResult, PreviewObjectOptions, RetrieveRecordsOptions, RetrieveRecordsSummary } from '@datapos/datapos-shared/component/connector';
 import { ToolConfig } from '@datapos/datapos-shared/component/tool';
 import { ParsingRecord, PreviewConfig } from '@datapos/datapos-shared/component/dataView';
-/**
- * File store emulator connector.
- */
-declare class Connector implements ConnectorInterface {
+export declare class Connector implements ConnectorInterface {
     abortController: AbortController | undefined;
     readonly config: ConnectorConfig;
     engineUtilities: EngineUtilities;
     readonly toolConfigs: ToolConfig[];
     constructor(engineUtilities: EngineUtilities, toolConfigs: ToolConfig[]);
-    /**
-     * Abort the currently running operation.
-     */
     abortOperation(): void;
-    /**
-     * Audit object content.
-     */
     auditObjectContent(options: AuditObjectContentOptions, chunk: (rowCount: number) => void): Promise<AuditObjectContentResult>;
-    /**
-     * Find the folder path containing the specified object node.
-     */
-    findObjectFolderPath(options: FindObjectFolderPathOptions): Promise<string | null>;
-    /**
-     * Get a readable stream for the specified object node path.
-     */
+    findObject(options: FindObjectOptions): Promise<FindObjectResult>;
     getReadableStream(options: GetReadableStreamOptions): Promise<ReadableStream<Uint8Array>>;
-    /**
-     * Lists all nodes (folders and objects) in the specified folder path.
-     */
     listNodes(options: ListNodesOptions): Promise<ListNodesResult>;
-    /**
-     * Preview the contents of the object node with the specified path.
-     */
     previewObject(options: PreviewObjectOptions): Promise<PreviewConfig>;
-    /**
-     * Retrieves all records from a CSV object node using streaming and chunked processing.
-     */
     retrieveRecords(options: RetrieveRecordsOptions, chunk: (records: ParsingRecord[]) => void, complete: (result: RetrieveRecordsSummary) => void): Promise<void>;
 }
-export { Connector };

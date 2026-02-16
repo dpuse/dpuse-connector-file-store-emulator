@@ -20,7 +20,7 @@
     "operations": [
         "abortOperation",
         "auditObjectContent",
-        "findObjectFolderPath",
+        "findObject",
         "getReadableStream",
         "listNodes",
         "previewObject",
@@ -33,5 +33,5 @@
     "vendorAccountURL": null,
     "vendorDocumentationURL": null,
     "vendorHomeURL": null,
-    "version": "0.2.454"
+    "version": "0.2.455"
 }
