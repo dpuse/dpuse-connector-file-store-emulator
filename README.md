@@ -33,11 +33,11 @@ The OWASP Dependency Check Report identifies known vulnerabilities in project de
 The following table lists top-level production and peer dependencies. All these dependencies (including transitive ones) have been recursively verified to use Apache-2.0, CC0-1.0, or MIT—commercially friendly licenses with minimal restrictions. Developers cloning this repository should independently verify dev and optional dependencies; users of the uploaded library are covered by these checks.
 
 <!-- DEPENDENCY_LICENSES_START -->
-
-| Name                | Type | Installed | Latest  | Latest Released        | Deps | Document                                                            |
-| :------------------ | :--- | :-------: | :-----: | :--------------------- | ---: | :------------------------------------------------------------------ |
-| @dpuse/dpuse-shared | MIT  |  0.3.594  | 0.3.594 | this month: 2026-03-22 |    0 | ⚠️ No license file                                                  |
-| nanoid              | MIT  |   5.1.7   |  5.1.7  | this month: 2026-03-15 |    0 | [LICENSE](https://raw.githubusercontent.com/ai/nanoid/main/LICENSE) |
+|Name|Type|Installed|Latest|Latest Released|Deps|Document|
+|:-|:-|:-:|:-:|:-|-:|:-|
+|@dpuse/dpuse-shared|MIT|0.3.594|0.3.594|this month: 2026-03-22|0|[LICENSE](https://raw.githubusercontent.com/dpuse/dpuse-shared/main/LICENSE)|
+|@dpuse/dpuse-tool-csv-parse|MIT|0.0.136|0.0.136|this month: 2026-03-23|2|[LICENSE](https://raw.githubusercontent.com/dpuse/dpuse-tool-csv-parse/main/LICENSE)|
+|nanoid|MIT|5.1.7|5.1.7|this month: 2026-03-15|0|[LICENSE](https://raw.githubusercontent.com/ai/nanoid/main/LICENSE)|
 
 <!-- DEPENDENCY_LICENSES_END -->
 
