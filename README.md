@@ -1,7 +1,7 @@
 # Data Positioning File Store Emulator Connector
 
 <span><!-- OWASP_BADGES_START -->
-[![OWASP](https://img.shields.io/badge/OWASP-passed-4CAF50)](https://data-positioning.github.io/datapos-connector-file-store-emulator/dependency-check-reports/dependency-check-report.html)
+[![OWASP](https://img.shields.io/badge/OWASP-passed-4CAF50)](https://dpuse.github.io/dpuse-connector-file-store-emulator/dependency-check-reports/dependency-check-report.html)
 
 <!-- OWASP_BADGES_END --></span>
 
@@ -11,9 +11,9 @@ A TypeScript library that implements the File Store Emulator connector. It provi
 
 ## Rust WebAssembly Helpers
 
-The connector now ships with a lightweight Rust crate located in [rust/datapos-connector-file-store-emulator-core](rust/datapos-connector-file-store-emulator-core). It is compiled to WebAssembly with `wasm-pack` so TypeScript can call native Rust logic.
+The connector now ships with a lightweight Rust crate located in [rust/dpuse-connector-file-store-emulator-core](rust/dpuse-connector-file-store-emulator-core). It is compiled to WebAssembly with `wasm-pack` so TypeScript can call native Rust logic.
 
-- Run `npm run build:rust` (requires the [`wasm-pack` CLI](https://rustwasm.github.io/wasm-pack/installer/)) whenever you change the Rust sources. The command rebuilds the package into [rust/datapos-connector-file-store-emulator-core/pkg](rust/datapos-connector-file-store-emulator-core/pkg).
+- Run `npm run build:rust` (requires the [`wasm-pack` CLI](https://rustwasm.github.io/wasm-pack/installer/)) whenever you change the Rust sources. The command rebuilds the package into [rust/dpuse-connector-file-store-emulator-core/pkg](rust/dpuse-connector-file-store-emulator-core/pkg).
 - The async wrapper in [src/rustBridge.ts](src/rustBridge.ts) lazy-loads the generated bindings and surfaces helpers like `addNumbersWithRust()` and `checksumWithRust()`.
 - `FileStoreEmulatorConnector` exposes `addUsingRust()` and `versionChecksumUsingRust()` so consumers can exercise the Rust-backed functionality without dealing with low-level WebAssembly plumbing.
 
@@ -27,7 +27,7 @@ There’s no need to install this connector manually. Once released, it’s uplo
 
 The OWASP Dependency Check Report identifies known vulnerabilities in project dependencies. It is generated automatically on each release using the npm package `owasp-dependency-check`. We also rely on GitHub Dependabot to continuously check for vulnerabilities across all dependencies.
 
-[View the OWASP Dependency Check Report](https://data-positioning.github.io/connector-file-store-emulator/dependency-check-reports/dependency-check-report.html)
+[View the OWASP Dependency Check Report](https://dpuse.github.io/connector-file-store-emulator/dependency-check-reports/dependency-check-report.html)
 
 ### Dependency Licenses
 
@@ -37,7 +37,7 @@ The following table lists top-level production and peer dependencies. All these 
 
 | Name                    | Type | Installed | Latest  | Latest Released          | Deps | Document                                                                                  |
 | :---------------------- | :--- | :-------: | :-----: | :----------------------- | ---: | :---------------------------------------------------------------------------------------- |
-| @datapos/datapos-shared | MIT  |  0.3.396  | 0.3.396 | this month: 2025-12-23   |    3 | [LICENSE](https://raw.githubusercontent.com/data-positioning/datapos-shared/main/LICENSE) |
+| @dpuse/dpuse-shared | MIT  |  0.3.396  | 0.3.396 | this month: 2025-12-23   |    3 | [LICENSE](https://raw.githubusercontent.com/dpuse/dpuse-shared/main/LICENSE) |
 | nanoid                  | MIT  |   5.1.6   |  5.1.6  | 3 months ago: 2025-09-22 |    0 | [LICENSE](https://raw.githubusercontent.com/ai/nanoid/main/LICENSE)                       |
 
 <!-- DEPENDENCY_LICENSES_END -->
@@ -48,7 +48,7 @@ The following table lists top-level production and peer dependencies. All these 
 
 The Bundle Analysis Report provides a detailed breakdown of the bundle's composition and module sizes, helping to identify which modules contribute most to the final build. It is generated automatically on each release using the npm package `rollup-plugin-visualizer`.
 
-[View the Bundle Analysis Report](https://data-positioning.github.io/datapos-connector-file-store-emulator/stats/index.html)
+[View the Bundle Analysis Report](https://dpuse.github.io/dpuse-connector-file-store-emulator/stats/index.html)
 
 ## Repository Management Commands
 

@@ -1,9 +1,9 @@
 // DPU framework
-import datapos from '@datapos/eslint-config-datapos';
+import dpuse from '@dpuse/eslint-config-dpuse';
 
 // ESLint configuration
 export default [
-    ...datapos,
+    ...dpuse,
     {
         rules: {
             '@typescript-eslint/no-confusing-void-expression': 'off'

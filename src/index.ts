@@ -2,7 +2,7 @@
 import { nanoid } from 'nanoid';
 
 // DPU framework
-import type { EngineUtilities } from '@datapos/datapos-shared/engine';
+import type { EngineUtilities } from '@dpuse/dpuse-shared/engine';
 import type {
     AuditObjectContentOptions,
     AuditObjectContentResult,
@@ -17,11 +17,11 @@ import type {
     PreviewObjectOptions,
     RetrieveRecordsOptions,
     RetrieveRecordsSummary
-} from '@datapos/datapos-shared/component/connector';
-import { buildFetchError, normalizeToError, OperationalError } from '@datapos/datapos-shared/errors';
-import { extractExtensionFromPath, extractNameFromPath, lookupMimeTypeForExtension } from '@datapos/datapos-shared/utilities';
-import { loadTool, type ToolConfig } from '@datapos/datapos-shared/component/tool';
-import { ORDERED_VALUE_DELIMITER_IDS, type ParsingRecord, type PreviewConfig } from '@datapos/datapos-shared/component/dataView';
+} from '@dpuse/dpuse-shared/component/connector';
+import { buildFetchError, normalizeToError, OperationalError } from '@dpuse/dpuse-shared/errors';
+import { extractExtensionFromPath, extractNameFromPath, lookupMimeTypeForExtension } from '@dpuse/dpuse-shared/utilities';
+import { loadTool, type ToolConfig } from '@dpuse/dpuse-shared/component/tool';
+import { ORDERED_VALUE_DELIMITER_IDS, type ParsingRecord, type PreviewConfig } from '@dpuse/dpuse-shared/component/dataView';
 
 // DPU tools
 import type { Tool as CSVParseTool } from '@datapos/datapos-tool-csv-parse';
@@ -50,7 +50,7 @@ type FileStoreFolderPaths = Record<string, FileStoreFolderNode[]>;
 /**
  * Cloudflare R2 file store directory prefix.
  */
-const URL_PREFIX = 'https://sample-data-eu.datapos.app/fileStore';
+const URL_PREFIX = 'https://sample-data-eu.dpuse.app/fileStore';
 
 // Connectors
 export class Connector implements ConnectorInterface {
@@ -133,10 +133,10 @@ export class Connector implements ConnectorInterface {
         try {
             const response = await fetch(`${URL_PREFIX}${options.path}`, { signal });
             if (!response.ok) {
-                throw await buildFetchError(response, `Failed to fetch '${options.path}' file.`, 'datapos-connector-file-store-emulator|Connector|getReadableStream');
+                throw await buildFetchError(response, `Failed to fetch '${options.path}' file.`, 'dpuse-connector-file-store-emulator|Connector|getReadableStream');
             }
             if (response.body == null) {
-                throw new OperationalError('Readable streams are not supported in this runtime.', 'datapos-connector-file-store-emulator|Connector|getReadableStream.unsupported');
+                throw new OperationalError('Readable streams are not supported in this runtime.', 'dpuse-connector-file-store-emulator|Connector|getReadableStream.unsupported');
             }
 
             // TODO: Remove after testing.

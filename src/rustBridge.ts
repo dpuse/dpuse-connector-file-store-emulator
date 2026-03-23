@@ -1,5 +1,5 @@
 // Dependencies - Framework
-import type * as RustModule from '../rust/datapos-connector-file-store-emulator-core/pkg/datapos_connector_file_store_emulator_core.js';
+import type * as RustModule from '../rust/dpuse-connector-file-store-emulator-core/pkg/dpuse_connector_file_store_emulator_core.js';
 
 // Interfaces/Types
 type RustBindings = typeof RustModule;
@@ -24,7 +24,7 @@ async function checksumWithRust(input: string): Promise<number> {
 
 // Helpers
 async function loadRustBindings(): Promise<RustBindings> {
-    rustBindingsPromise ??= import('../rust/datapos-connector-file-store-emulator-core/pkg/datapos_connector_file_store_emulator_core.js');
+    rustBindingsPromise ??= import('../rust/dpuse-connector-file-store-emulator-core/pkg/dpuse_connector_file_store_emulator_core.js');
     return rustBindingsPromise;
 }
 

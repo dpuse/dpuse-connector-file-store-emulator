@@ -1,5 +1,5 @@
 use wasm_bindgen::prelude::*;
-use datapos_engine_shared::add_numbers;
+use dpuse_engine_shared::add_numbers;
 use web_sys::console;
 
 /// Computes a simple checksum by summing every byte in the input string.
