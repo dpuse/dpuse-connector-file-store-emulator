@@ -117,7 +117,6 @@ export class Connector implements ConnectorInterface {
         // Loop through the folder path data checking for an object entry with an identifier equal to the object name.
         for (const folderPath in fileStoreFolderPaths) {
             if (Object.hasOwn(fileStoreFolderPaths, folderPath)) {
-                // eslint-disable-next-line security/detect-object-injection
                 const folderPathNodes = fileStoreFolderPaths[folderPath];
                 const folderPathNode = folderPathNodes?.find((folderPathNode) => folderPathNode.typeId === 'object' && folderPathNode.id === options.nodeId);
                 if (folderPathNode) return Promise.resolve({ folderPath, object: undefined }); // Found, return folder path.
@@ -215,7 +214,6 @@ export class Connector implements ConnectorInterface {
     // Retrieves all records from a CSV object node using streaming and chunked processing
     async retrieveRecords(options: RetrieveRecordsOptions, chunk: (records: ParsingRecord[]) => void, complete: (result: RetrieveRecordsSummary) => void): Promise<void> {
         this.abortController = new AbortController();
-
         try {
             const csvParseTool = await loadTool<CSVParseTool>(this.toolConfigs, 'csv-parse');
             const parseStreamOptions = { delimiter: options.valueDelimiterId, info: true, relax_column_count: true, relax_quotes: true };
