@@ -27,7 +27,7 @@ There’s no need to install this connector manually. Once released, it’s uplo
 
 The OWASP Dependency Check Report identifies known vulnerabilities in project dependencies. It is generated automatically on each release using the npm package `owasp-dependency-check`. We also rely on GitHub Dependabot to continuously check for vulnerabilities across all dependencies.
 
-[View the OWASP Dependency Check Report](https://dpuse.github.io/connector-file-store-emulator/dependency-check-reports/dependency-check-report.html)
+[View the OWASP Dependency Check Report](https://dpuse.github.io/dpuse-connector-file-store-emulator/dependency-check-reports/dependency-check-report.html)
 
 ### Dependency Licenses
 
@@ -35,10 +35,10 @@ The following table lists top-level production and peer dependencies. All these 
 
 <!-- DEPENDENCY_LICENSES_START -->
 
-| Name                    | Type | Installed | Latest  | Latest Released          | Deps | Document                                                                                  |
-| :---------------------- | :--- | :-------: | :-----: | :----------------------- | ---: | :---------------------------------------------------------------------------------------- |
-| @dpuse/dpuse-shared | MIT  |  0.3.396  | 0.3.396 | this month: 2025-12-23   |    3 | [LICENSE](https://raw.githubusercontent.com/dpuse/dpuse-shared/main/LICENSE) |
-| nanoid                  | MIT  |   5.1.6   |  5.1.6  | 3 months ago: 2025-09-22 |    0 | [LICENSE](https://raw.githubusercontent.com/ai/nanoid/main/LICENSE)                       |
+| Name                | Type | Installed | Latest  | Latest Released        | Deps | Document                                                            |
+| :------------------ | :--- | :-------: | :-----: | :--------------------- | ---: | :------------------------------------------------------------------ |
+| @dpuse/dpuse-shared | MIT  |  0.3.594  | 0.3.594 | this month: 2026-03-22 |    0 | ⚠️ No license file                                                  |
+| nanoid              | MIT  |   5.1.7   |  5.1.7  | this month: 2026-03-15 |    0 | [LICENSE](https://raw.githubusercontent.com/ai/nanoid/main/LICENSE) |
 
 <!-- DEPENDENCY_LICENSES_END -->
 
