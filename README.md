@@ -1,11 +1,10 @@
-# Data Positioning File Store Emulator Connector
+# DPUse File Store Emulator Connector
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 <span><!-- OWASP_BADGES_START -->
 [![OWASP](https://img.shields.io/badge/OWASP-passed-4CAF50)](https://dpuse.github.io/dpuse-connector-file-store-emulator/dependency-check-reports/dependency-check-report.html)
 
 <!-- OWASP_BADGES_END --></span>
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 
 A TypeScript library that implements the File Store Emulator connector. It provides easy access to a curated set of files for demonstration and evaluation purposes.
 

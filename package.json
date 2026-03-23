@@ -1,6 +1,6 @@
 {
     "name": "dpuse-connector-file-store-emulator",
-    "version": "0.2.458",
+    "version": "0.2.459",
     "license": "MIT",
     "author": "Jonathan Terrell <terrell.jm@gmail.com>",
     "private": false,
