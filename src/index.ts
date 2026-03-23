@@ -25,7 +25,7 @@ import { loadTool, type ToolConfig } from '@dpuse/dpuse-shared/component/tool';
 import { ORDERED_VALUE_DELIMITER_IDS, type ParsingRecord, type PreviewConfig } from '@dpuse/dpuse-shared/component/dataView';
 
 // DPU tools
-import type { Tool as CSVParseTool } from '@datapos/datapos-tool-csv-parse';
+import type { Tool as CSVParseTool } from '@dpuse/dpuse-tool-csv-parse';
 import type { Tool as FileOperatorsTool } from '@datapos/datapos-tool-file-operators';
 import type { Tool as RustCsvCoreTool } from '@datapos/datapos-tool-rust-csv-core';
 
@@ -120,7 +120,7 @@ export class Connector implements ConnectorInterface {
             if (Object.hasOwn(fileStoreFolderPaths, folderPath)) {
                 const folderPathNodes = fileStoreFolderPaths[folderPath];
                 const folderPathNode = folderPathNodes?.find((folderPathNode) => folderPathNode.typeId === 'object' && folderPathNode.id === options.nodeId);
-                if (folderPathNode) return Promise.resolve({ path:folderPath, object: undefined }); // Found, return folder path.
+                if (folderPathNode) return Promise.resolve({ path: folderPath, object: undefined }); // Found, return folder path.
             }
         }
         return Promise.reject(new Error('Not found.')); // Not found.
@@ -213,7 +213,11 @@ export class Connector implements ConnectorInterface {
         }
     }
     // Retrieves all records from a CSV object node using streaming and chunked processing
-    async retrieveRecords(options: RetrieveRecordsOptions, chunk: (typeId:RetrievalTypeId,records: ParsingRecord[]) => void, complete: (result: RetrieveRecordsSummary) => void): Promise<void> {
+    async retrieveRecords(
+        options: RetrieveRecordsOptions,
+        chunk: (typeId: RetrievalTypeId, records: ParsingRecord[]) => void,
+        complete: (result: RetrieveRecordsSummary) => void
+    ): Promise<void> {
         this.abortController = new AbortController();
         try {
             const csvParseTool = await loadTool<CSVParseTool>(this.toolConfigs, 'csv-parse');

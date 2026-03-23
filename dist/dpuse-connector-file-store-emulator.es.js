@@ -119,7 +119,7 @@ var m = [
 	vendorAccountURL: null,
 	vendorDocumentationURL: null,
 	vendorHomeURL: null,
-	version: "0.2.460"
+	version: "0.2.461"
 }, g = {
 	"": [
 		{
