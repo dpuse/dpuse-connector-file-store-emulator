@@ -119,7 +119,7 @@ var m = [
 	vendorAccountURL: null,
 	vendorDocumentationURL: null,
 	vendorHomeURL: null,
-	version: "0.2.467"
+	version: "0.2.468"
 }, g = {
 	"": [
 		{
@@ -275,13 +275,13 @@ var m = [
 	}],
 	"/AUDATACY Interchange Format/Human Resources/Workforce": [{
 		id: "wGWz4L-CzhOWghONht4me",
-		lastModifiedAt: 1743507686216.0603,
+		lastModifiedAt: 1743507686216.0605,
 		name: "Jobs.csv",
 		size: 13913,
 		typeId: "object"
 	}, {
 		id: "9zATjYIEUrgdNRGZiBJk7",
-		lastModifiedAt: 1743507686216.139,
+		lastModifiedAt: 1743507686216.1387,
 		name: "Work Contracts.csv",
 		size: 13931,
 		typeId: "object"
@@ -366,7 +366,7 @@ var m = [
 		},
 		{
 			id: "XoRE5yA1Wt_mj62aXow6l",
-			lastModifiedAt: 1743507686221.5725,
+			lastModifiedAt: 1743507686221.5723,
 			name: "seasons.csv",
 			size: 4158,
 			typeId: "object"
@@ -389,7 +389,7 @@ var m = [
 		},
 		{
 			id: "Sin5ruuQDsR2U6Kp0nh0P",
-			lastModifiedAt: 1743507686222.1543,
+			lastModifiedAt: 1743507686222.1545,
 			name: "COMP_CUR_CONV.csv",
 			size: 2245,
 			typeId: "object"
@@ -438,14 +438,14 @@ var m = [
 		},
 		{
 			id: "ij8QQ5hchAPbACUI05Ys-",
-			lastModifiedAt: 1743507686227.233,
+			lastModifiedAt: 1743507686227.2327,
 			name: "GENERIC_OBJECTS.csv",
 			size: 1736573,
 			typeId: "object"
 		},
 		{
 			id: "eR8NVFWml2McemuO1ARf5",
-			lastModifiedAt: 1743507686227.8457,
+			lastModifiedAt: 1743507686227.8455,
 			name: "GENERIC_RELATIONSHIPS.csv",
 			size: 98782,
 			typeId: "object"
@@ -473,14 +473,14 @@ var m = [
 		},
 		{
 			id: "zVX02e0T_8HPwl8A8bOvB",
-			lastModifiedAt: 1743507686230.9397,
+			lastModifiedAt: 1743507686230.9395,
 			name: "LOCATIONS.csv",
 			size: 3167,
 			typeId: "object"
 		},
 		{
 			id: "yC_VmZD_-qZO36IgRUqWD",
-			lastModifiedAt: 1743507686230.993,
+			lastModifiedAt: 1743507686230.9927,
 			name: "PAY_COMPONENT.csv",
 			size: 1234,
 			typeId: "object"
@@ -531,7 +531,7 @@ var m = [
 		},
 		{
 			id: "B5zBnvHz383QvcTBKmfUs",
-			lastModifiedAt: 1743507686232.8423,
+			lastModifiedAt: 1743507686232.8425,
 			name: "empJob.csv",
 			size: 1193715,
 			typeId: "object"
@@ -573,7 +573,7 @@ var m = [
 	"/SAP SuccessFactors API/sapSuccessFactors": [
 		{
 			id: "QzWMz0iQFkcHXkzq-p66Z",
-			lastModifiedAt: 1743507686233.37,
+			lastModifiedAt: 1743507686233.3699,
 			name: "empEmployment.csv",
 			size: 151656,
 			typeId: "object"
@@ -608,7 +608,7 @@ var m = [
 		},
 		{
 			id: "se0QTOVL7Mc6p1akP9Chg",
-			lastModifiedAt: 1743507686234.652,
+			lastModifiedAt: 1743507686234.6519,
 			name: "perPersonal.csv",
 			size: 119305,
 			typeId: "object"
@@ -624,7 +624,7 @@ var m = [
 		},
 		{
 			id: "XF4W0_nR9K48JKLidDqW_",
-			lastModifiedAt: 1743507686234.808,
+			lastModifiedAt: 1743507686234.8079,
 			name: "Campaign.csv",
 			size: 1655,
 			typeId: "object"
@@ -645,7 +645,7 @@ var m = [
 		},
 		{
 			id: "YtKzR6VUIEtOGjNnkg--S",
-			lastModifiedAt: 1743507686235.0637,
+			lastModifiedAt: 1743507686235.0635,
 			name: "Opportunity.csv",
 			size: 11811,
 			typeId: "object"
@@ -666,7 +666,7 @@ var m = [
 	"/Salesforce API/salesforce": [
 		{
 			id: "SOjEcqJMQVPnGf6Zno-p7",
-			lastModifiedAt: 1743507686235.202,
+			lastModifiedAt: 1743507686235.2021,
 			name: "Account.csv",
 			size: 7383,
 			typeId: "object"
@@ -724,7 +724,7 @@ var m = [
 		},
 		{
 			id: "EIokleB1XstSQMOLTGu6l",
-			lastModifiedAt: 1743507686236.026,
+			lastModifiedAt: 1743507686236.0261,
 			name: "ActionLinkTemplateBinding.csv",
 			size: 141,
 			typeId: "object"
@@ -738,7 +738,7 @@ var m = [
 		},
 		{
 			id: "Bcbu2kRPP2CTX-ywgDsYN",
-			lastModifiedAt: 1743507686236.12,
+			lastModifiedAt: 1743507686236.1199,
 			name: "Asset.csv",
 			size: 373,
 			typeId: "object"
@@ -780,7 +780,7 @@ var m = [
 		},
 		{
 			id: "cXISlKSW-HcKh9crfGHJn",
-			lastModifiedAt: 1743507686236.4,
+			lastModifiedAt: 1743507686236.4001,
 			name: "Campaign.csv",
 			size: 2510,
 			typeId: "object"
@@ -808,7 +808,7 @@ var m = [
 		},
 		{
 			id: "KXFK-iaLunmmdk2FPJww3",
-			lastModifiedAt: 1743507686236.62,
+			lastModifiedAt: 1743507686236.6199,
 			name: "CaseComment.csv",
 			size: 153,
 			typeId: "object"
@@ -829,7 +829,7 @@ var m = [
 		},
 		{
 			id: "-C7OvrSEcR94itqZqj5q5",
-			lastModifiedAt: 1743507686236.744,
+			lastModifiedAt: 1743507686236.7441,
 			name: "CaseSolution.csv",
 			size: 84,
 			typeId: "object"
@@ -857,7 +857,7 @@ var m = [
 		},
 		{
 			id: "Jq1IkfxE3ITu7SRu-kM1w",
-			lastModifiedAt: 1743507686236.9397,
+			lastModifiedAt: 1743507686236.9395,
 			name: "ComponentResponseCache.csv",
 			size: 170,
 			typeId: "object"
@@ -920,28 +920,28 @@ var m = [
 		},
 		{
 			id: "IGrcuhNVczAI9QoNLO5mI",
-			lastModifiedAt: 1743507686237.3745,
+			lastModifiedAt: 1743507686237.3743,
 			name: "DatacloudOwnedEntity.csv",
 			size: 187,
 			typeId: "object"
 		},
 		{
 			id: "L4e6Uij1v_JbQ3J91oU54",
-			lastModifiedAt: 1743507686237.431,
+			lastModifiedAt: 1743507686237.4307,
 			name: "DatacloudPurchaseUsage.csv",
 			size: 186,
 			typeId: "object"
 		},
 		{
 			id: "rb7GIAs-FHg8_hXDSLc09",
-			lastModifiedAt: 1743507686237.474,
+			lastModifiedAt: 1743507686237.4739,
 			name: "EmailDisclaimer.csv",
 			size: 174,
 			typeId: "object"
 		},
 		{
 			id: "zR0pG9QFNi-_0veUtnt0r",
-			lastModifiedAt: 1743507686237.5205,
+			lastModifiedAt: 1743507686237.5203,
 			name: "EmailMessage.csv",
 			size: 426,
 			typeId: "object"
@@ -962,7 +962,7 @@ var m = [
 		},
 		{
 			id: "ZMTrPXutvQs9HfTitewGd",
-			lastModifiedAt: 1743507686237.682,
+			lastModifiedAt: 1743507686237.6821,
 			name: "EngagementHistoryRollup.csv",
 			size: 219,
 			typeId: "object"
@@ -1165,7 +1165,7 @@ var m = [
 		},
 		{
 			id: "4RUIU8y-g41KVvPZ1uTZt",
-			lastModifiedAt: 1743507686239.1963,
+			lastModifiedAt: 1743507686239.1965,
 			name: "InteractionCountReport.csv",
 			size: 194,
 			typeId: "object"
@@ -1270,7 +1270,7 @@ var m = [
 		},
 		{
 			id: "irAUP0qpvcquhG01OcbZq",
-			lastModifiedAt: 1743507686239.9585,
+			lastModifiedAt: 1743507686239.9583,
 			name: "Metric.csv",
 			size: 301,
 			typeId: "object"
@@ -1347,7 +1347,7 @@ var m = [
 		},
 		{
 			id: "PTEUEaMARJRR-VhO6asKZ",
-			lastModifiedAt: 1743507686240.577,
+			lastModifiedAt: 1743507686240.5767,
 			name: "OpportunityLineItem.csv",
 			size: 222,
 			typeId: "object"
@@ -1515,7 +1515,7 @@ var m = [
 		},
 		{
 			id: "-OSDA7FQKovNr6O4OEI6U",
-			lastModifiedAt: 1743507686241.6963,
+			lastModifiedAt: 1743507686241.6965,
 			name: "RecordType.csv",
 			size: 1730,
 			typeId: "object"
@@ -1529,7 +1529,7 @@ var m = [
 		},
 		{
 			id: "3W48nL1gMxgljSP-lNdJi",
-			lastModifiedAt: 1743507686241.775,
+			lastModifiedAt: 1743507686241.7747,
 			name: "ScorecardAssociation.csv",
 			size: 138,
 			typeId: "object"
@@ -1550,7 +1550,7 @@ var m = [
 		},
 		{
 			id: "liJXyfzK5HvuhZ_x1eFlD",
-			lastModifiedAt: 1743507686241.9043,
+			lastModifiedAt: 1743507686241.9045,
 			name: "SearchPromotionRule.csv",
 			size: 115,
 			typeId: "object"
@@ -1613,7 +1613,7 @@ var m = [
 		},
 		{
 			id: "Uvq7iGOzFCD1iMrPw24ql",
-			lastModifiedAt: 1743507686242.2903,
+			lastModifiedAt: 1743507686242.2905,
 			name: "TaskRelation.csv",
 			size: 143,
 			typeId: "object"
@@ -1655,7 +1655,7 @@ var m = [
 		},
 		{
 			id: "DD3xzSvmOI8zkLvU7FcSs",
-			lastModifiedAt: 1743507686242.5503,
+			lastModifiedAt: 1743507686242.5505,
 			name: "TransitionMessage.csv",
 			size: 134,
 			typeId: "object"
@@ -1704,7 +1704,7 @@ var m = [
 		},
 		{
 			id: "LvhsTXeVvoLtiB6wkNl_k",
-			lastModifiedAt: 1743507686242.8457,
+			lastModifiedAt: 1743507686242.8455,
 			name: "UserProvAccount.csv",
 			size: 283,
 			typeId: "object"
@@ -1732,7 +1732,7 @@ var m = [
 		},
 		{
 			id: "ZWwcHYUTX_BCCLGFBqIXl",
-			lastModifiedAt: 1743507686242.931,
+			lastModifiedAt: 1743507686242.9307,
 			name: "UserProvMockTarget.csv",
 			size: 198,
 			typeId: "object"
@@ -1746,7 +1746,7 @@ var m = [
 		},
 		{
 			id: "lu2QweEB0m-9PryDPKoKZ",
-			lastModifiedAt: 1743507686243.1,
+			lastModifiedAt: 1743507686243.0999,
 			name: "UserSetupAppInfo.csv",
 			size: 129,
 			typeId: "object"
@@ -1767,7 +1767,7 @@ var m = [
 		},
 		{
 			id: "gGVTP8z7qHc-ChYlQQdAb",
-			lastModifiedAt: 1743507686243.2185,
+			lastModifiedAt: 1743507686243.2183,
 			name: "WorkFeedbackQuestion.csv",
 			size: 233,
 			typeId: "object"
@@ -1825,7 +1825,7 @@ var m = [
 		},
 		{
 			id: "6roJCkgPdnlnaDl_G15C0",
-			lastModifiedAt: 1743507686248.5437,
+			lastModifiedAt: 1743507686248.5435,
 			name: "Receipts.xls",
 			size: 180736,
 			typeId: "object"
@@ -1921,7 +1921,7 @@ var m = [
 		},
 		{
 			id: "A52Tx9PVrjFXZAzEyska1",
-			lastModifiedAt: 1743507686247.619,
+			lastModifiedAt: 1743507686247.6187,
 			name: "iso-8859-2",
 			size: 1600,
 			typeId: "object"
@@ -2012,7 +2012,7 @@ var m = [
 		},
 		{
 			id: "fJnDU4alQlSZ4x-nojhp1",
-			lastModifiedAt: 1743507686248.223,
+			lastModifiedAt: 1743507686248.2227,
 			name: "windows-1254",
 			size: 2445,
 			typeId: "object"
@@ -2056,7 +2056,7 @@ var m = [
 		},
 		{
 			id: "bciRqR0P6iJyQ_vtOop3Y",
-			lastModifiedAt: 1743507686246.026,
+			lastModifiedAt: 1743507686246.0261,
 			name: "euc-kr.txt",
 			size: 153,
 			typeId: "object"
@@ -2105,7 +2105,7 @@ var m = [
 		},
 		{
 			id: "I6IMhKsT4Uz4wGEJvW36C",
-			lastModifiedAt: 1743507686246.348,
+			lastModifiedAt: 1743507686246.3481,
 			name: "iso-8859-2.txt",
 			size: 273,
 			typeId: "object"
@@ -2140,7 +2140,7 @@ var m = [
 		},
 		{
 			id: "jCtOU9WWV8jHWMgr_Oq7r",
-			lastModifiedAt: 1743507686246.559,
+			lastModifiedAt: 1743507686246.5593,
 			name: "koi8-r.txt",
 			size: 290,
 			typeId: "object"
@@ -2168,7 +2168,7 @@ var m = [
 		},
 		{
 			id: "NtUpxZ5XGC1UAa0bJU4Cd",
-			lastModifiedAt: 1743507686246.743,
+			lastModifiedAt: 1743507686246.7427,
 			name: "utf-16le.txt",
 			size: 84,
 			typeId: "object"
@@ -2182,7 +2182,7 @@ var m = [
 		},
 		{
 			id: "E4ewVZr3kM5JfkCNHhaHv",
-			lastModifiedAt: 1743507686246.829,
+			lastModifiedAt: 1743507686246.8293,
 			name: "utf-32le.txt",
 			size: 18,
 			typeId: "object"
@@ -2371,7 +2371,7 @@ var m = [
 		},
 		{
 			id: "ih-RgplBSErEYOcna-NlI",
-			lastModifiedAt: 1743507686244.7715,
+			lastModifiedAt: 1743507686244.7717,
 			name: "lang_chinese",
 			size: 916,
 			typeId: "object"
@@ -2441,21 +2441,21 @@ var m = [
 		},
 		{
 			id: "83XbTcV0_WKdvcPEKeuDy",
-			lastModifiedAt: 1743507686245.277,
+			lastModifiedAt: 1743507686245.2773,
 			name: "utf16le",
 			size: 1334,
 			typeId: "object"
 		},
 		{
 			id: "Upq9-WDaQTs--Ogg1Qtev",
-			lastModifiedAt: 1743507686245.319,
+			lastModifiedAt: 1743507686245.3193,
 			name: "utf32be",
 			size: 2664,
 			typeId: "object"
 		},
 		{
 			id: "mm0RGQoiYeYc7ORPPI2S8",
-			lastModifiedAt: 1743507686245.361,
+			lastModifiedAt: 1743507686245.3613,
 			name: "utf32le",
 			size: 2664,
 			typeId: "object"
@@ -2469,7 +2469,7 @@ var m = [
 		},
 		{
 			id: "pZQOaI1tOrcy2Km0Z7Enb",
-			lastModifiedAt: 1743507686245.4597,
+			lastModifiedAt: 1743507686245.4595,
 			name: "windows_1250",
 			size: 1617,
 			typeId: "object"
