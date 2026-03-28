@@ -1,6 +1,6 @@
 {
     "name": "@dpuse/dpuse-connector-file-store-emulator",
-    "version": "0.2.469",
+    "version": "0.2.470",
     "license": "MIT",
     "author": "Jonathan Terrell <terrell.jm@gmail.com>",
     "private": false,
@@ -26,10 +26,10 @@
     ],
     "prettier": "@dpuse/dpuse-development/prettierrc",
     "dependencies": {
-        "@datapos/datapos-tool-file-operators": "^0.0.16",
-        "@datapos/datapos-tool-rust-csv-core": "^0.1.17",
         "@dpuse/dpuse-shared": "^0.3.595",
         "@dpuse/dpuse-tool-csv-parse": "^0.0.137",
+        "@dpuse/dpuse-tool-file-operators": "^0.0.17",
+        "@dpuse/dpuse-tool-rust-csv-core": "^0.1.20",
         "nanoid": "^5.1.7"
     },
     "devDependencies": {

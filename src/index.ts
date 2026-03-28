@@ -26,8 +26,8 @@ import { ORDERED_VALUE_DELIMITER_IDS, type ParsingRecord, type PreviewConfig } f
 
 // DPU tools
 import type { Tool as CSVParseTool } from '@dpuse/dpuse-tool-csv-parse';
-import type { Tool as FileOperatorsTool } from '@datapos/datapos-tool-file-operators';
-import type { Tool as RustCsvCoreTool } from '@datapos/datapos-tool-rust-csv-core';
+import type { Tool as FileOperatorsTool } from '@dpuse/dpuse-tool-file-operators';
+import type { Tool as RustCsvCoreTool } from '@dpuse/dpuse-tool-rust-csv-core';
 
 // Data
 import config from '~/config.json';
@@ -81,7 +81,7 @@ export class Connector implements ConnectorInterface {
         this.abortController = new AbortController();
 
         try {
-            if (options.parsingToolName === 'datapos-tool-rust-csv-core') {
+            if (options.parsingToolName === 'dpuse-tool-rust-csv-core') {
                 // Get the readable stream
                 const stream = await this.getReadableStream({ id: '', path: options.path });
 

@@ -34,10 +34,10 @@ The following table lists top-level production and peer dependencies. All these 
 <!-- DEPENDENCY_LICENSES_START -->
 |Name|Type|Installed|Latest|Latest Released|Deps|Document|
 |:-|:-|:-:|:-:|:-|-:|:-|
-|@datapos/datapos-tool-file-operators|MIT|0.0.16 ⚠️|no versions in registry for package @datapos/datapos-tool-file-operators|NaN months ago: n/a❗|3|⚠️ No license file|
-|@datapos/datapos-tool-rust-csv-core|MIT|0.1.17 ⚠️|no versions in registry for package @datapos/datapos-tool-rust-csv-core|NaN months ago: n/a❗|2|⚠️ No license file|
-|@dpuse/dpuse-shared|MIT|0.3.594 ⚠️|0.3.595|this month: 2026-03-23|0|[LICENSE](https://raw.githubusercontent.com/dpuse/dpuse-shared/main/LICENSE)|
-|@dpuse/dpuse-tool-csv-parse|MIT|0.0.136|0.0.136|this month: 2026-03-23|2|[LICENSE](https://raw.githubusercontent.com/dpuse/dpuse-tool-csv-parse/main/LICENSE)|
+|@dpuse/dpuse-shared|MIT|0.3.595|0.3.595|this month: 2026-03-23|0|[LICENSE](https://raw.githubusercontent.com/dpuse/dpuse-shared/main/LICENSE)|
+|@dpuse/dpuse-tool-csv-parse|MIT|0.0.137|0.0.137|this month: 2026-03-23|2|[LICENSE](https://raw.githubusercontent.com/dpuse/dpuse-tool-csv-parse/main/LICENSE)|
+|@dpuse/dpuse-tool-file-operators|MIT|0.0.17|0.0.17|this month: 2026-03-25|3|[LICENSE](https://raw.githubusercontent.com/dpuse/dpuse-tool-file-operators/main/LICENSE)|
+|@dpuse/dpuse-tool-rust-csv-core|MIT|0.1.20|0.1.20|this month: 2026-03-25|1|[LICENSE](https://raw.githubusercontent.com/dpuse/dpuse-tool-rust-csv-core/main/LICENSE)|
 |nanoid|MIT|5.1.7|5.1.7|this month: 2026-03-15|0|[LICENSE](https://raw.githubusercontent.com/ai/nanoid/main/LICENSE)|
 
 <!-- DEPENDENCY_LICENSES_END -->

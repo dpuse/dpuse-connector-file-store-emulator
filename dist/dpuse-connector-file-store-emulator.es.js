@@ -119,7 +119,7 @@ var m = [
 	vendorAccountURL: null,
 	vendorDocumentationURL: null,
 	vendorHomeURL: null,
-	version: "0.2.469"
+	version: "0.2.470"
 }, g = {
 	"": [
 		{
@@ -2547,7 +2547,7 @@ var x = "https://sample-data-eu.dpuse.app/fileStore", S = class {
 	async auditObjectContent(e, t) {
 		this.abortController = new AbortController();
 		try {
-			if (e.parsingToolName === "datapos-tool-rust-csv-core") {
+			if (e.parsingToolName === "dpuse-tool-rust-csv-core") {
 				let n = await this.getReadableStream({
 					id: "",
 					path: e.path
