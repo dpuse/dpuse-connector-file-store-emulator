@@ -78,7 +78,7 @@ async function f(e, t) {
 var p = (e) => new Map(Object.entries(e));
 //#endregion
 //#region node_modules/@dpuse/dpuse-shared/dist/dpuse-shared-dataview.es.js
-p({ "en-gb": "Data Positioning Events" }), p({ "en-gb": "Delimited Text" }), p({ "en-gb": "JSON" }), p({ "en-gb": "SPSS" }), p({ "en-gb": "XLSX" }), p({ "en-gb": "XML" }), p({ "en-gb": "Newline" }), p({ "en-gb": "Carriage Return" }), p({ "en-gb": "Carriage Return/Newline" }), p({ "en-gb": "Colon" }), p({ "en-gb": "Comma" }), p({ "en-gb": "Exclamation Mark" }), p({ "en-gb": "Record Separator" }), p({ "en-gb": "Semicolon" }), p({ "en-gb": "Space" }), p({ "en-gb": "Tab" }), p({ "en-gb": "Underscore" }), p({ "en-gb": "Unit Separator" }), p({ "en-gb": "Vertical Bar" });
+p({ en: "Data Positioning Events" }), p({ en: "Delimited Text" }), p({ en: "JSON" }), p({ en: "SPSS" }), p({ en: "XLSX" }), p({ en: "XML" }), p({ en: "Newline" }), p({ en: "Carriage Return" }), p({ en: "Carriage Return/Newline" }), p({ en: "Colon" }), p({ en: "Comma" }), p({ en: "Exclamation Mark" }), p({ en: "Record Separator" }), p({ en: "Semicolon" }), p({ en: "Space" }), p({ en: "Tab" }), p({ en: "Underscore" }), p({ en: "Unit Separator" }), p({ en: "Vertical Bar" });
 var m = [
 	",",
 	";",
@@ -119,7 +119,7 @@ var m = [
 	vendorAccountURL: null,
 	vendorDocumentationURL: null,
 	vendorHomeURL: null,
-	version: "0.2.470"
+	version: "0.2.471"
 }, g = {
 	"": [
 		{

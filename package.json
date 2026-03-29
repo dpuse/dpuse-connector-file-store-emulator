@@ -1,6 +1,6 @@
 {
     "name": "@dpuse/dpuse-connector-file-store-emulator",
-    "version": "0.2.470",
+    "version": "0.2.471",
     "license": "MIT",
     "author": "Jonathan Terrell <terrell.jm@gmail.com>",
     "private": false,
@@ -26,14 +26,14 @@
     ],
     "prettier": "@dpuse/dpuse-development/prettierrc",
     "dependencies": {
-        "@dpuse/dpuse-shared": "^0.3.595",
-        "@dpuse/dpuse-tool-csv-parse": "^0.0.137",
+        "@dpuse/dpuse-shared": "^0.3.599",
+        "@dpuse/dpuse-tool-csv-parse": "^0.0.141",
         "@dpuse/dpuse-tool-file-operators": "^0.0.17",
         "@dpuse/dpuse-tool-rust-csv-core": "^0.1.20",
         "nanoid": "^5.1.7"
     },
     "devDependencies": {
-        "@dpuse/dpuse-development": "^0.3.487",
+        "@dpuse/dpuse-development": "^0.3.489",
         "@dpuse/eslint-config-dpuse": "^1.0.55",
         "@types/node": "^25.5.0",
         "@typescript-eslint/eslint-plugin": "^8.57.2",
