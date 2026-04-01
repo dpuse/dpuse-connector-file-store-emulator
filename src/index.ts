@@ -156,7 +156,7 @@ export class Connector implements ConnectorInterface {
     // Lists all nodes (folders and objects) in the specified folder path
     listNodes(options: ListNodesOptions): Promise<ListNodesResult> {
         const fileStoreFolderPaths = fileStoreFolderPathData as FileStoreFolderPaths;
-        const xxxx = options.folderPath === '/' ? '' : options.folderPath;
+        const xxxx = options.folderPath === '/' ? '' : options.folderPath; // TODO: Change program that generates json file to use '/' for root index.
         const folderNodes = fileStoreFolderPaths[xxxx] ?? [];
         const connectionNodeConfigs: ConnectionNodeConfig[] = [];
         for (const folderNode of folderNodes) {
