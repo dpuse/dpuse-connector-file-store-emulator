@@ -18,7 +18,7 @@ import type {
     RetrievalTypeId,
     RetrieveRecordsOptions,
     RetrieveRecordsSummary
-} from '@dpuse/dpuse-shared/component/connector';
+} from '@dpuse/dpuse-shared/component/module/connector';
 import { buildFetchError, ConnectorError, normalizeToError } from '@dpuse/dpuse-shared/errors';
 import { extractExtensionFromPath, extractNameFromPath, lookupMimeTypeForExtension } from '@dpuse/dpuse-shared/utilities';
 import { loadTool, type ToolConfig } from '@dpuse/dpuse-shared/component/tool';
