@@ -67,19 +67,19 @@ function d(e) {
 	}
 }
 //#endregion
-//#region node_modules/@dpuse/dpuse-shared/dist/dpuse-shared-tools.es.js
+//#region node_modules/@dpuse/dpuse-shared/dist/dpuse-shared-componentModuleTool.es.js
 async function f(e, t) {
 	let n = `dpuse-tool-${t}`, r = e.find((e) => e.id === n);
 	if (!r) throw Error(`Connector could not load unknown tool '${t}'.`);
 	return new (await (import(`https://engine-eu.dpuse.app/tools/${t}_v${r.version}/${n}.es.js`))).Tool();
 }
 //#endregion
-//#region node_modules/@dpuse/dpuse-shared/dist/locale-CrC0-wPd.js
+//#region node_modules/@dpuse/dpuse-shared/dist/dpuse-shared-locale.es.js
 function p(e) {
 	return new Map(Object.entries(e));
 }
 //#endregion
-//#region node_modules/@dpuse/dpuse-shared/dist/dpuse-shared-dataview.es.js
+//#region node_modules/@dpuse/dpuse-shared/dist/dpuse-shared-componentDataview.es.js
 p({ en: "Data Positioning Events" }), p({ en: "Delimited Text" }), p({ en: "JSON" }), p({ en: "SPSS" }), p({ en: "XLSX" }), p({ en: "XML" }), p({ en: "Newline" }), p({ en: "Carriage Return" }), p({ en: "Carriage Return/Newline" }), p({ en: "Colon" }), p({ en: "Comma" }), p({ en: "Exclamation Mark" }), p({ en: "Record Separator" }), p({ en: "Semicolon" }), p({ en: "Space" }), p({ en: "Tab" }), p({ en: "Underscore" }), p({ en: "Unit Separator" }), p({ en: "Vertical Bar" });
 var m = [
 	",",
@@ -122,7 +122,7 @@ var m = [
 	vendorAccountURL: null,
 	vendorDocumentationURL: null,
 	vendorHomeURL: null,
-	version: "0.2.474"
+	version: "0.2.476"
 }, g = {
 	"": [
 		{

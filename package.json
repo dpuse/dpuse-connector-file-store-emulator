@@ -1,6 +1,6 @@
 {
     "name": "@dpuse/dpuse-connector-file-store-emulator",
-    "version": "0.2.474",
+    "version": "0.2.476",
     "license": "MIT",
     "author": "Jonathan Terrell <terrell.jm@gmail.com>",
     "private": false,
@@ -26,7 +26,7 @@
     ],
     "prettier": "@dpuse/dpuse-development/prettierrc",
     "dependencies": {
-        "@dpuse/dpuse-shared": "^0.3.622",
+        "@dpuse/dpuse-shared": "^0.3.632",
         "@dpuse/dpuse-tool-csv-parse": "^0.0.142",
         "@dpuse/dpuse-tool-file-operators": "^0.0.17",
         "@dpuse/dpuse-tool-rust-csv-core": "^0.1.20",
@@ -55,7 +55,7 @@
         "rollup-plugin-visualizer": "^7.0.1",
         "sonda": "^0.11.1",
         "typescript": "^5.9.3",
-        "vite": "^8.0.8",
+        "vite": "^8.0.9",
         "vite-plugin-dts": "^4.5.4",
         "vite-plugin-wasm": "^3.6.0",
         "vitest": "^4.1.4"

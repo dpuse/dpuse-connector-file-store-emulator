@@ -6,7 +6,6 @@ import type { EngineUtilities } from '@dpuse/dpuse-shared/engine';
 import type {
     AuditObjectContentOptions,
     AuditObjectContentResult,
-    ConnectionNodeConfig,
     ConnectorConfig,
     ConnectorInterface,
     FindObjectOptions,
@@ -19,9 +18,10 @@ import type {
     RetrieveRecordsOptions,
     RetrieveRecordsSummary
 } from '@dpuse/dpuse-shared/component/module/connector';
+import type { ConnectionNodeConfig } from '@dpuse/dpuse-shared/component/connection';
 import { buildFetchError, ConnectorError, normalizeToError } from '@dpuse/dpuse-shared/errors';
 import { extractExtensionFromPath, extractNameFromPath, lookupMimeTypeForExtension } from '@dpuse/dpuse-shared/utilities';
-import { loadTool, type ToolConfig } from '@dpuse/dpuse-shared/component/tool';
+import { loadTool, type ToolConfig } from '@dpuse/dpuse-shared/component/module/tool';
 import { ORDERED_VALUE_DELIMITER_IDS, type ParsingRecord, type PreviewConfig } from '@dpuse/dpuse-shared/component/dataView';
 
 // DPU tools
