@@ -1,7 +1,8 @@
-// External dependencies
+// External Dependencies
 import { nanoid } from 'nanoid';
 
-// DPU framework
+// DPUse Framework
+import type { ConnectionNodeConfig } from '@dpuse/dpuse-shared/component/connection';
 import type { EngineUtilities } from '@dpuse/dpuse-shared/engine';
 import type {
     AuditObjectContentOptions,
@@ -18,13 +19,12 @@ import type {
     RetrieveRecordsOptions,
     RetrieveRecordsSummary
 } from '@dpuse/dpuse-shared/component/module/connector';
-import type { ConnectionNodeConfig } from '@dpuse/dpuse-shared/component/connection';
 import { buildFetchError, ConnectorError, normalizeToError } from '@dpuse/dpuse-shared/errors';
 import { extractExtensionFromPath, extractNameFromPath, lookupMimeTypeForExtension } from '@dpuse/dpuse-shared/utilities';
 import { loadTool, type ToolConfig } from '@dpuse/dpuse-shared/component/module/tool';
 import { ORDERED_VALUE_DELIMITER_IDS, type ParsingRecord, type PreviewConfig } from '@dpuse/dpuse-shared/component/dataView';
 
-// DPU tools
+// DPUse Tools
 import type { Tool as CSVParseTool } from '@dpuse/dpuse-tool-csv-parse';
 import type { Tool as FileOperatorsTool } from '@dpuse/dpuse-tool-file-operators';
 import type { Tool as RustCsvCoreTool } from '@dpuse/dpuse-tool-rust-csv-core';

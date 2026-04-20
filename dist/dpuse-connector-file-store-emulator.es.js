@@ -79,7 +79,7 @@ function p(e) {
 	return new Map(Object.entries(e));
 }
 //#endregion
-//#region node_modules/@dpuse/dpuse-shared/dist/dpuse-shared-componentDataview.es.js
+//#region node_modules/@dpuse/dpuse-shared/dist/dpuse-shared-componentDataView.es.js
 p({ en: "Data Positioning Events" }), p({ en: "Delimited Text" }), p({ en: "JSON" }), p({ en: "SPSS" }), p({ en: "XLSX" }), p({ en: "XML" }), p({ en: "Newline" }), p({ en: "Carriage Return" }), p({ en: "Carriage Return/Newline" }), p({ en: "Colon" }), p({ en: "Comma" }), p({ en: "Exclamation Mark" }), p({ en: "Record Separator" }), p({ en: "Semicolon" }), p({ en: "Space" }), p({ en: "Tab" }), p({ en: "Underscore" }), p({ en: "Unit Separator" }), p({ en: "Vertical Bar" });
 var m = [
 	",",
@@ -122,7 +122,7 @@ var m = [
 	vendorAccountURL: null,
 	vendorDocumentationURL: null,
 	vendorHomeURL: null,
-	version: "0.2.476"
+	version: "0.2.477"
 }, g = {
 	"": [
 		{
