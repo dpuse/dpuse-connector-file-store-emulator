@@ -1,8 +1,4 @@
-/**
- * Vite configuration.
- */
-
-// Vendor dependencies.
+// External Dependencies
 import dts from 'vite-plugin-dts';
 import Sonda from 'sonda/vite';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -10,13 +6,13 @@ import wasm from 'vite-plugin-wasm';
 import { defineConfig, type PluginOption } from 'vite';
 import { fileURLToPath, URL } from 'node:url';
 
-// Data dependencies,
+// Data
 import config from './config.json';
 
-// Initialisation.
+// Initialisation
 const wasmPlugin = wasm() as PluginOption;
 
-// Exposures.
+// Configuration
 export default defineConfig({
     base: '',
     build: {
