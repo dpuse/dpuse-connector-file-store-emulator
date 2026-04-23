@@ -122,7 +122,7 @@ var m = [
 	vendorAccountURL: null,
 	vendorDocumentationURL: null,
 	vendorHomeURL: null,
-	version: "0.2.480"
+	version: "0.2.481"
 }, g = {
 	"": [
 		{
@@ -2613,30 +2613,25 @@ var x = "https://sample-data-eu.dpuse.app/fileStore", S = class {
 	async previewObject(e) {
 		let { signal: t } = this.abortController = new AbortController();
 		try {
-			let n = Date.now(), r = performance.now();
-			console.log(1111);
-			let i = await f(this.toolConfigs, "file-operators");
-			console.log(2222);
-			let a = await i.previewFile(`${x}${e.path}`, t, e.chunkSize);
-			if (console.log(3333, a), a.dataFormatId == null) throw Error(`File '${e.path}' has unknown type.`);
-			if (a.text == null) throw Error(`File '${e.path}' is empty.`);
-			console.log(1111);
-			let o = await (await f(this.toolConfigs, "csv-parse")).parseText(a.text, m), s = this.engineUtilities.inferDataTypes(o.parsedRecords);
+			let n = Date.now(), r = performance.now(), i = await (await f(this.toolConfigs, "file-operators")).previewFile(`${x}${e.path}`, t, e.chunkSize);
+			if (i.dataFormatId == null) throw Error(`File '${e.path}' has unknown type.`);
+			if (i.text == null) throw Error(`File '${e.path}' is empty.`);
+			let a = await (await f(this.toolConfigs, "csv-parse")).parseText(i.text, m), o = this.engineUtilities.inferDataTypes(a.parsedRecords);
 			return {
 				asAt: n,
-				columnConfigs: s.columnConfigs,
-				dataFormatId: a.dataFormatId,
+				columnConfigs: o.columnConfigs,
+				dataFormatId: i.dataFormatId,
 				duration: performance.now() - r,
-				encodingId: a.encodingId,
-				encodingConfidenceLevel: a.encodingConfidenceLevel,
-				fileType: a.fileTypeConfig,
-				hasHeaders: s.hasHeaderRow,
-				recordDelimiterId: o.recordDelimiterId,
-				parsedRecords: o.parsedRecords,
-				inferenceRecords: s.typedRecords,
-				size: a.bytes.length,
-				text: a.text,
-				valueDelimiterId: o.valueDelimiterId
+				encodingId: i.encodingId,
+				encodingConfidenceLevel: i.encodingConfidenceLevel,
+				fileType: i.fileTypeConfig,
+				hasHeaders: o.hasHeaderRow,
+				recordDelimiterId: a.recordDelimiterId,
+				parsedRecords: a.parsedRecords,
+				inferenceRecords: o.typedRecords,
+				size: i.bytes.length,
+				text: i.text,
+				valueDelimiterId: a.valueDelimiterId
 			};
 		} catch (e) {
 			throw s(e);

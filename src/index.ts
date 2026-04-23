@@ -179,16 +179,12 @@ export class Connector implements ConnectorInterface {
             const startedAt = performance.now();
 
             // Preview file to determine file format and decode text.
-            console.log(1111);
             const fileOperatorsTool = await loadTool<FileOperatorsTool>(this.toolConfigs, 'file-operators');
-            console.log(2222);
             const filePreviewResult = await fileOperatorsTool.previewFile(`${URL_PREFIX}${options.path}`, signal, options.chunkSize);
-            console.log(3333, filePreviewResult);
             if (filePreviewResult.dataFormatId == null) throw new Error(`File '${options.path}' has unknown type.`);
             if (filePreviewResult.text == null) throw new Error(`File '${options.path}' is empty.`);
 
             // Parse text, identify delimiters, and produce string value records.
-            console.log(1111);
             const csvParseTool = await loadTool<CSVParseTool>(this.toolConfigs, 'csv-parse');
             const parseTextResult = await csvParseTool.parseText(filePreviewResult.text, ORDERED_VALUE_DELIMITER_IDS);
 
