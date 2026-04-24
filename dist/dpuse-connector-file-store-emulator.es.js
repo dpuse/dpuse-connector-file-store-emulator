@@ -122,7 +122,7 @@ var m = [
 	vendorAccountURL: null,
 	vendorDocumentationURL: null,
 	vendorHomeURL: null,
-	version: "0.2.484"
+	version: "0.2.485"
 }, g = {
 	"": [
 		{
@@ -2601,7 +2601,7 @@ var x = "https://sample-data-eu.dpuse.app/fileStore", S = class {
 		}
 	}
 	listNodes(e) {
-		let t = g[e.folderPath === "/" ? "" : e.folderPath] ?? [], n = [];
+		let t = g[e.folderPath] ?? [], n = [];
 		for (let r of t) r.typeId === "folder" ? n.push(C(e.folderPath, r.name, r.childCount)) : n.push(w(e.folderPath, r.id, r.name, r.lastModifiedAt, r.size));
 		return Promise.resolve({
 			cursor: void 0,
