@@ -67,7 +67,7 @@ export class Connector implements ConnectorInterface {
         this.toolConfigs = toolConfigs;
     }
 
-    // Operations ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // Operations ──────────────────────────────────────────────────────────────────────────────────────────────────────
 
     // Abort the currently running operation
     abortOperation(): void {
@@ -234,9 +234,9 @@ export class Connector implements ConnectorInterface {
     }
 }
 
-// Helpers ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Helpers ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-// Construct folder node configuration
+// Construct folder node configuration.
 function constructFolderNodeConfig(folderPath: string, name: string, childCount: number): ConnectionNodeConfig {
     return {
         childCount,
@@ -254,7 +254,7 @@ function constructFolderNodeConfig(folderPath: string, name: string, childCount:
     };
 }
 
-// Construct object (file) node configuration
+// Construct object (file) node configuration.
 function constructObjectNodeConfig(folderPath: string, id: string, fullName: string, lastModifiedAt: number, size: number): ConnectionNodeConfig {
     const name = extractNameFromPath(fullName) ?? '';
     const extension = extractExtensionFromPath(fullName);
