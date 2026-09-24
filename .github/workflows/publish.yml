@@ -25,17 +25,33 @@ jobs:
             - name: Patch Cargo.toml paths for CI
               run: sed -i 's|../../../../dpuse-engine|../../dpuse-engine|g' rust/dpuse-connector-file-store-emulator-core/Cargo.toml
 
+            # TODO: When the Node version below ships with npm 12, keep only the later 'Setup Node with npm cache' step, renamed
+            # 'Setup Node', and remove this step and 'Setup npm'. Until then Node is set up twice: first with caching off, because
+            # setup-node checks the cache with the npm bundled with Node (11), which 'devEngines' in package.json rejects. Caching
+            # must be switched off explicitly, as setup-node turns it on by itself when package.json names a package manager.
             - name: Setup Node
               uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
               with:
-                  node-version: '>=23.11'
-                  cache: npm
+                  node-version: 24
+                  package-manager-cache: false
 
             - name: Install Rust
               run: rustup update stable && rustup default stable
 
             - name: Install wasm-pack
               run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+            # Run outside the checkout, as 'devEngines' rejects the bundled npm there too.
+            - name: Setup npm
+              run: npm install -g npm@12
+              working-directory: ${{ runner.temp }}
+
+            # The same Node again, now with npm 12, so the npm cache can be used.
+            - name: Setup Node with npm cache
+              uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+              with:
+                  node-version: 24
+                  cache: npm
 
             - name: Install dependencies
               run: npm ci
