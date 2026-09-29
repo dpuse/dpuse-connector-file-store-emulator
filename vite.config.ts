@@ -6,7 +6,7 @@ import { defineConfig, type PluginOption } from 'vite';
 import { fileURLToPath, URL } from 'node:url';
 
 // ── Data
-import config from './config.json';
+import config from './config.json' with { type: 'json' };
 
 // ── Initialisation ───────────────────────────────────────────────────────────────────────────────────────────────────
 
@@ -22,12 +22,14 @@ export default defineConfig({
             formats: ['es']
         },
         rollupOptions: {
-            plugins: [Sonda({ filename: 'index', format: 'json', brotli: true, gzip: false, open: false, outputDir: './bundle-analysis-reports/sonda' })]
+            plugins: [Sonda({ filename: 'index', format: 'json', brotli: false, gzip: true, open: false, outputDir: './bundle-analysis-reports/sonda' })]
         },
         sourcemap: 'hidden',
         target: 'ESNext'
     },
-    plugins: [dts({ outDirs: 'dist/types' }), wasmPlugin],
+    // Tests and config files sit in the tsconfig so they get type-checked, but their declarations must not reach the
+    // published package. 'entryRoot' keeps the types under 'dist/types/src', where package.json points.
+    plugins: [dts({ entryRoot: '.', exclude: ['tests/**', '*.config.*'], outDirs: 'dist/types' }), wasmPlugin],
     resolve: {
         alias: {
             '~': fileURLToPath(new URL('./', import.meta.url)),

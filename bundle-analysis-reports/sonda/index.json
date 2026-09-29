@@ -1,11 +1,11 @@
 {
   "metadata": {
     "version": "0.14.0",
-    "generatedAt": "2026-09-24T11:25:00.517Z",
+    "generatedAt": "2026-09-29T12:04:13.292Z",
     "integration": "vite",
     "sources": false,
-    "gzip": false,
-    "brotli": true
+    "gzip": true,
+    "brotli": false
   },
   "resources": [
     {
@@ -21,8 +21,8 @@
       "type": "other",
       "format": "other",
       "uncompressed": 760,
-      "gzip": 0,
-      "brotli": 346,
+      "gzip": 413,
+      "brotli": 0,
       "parent": "dist/dpuse_connector_file_store_emulator_core-BbpaeCh_.js"
     },
     {
@@ -38,9 +38,9 @@
       "name": "[unassigned]",
       "type": "other",
       "format": "other",
-      "uncompressed": 41716,
-      "gzip": 0,
-      "brotli": 8708,
+      "uncompressed": 42444,
+      "gzip": 11051,
+      "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
     {
@@ -49,8 +49,8 @@
       "type": "other",
       "format": "other",
       "uncompressed": 917,
-      "gzip": 0,
-      "brotli": 430,
+      "gzip": 502,
+      "brotli": 0,
       "parent": "dist/dpuse_connector_file_store_emulator_core-BbpaeCh_.js"
     },
     {
@@ -65,100 +65,32 @@
       "name": "dist/dpuse_connector_file_store_emulator_core-BbpaeCh_.js",
       "type": "script",
       "uncompressed": 24551,
-      "gzip": 0,
-      "brotli": 10258
+      "gzip": 11597,
+      "brotli": 0
     },
     {
       "kind": "asset",
       "name": "dist/dpuse-connector-file-store-emulator.es.js",
       "type": "script",
-      "uncompressed": 49691,
-      "gzip": 0,
-      "brotli": 11653
+      "uncompressed": 57767,
+      "gzip": 16492,
+      "brotli": 0
     },
     {
       "kind": "filesystem",
-      "name": "node_modules/@dpuse/dpuse-shared/dist/dpuse-shared-componentDataView.es.js",
+      "name": "node_modules/@dpuse/dpuse-shared/dist/dpuse-shared.es.js",
       "type": "script",
       "format": "esm",
-      "uncompressed": 722
+      "uncompressed": 33907
     },
     {
       "kind": "chunk",
-      "name": "node_modules/@dpuse/dpuse-shared/dist/dpuse-shared-componentDataView.es.js",
+      "name": "node_modules/@dpuse/dpuse-shared/dist/dpuse-shared.es.js",
       "type": "script",
       "format": "esm",
-      "uncompressed": 545,
-      "gzip": 0,
-      "brotli": 218,
-      "parent": "dist/dpuse-connector-file-store-emulator.es.js"
-    },
-    {
-      "kind": "filesystem",
-      "name": "node_modules/@dpuse/dpuse-shared/dist/dpuse-shared-componentModuleTool.es.js",
-      "type": "script",
-      "format": "esm",
-      "uncompressed": 784
-    },
-    {
-      "kind": "chunk",
-      "name": "node_modules/@dpuse/dpuse-shared/dist/dpuse-shared-componentModuleTool.es.js",
-      "type": "script",
-      "format": "esm",
-      "uncompressed": 575,
-      "gzip": 0,
-      "brotli": 288,
-      "parent": "dist/dpuse-connector-file-store-emulator.es.js"
-    },
-    {
-      "kind": "filesystem",
-      "name": "node_modules/@dpuse/dpuse-shared/dist/dpuse-shared-errors.es.js",
-      "type": "script",
-      "format": "esm",
-      "uncompressed": 3619
-    },
-    {
-      "kind": "chunk",
-      "name": "node_modules/@dpuse/dpuse-shared/dist/dpuse-shared-errors.es.js",
-      "type": "script",
-      "format": "esm",
-      "uncompressed": 1268,
-      "gzip": 0,
-      "brotli": 448,
-      "parent": "dist/dpuse-connector-file-store-emulator.es.js"
-    },
-    {
-      "kind": "filesystem",
-      "name": "node_modules/@dpuse/dpuse-shared/dist/dpuse-shared-locale.es.js",
-      "type": "script",
-      "format": "esm",
-      "uncompressed": 1047
-    },
-    {
-      "kind": "chunk",
-      "name": "node_modules/@dpuse/dpuse-shared/dist/dpuse-shared-locale.es.js",
-      "type": "script",
-      "format": "esm",
-      "uncompressed": 53,
-      "gzip": 0,
-      "brotli": 54,
-      "parent": "dist/dpuse-connector-file-store-emulator.es.js"
-    },
-    {
-      "kind": "filesystem",
-      "name": "node_modules/@dpuse/dpuse-shared/dist/dpuse-shared-utilities.es.js",
-      "type": "script",
-      "format": "esm",
-      "uncompressed": 3652
-    },
-    {
-      "kind": "chunk",
-      "name": "node_modules/@dpuse/dpuse-shared/dist/dpuse-shared-utilities.es.js",
-      "type": "script",
-      "format": "esm",
-      "uncompressed": 604,
-      "gzip": 0,
-      "brotli": 243,
+      "uncompressed": 10386,
+      "gzip": 3401,
+      "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
     {
@@ -174,8 +106,8 @@
       "type": "script",
       "format": "esm",
       "uncompressed": 192,
-      "gzip": 0,
-      "brotli": 163,
+      "gzip": 201,
+      "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
     {
@@ -191,8 +123,8 @@
       "type": "script",
       "format": "esm",
       "uncompressed": 4,
-      "gzip": 0,
-      "brotli": 8,
+      "gzip": 24,
+      "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
     {
@@ -208,8 +140,8 @@
       "type": "script",
       "format": "esm",
       "uncompressed": 1578,
-      "gzip": 0,
-      "brotli": 649,
+      "gzip": 704,
+      "brotli": 0,
       "parent": "dist/dpuse_connector_file_store_emulator_core-BbpaeCh_.js"
     },
     {
@@ -225,8 +157,8 @@
       "type": "script",
       "format": "esm",
       "uncompressed": 396,
-      "gzip": 0,
-      "brotli": 241,
+      "gzip": 278,
+      "brotli": 0,
       "parent": "dist/dpuse_connector_file_store_emulator_core-BbpaeCh_.js"
     },
     {
@@ -242,8 +174,8 @@
       "type": "other",
       "format": "other",
       "uncompressed": 20889,
-      "gzip": 0,
-      "brotli": 8578,
+      "gzip": 9670,
+      "brotli": 0,
       "parent": "dist/dpuse_connector_file_store_emulator_core-BbpaeCh_.js"
     },
     {
@@ -259,8 +191,8 @@
       "type": "script",
       "format": "esm",
       "uncompressed": 11,
-      "gzip": 0,
-      "brotli": 15,
+      "gzip": 31,
+      "brotli": 0,
       "parent": "dist/dpuse_connector_file_store_emulator_core-BbpaeCh_.js"
     },
     {
@@ -275,16 +207,16 @@
       "name": "src/index.ts",
       "type": "script",
       "format": "esm",
-      "uncompressed": 7742
+      "uncompressed": 7577
     },
     {
       "kind": "chunk",
       "name": "src/index.ts",
       "type": "script",
       "format": "esm",
-      "uncompressed": 4382,
-      "gzip": 0,
-      "brotli": 1327,
+      "uncompressed": 4389,
+      "gzip": 1579,
+      "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
     {
@@ -300,8 +232,8 @@
       "type": "script",
       "format": "esm",
       "uncompressed": 352,
-      "gzip": 0,
-      "brotli": 197,
+      "gzip": 236,
+      "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     }
   ],

@@ -3,17 +3,29 @@ name: CI
 on:
     push:
         branches: ['main']
+    pull_request:
+        branches: ['main']
 
 permissions:
     contents: read
 
 jobs:
     ci:
-        name: Lint & audit
+        name: Lint, test & audit
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
               uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+            - name: Checkout dpuse-engine
+              uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+              with:
+                  repository: dpuse/dpuse-engine
+                  token: ${{ secrets.ENGINE_PUBLISH }}
+                  path: dpuse-engine
+
+            - name: Patch Cargo.toml paths for CI
+              run: sed -i 's|../../../../dpuse-engine|../../dpuse-engine|g' rust/dpuse-connector-file-store-emulator-core/Cargo.toml
 
             # TODO: When the Node version below ships with npm 12, keep only the later 'Setup Node with npm cache' step, renamed
             # 'Setup Node', and remove this step and 'Setup npm'. Until then Node is set up twice: first with caching off, because
@@ -25,9 +37,24 @@ jobs:
                   node-version: 24
                   package-manager-cache: false
 
-            # Run outside the checkout, as 'devEngines' rejects the bundled npm there too.
+            - name: Install Rust
+              run: rustup update stable && rustup default stable
+
+            - name: Install wasm-pack
+              run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+            # Replaces the bundled npm with npm 12, unpacked from a download checked against a pinned hash. Not installed with
+            # 'npm install -g', which OpenSSF Scorecard always counts as unpinned. Runs in the temp folder to keep the download
+            # out of the checkout. When changing the version, update the URL and take the new hash from:
+            #   npm view npm@<version> dist.integrity | base64 -d | xxd -p | tr -d '\n'
             - name: Setup npm
-              run: npm install -g npm@12
+              run: |
+                  curl --proto '=https' -fsSLo npm.tgz https://registry.npmjs.org/npm/-/npm-12.1.0.tgz
+                  echo "17286eeb6a4dc7bd180acff9f9d1262504c556648ac2fa39080d2abc19060d1a686f8d8c27a1b6450dad77178a3389d89c8643aa4600c4482ab687a39fd406b5  npm.tgz" | sha512sum -c -
+                  npm_directory="$(dirname "$(dirname "$(command -v node)")")/lib/node_modules/npm"
+                  rm -rf "$npm_directory" && mkdir "$npm_directory"
+                  tar -xzf npm.tgz -C "$npm_directory" --strip-components=1
+                  npm --version
               working-directory: ${{ runner.temp }}
 
             # The same Node again, now with npm 12, so the npm cache can be used.
@@ -38,10 +65,16 @@ jobs:
                   cache: npm
 
             - name: Install dependencies
-              run: npm ci
+              run: npm ci --ignore-scripts
 
-            # - name: Lint
-            #   run: npm run lint
+            - name: Build
+              run: npm run build
+
+            - name: Lint
+              run: npm run lint
+
+            - name: Test
+              run: npm test
 
             - name: Audit
-              run: npm audit --audit-level=high
+              run: npm run audit
