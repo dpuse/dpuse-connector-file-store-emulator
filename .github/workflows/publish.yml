@@ -22,8 +22,11 @@ jobs:
                   token: ${{ secrets.ENGINE_PUBLISH }}
                   path: dpuse-engine
 
-            - name: Patch Cargo.toml paths for CI
-              run: sed -i 's|../../../../dpuse-engine|../../dpuse-engine|g' rust/dpuse-connector-file-store-emulator-core/Cargo.toml
+            # Checkout only accepts a path inside the workspace, where lint and tests would pick up the engine's files. Moved
+            # beside the workspace, it sits where the local path in 'rust/dpuse-connector-file-store-emulator-core/Cargo.toml'
+            # expects it.
+            - name: Move dpuse-engine beside the workspace
+              run: mv dpuse-engine ../../dpuse-engine
 
             # TODO: When the Node version below ships with npm 12, keep only the later 'Setup Node with npm cache' step, renamed
             # 'Setup Node', and remove this step and 'Setup npm'. Until then Node is set up twice: first with caching off, because
