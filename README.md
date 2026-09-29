@@ -87,7 +87,7 @@ License data is updated each time `npm run document` is run, using [license-chec
 | [@borewit/text-codec](https://github.com/Borewit/text-codec)                                       |  0.2.2  | MIT          | [LICENSE](licenses/downloads/@borewit/text-codec@0.2.2-LICENSE.txt)                     |
 | [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                       | 0.3.865 | MIT          | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@0.3.865-LICENSE.txt)                   |
 | [@dpuse/dpuse-tool-adaltas-csv-parser](https://github.com/dpuse/dpuse-tool-adaltas-csv-parser)     | 0.0.161 | MIT          | [LICENSE](licenses/downloads/@dpuse/dpuse-tool-adaltas-csv-parser@0.0.161-LICENSE.txt)  |
-| [@dpuse/dpuse-tool-file-previewer](https://github.com/dpuse/dpuse-tool-file-previewer)             | 0.0.62  | MIT          | [LICENSE](licenses/downloads/@dpuse/dpuse-tool-file-previewer@0.0.62-LICENSE.txt)       |
+| [@dpuse/dpuse-tool-file-previewer](https://github.com/dpuse/dpuse-tool-file-previewer)             | 0.0.63  | MIT          | [LICENSE](licenses/downloads/@dpuse/dpuse-tool-file-previewer@0.0.63-LICENSE.txt)       |
 | [@dpuse/dpuse-tool-rust-csv-core-parser](https://github.com/dpuse/dpuse-tool-rust-csv-core-parser) | 0.1.46  | MIT          | [LICENSE](licenses/downloads/@dpuse/dpuse-tool-rust-csv-core-parser@0.1.46-LICENSE.txt) |
 | [@tokenizer/inflate](https://github.com/Borewit/tokenizer-inflate)                                 |  0.4.1  | MIT          | [LICENSE](licenses/downloads/@tokenizer/inflate@0.4.1-LICENSE.txt)                      |
 | [@tokenizer/token](https://github.com/Borewit/tokenizer-token)                                     |  0.3.0  | MIT          | [LICENSE](licenses/downloads/@tokenizer/token@0.3.0-LICENSE.txt)                        |
@@ -124,7 +124,7 @@ The dependency tree below lists every package in this project — direct and tra
 - **[@dpuse/dpuse-tool-adaltas-csv-parser](https://github.com/dpuse/dpuse-tool-adaltas-csv-parser)** 0.0.161 — this month: 2026-09-29
     - **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 0.3.865 — this month: 2026-09-29
     - **[csv-parse](https://github.com/adaltas/node-csv)** 7.0.3 — this month: 2026-09-25
-- **[@dpuse/dpuse-tool-file-previewer](https://github.com/dpuse/dpuse-tool-file-previewer)** 0.0.62 — this month: 2026-09-25
+- **[@dpuse/dpuse-tool-file-previewer](https://github.com/dpuse/dpuse-tool-file-previewer)** 0.0.63 — this month: 2026-09-29
     - **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 0.3.865 — this month: 2026-09-29
     - **[chardet](https://github.com/runk/node-chardet)** 2.2.0 — **3 months** ago: 2026-06-20
     - **[file-type](https://github.com/sindresorhus/file-type)** 22.1.1 — this month: 2026-09-17

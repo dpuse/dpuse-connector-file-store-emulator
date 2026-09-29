@@ -24,6 +24,7 @@ async function checksumWithRust(input: string): Promise<number> {
 
 // Helpers
 async function loadRustBindings(): Promise<RustBindings> {
+    // eslint-disable-next-line unicorn/no-top-level-assignment-in-function
     rustBindingsPromise ??= import('../rust/dpuse-connector-file-store-emulator-core/pkg/dpuse_connector_file_store_emulator_core.js');
     return rustBindingsPromise;
 }

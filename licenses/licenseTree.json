@@ -1,5 +1,5 @@
 {
-  "version": "0.2.688",
+  "version": "0.2.689",
   "name": "@dpuse/dpuse-connector-file-store-emulator",
   "dependencies": {
     "@dpuse/dpuse-shared": {
@@ -103,8 +103,8 @@
       }
     },
     "@dpuse/dpuse-tool-file-previewer": {
-      "version": "0.0.62",
-      "resolved": "https://registry.npmjs.org/@dpuse/dpuse-tool-file-previewer/-/dpuse-tool-file-previewer-0.0.62.tgz",
+      "version": "0.0.63",
+      "resolved": "https://registry.npmjs.org/@dpuse/dpuse-tool-file-previewer/-/dpuse-tool-file-previewer-0.0.63.tgz",
       "overridden": false,
       "dependencies": {
         "@dpuse/dpuse-shared": {
