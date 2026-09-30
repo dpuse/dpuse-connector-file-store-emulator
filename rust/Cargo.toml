@@ -1,0 +1,10 @@
+[workspace]
+members = ["dpuse_connector_file_store_emulator_core"]
+resolver = "2"
+
+# Profiles only take effect at the workspace root.
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"

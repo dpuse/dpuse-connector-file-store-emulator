@@ -86,8 +86,8 @@ License data is updated each time `npm run document` is run, using [license-chec
 | :------------------------------------------------------------------------------------------------- | :-----: | :----------- | :-------------------------------------------------------------------------------------- |
 | [@borewit/text-codec](https://github.com/Borewit/text-codec)                                       |  0.2.2  | MIT          | [LICENSE](licenses/downloads/@borewit/text-codec@0.2.2-LICENSE.txt)                     |
 | [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                       | 0.3.865 | MIT          | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@0.3.865-LICENSE.txt)                   |
-| [@dpuse/dpuse-tool-adaltas-csv-parser](https://github.com/dpuse/dpuse-tool-adaltas-csv-parser)     | 0.0.161 | MIT          | [LICENSE](licenses/downloads/@dpuse/dpuse-tool-adaltas-csv-parser@0.0.161-LICENSE.txt)  |
-| [@dpuse/dpuse-tool-file-previewer](https://github.com/dpuse/dpuse-tool-file-previewer)             | 0.0.63  | MIT          | [LICENSE](licenses/downloads/@dpuse/dpuse-tool-file-previewer@0.0.63-LICENSE.txt)       |
+| [@dpuse/dpuse-tool-adaltas-csv-parser](https://github.com/dpuse/dpuse-tool-adaltas-csv-parser)     | 0.0.166 | MIT          | [LICENSE](licenses/downloads/@dpuse/dpuse-tool-adaltas-csv-parser@0.0.166-LICENSE.txt)  |
+| [@dpuse/dpuse-tool-file-previewer](https://github.com/dpuse/dpuse-tool-file-previewer)             | 0.0.66  | MIT          | [LICENSE](licenses/downloads/@dpuse/dpuse-tool-file-previewer@0.0.66-LICENSE.txt)       |
 | [@dpuse/dpuse-tool-rust-csv-core-parser](https://github.com/dpuse/dpuse-tool-rust-csv-core-parser) | 0.1.46  | MIT          | [LICENSE](licenses/downloads/@dpuse/dpuse-tool-rust-csv-core-parser@0.1.46-LICENSE.txt) |
 | [@tokenizer/inflate](https://github.com/Borewit/tokenizer-inflate)                                 |  0.4.1  | MIT          | [LICENSE](licenses/downloads/@tokenizer/inflate@0.4.1-LICENSE.txt)                      |
 | [@tokenizer/token](https://github.com/Borewit/tokenizer-token)                                     |  0.3.0  | MIT          | [LICENSE](licenses/downloads/@tokenizer/token@0.3.0-LICENSE.txt)                        |
@@ -121,10 +121,10 @@ The dependency tree below lists every package in this project — direct and tra
             - **[ieee754](https://github.com/feross/ieee754)** 1.2.1 — **71 months** ago: 2020-10-27 ⚠️
         - **[uint8array-extras](https://github.com/sindresorhus/uint8array-extras)** 1.5.0 — **13 months** ago: 2025-08-22 ⚠️ → **latest**: 1.6.0 — this month: 2026-09-26 ❗
     - **[valibot](https://github.com/open-circle/valibot)** 1.5.0 — this month: 2026-09-09
-- **[@dpuse/dpuse-tool-adaltas-csv-parser](https://github.com/dpuse/dpuse-tool-adaltas-csv-parser)** 0.0.161 — this month: 2026-09-29
+- **[@dpuse/dpuse-tool-adaltas-csv-parser](https://github.com/dpuse/dpuse-tool-adaltas-csv-parser)** 0.0.166 — this month: 2026-09-30
     - **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 0.3.865 — this month: 2026-09-29
     - **[csv-parse](https://github.com/adaltas/node-csv)** 7.0.3 — this month: 2026-09-25
-- **[@dpuse/dpuse-tool-file-previewer](https://github.com/dpuse/dpuse-tool-file-previewer)** 0.0.63 — this month: 2026-09-29
+- **[@dpuse/dpuse-tool-file-previewer](https://github.com/dpuse/dpuse-tool-file-previewer)** 0.0.66 — this month: 2026-09-30
     - **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 0.3.865 — this month: 2026-09-29
     - **[chardet](https://github.com/runk/node-chardet)** 2.2.0 — **3 months** ago: 2026-06-20
     - **[file-type](https://github.com/sindresorhus/file-type)** 22.1.1 — this month: 2026-09-17
@@ -145,17 +145,17 @@ _Note: Sonda's Vite reports currently exclude CSS files, since Vite does not gen
 | Chunk/Module/File                                                                                    | Composition                  |
 | :--------------------------------------------------------------------------------------------------- | :--------------------------- |
 | dist/dpuse-connector-file-store-emulator.es.js                                                       | 56.4 kB · gzip 16.1 kB       |
-| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)                                          | `██████████░░░░░░░░░░` 51.6% |
-| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js                                | `███░░░░░░░░░░░░░░░░░` 12.6% |
-| &nbsp;&nbsp;&nbsp;&nbsp;src                                                                          | `█░░░░░░░░░░░░░░░░░░░` 5.8%  |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index.ts                                             | `█░░░░░░░░░░░░░░░░░░░` 5.3%  |
+| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)                                          | `██████████░░░░░░░░░░` 50.7% |
+| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js                                | `██░░░░░░░░░░░░░░░░░░` 12.4% |
+| &nbsp;&nbsp;&nbsp;&nbsp;src                                                                          | `█░░░░░░░░░░░░░░░░░░░` 5.7%  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index.ts                                             | `█░░░░░░░░░░░░░░░░░░░` 5.2%  |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rustBridge.ts                                        | `░░░░░░░░░░░░░░░░░░░░` 0.4%  |
 | &nbsp;&nbsp;&nbsp;&nbsp;nanoid                                                                       | `░░░░░░░░░░░░░░░░░░░░` 0.2%  |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index.browser.js                                     | `░░░░░░░░░░░░░░░░░░░░` 0.2%  |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url-alphabet/index.js                                | `░░░░░░░░░░░░░░░░░░░░` 0.0%  |
-| dist/dpuse_connector_file_store_emulator_core-BbpaeCh_.js                                            | 24.0 kB · gzip 11.3 kB       |
-| &nbsp;&nbsp;&nbsp;&nbsp;wasm                                                                         | `██████░░░░░░░░░░░░░░` 28.7% |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpuse_connector_file_store_emulator_core_bg.wasm?url | `█████░░░░░░░░░░░░░░░` 25.4% |
+| dist/dpuse_connector_file_store_emulator_core-BsHzkNfA.js                                            | 25.3 kB · gzip 11.9 kB       |
+| &nbsp;&nbsp;&nbsp;&nbsp;wasm                                                                         | `██████░░░░░░░░░░░░░░` 29.9% |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpuse_connector_file_store_emulator_core_bg.wasm?url | `█████░░░░░░░░░░░░░░░` 26.6% |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpuse_connector_file_store_emulator_core_bg.js       | `░░░░░░░░░░░░░░░░░░░░` 1.9%  |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;__vite-plugin-wasm-helper                            | `░░░░░░░░░░░░░░░░░░░░` 0.9%  |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpuse_connector_file_store_emulator_core_bg.wasm     | `░░░░░░░░░░░░░░░░░░░░` 0.5%  |

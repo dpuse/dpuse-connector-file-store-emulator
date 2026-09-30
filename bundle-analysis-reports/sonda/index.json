@@ -1,7 +1,7 @@
 {
   "metadata": {
     "version": "0.14.0",
-    "generatedAt": "2026-09-29T12:24:54.710Z",
+    "generatedAt": "2026-09-30T15:16:05.755Z",
     "integration": "vite",
     "sources": false,
     "gzip": true,
@@ -21,9 +21,9 @@
       "type": "other",
       "format": "other",
       "uncompressed": 760,
-      "gzip": 413,
+      "gzip": 414,
       "brotli": 0,
-      "parent": "dist/dpuse_connector_file_store_emulator_core-BbpaeCh_.js"
+      "parent": "dist/dpuse_connector_file_store_emulator_core-BsHzkNfA.js"
     },
     {
       "kind": "sourcemap",
@@ -39,7 +39,7 @@
       "type": "other",
       "format": "other",
       "uncompressed": 42444,
-      "gzip": 11051,
+      "gzip": 11049,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
@@ -49,9 +49,9 @@
       "type": "other",
       "format": "other",
       "uncompressed": 917,
-      "gzip": 502,
+      "gzip": 490,
       "brotli": 0,
-      "parent": "dist/dpuse_connector_file_store_emulator_core-BbpaeCh_.js"
+      "parent": "dist/dpuse_connector_file_store_emulator_core-BsHzkNfA.js"
     },
     {
       "kind": "filesystem",
@@ -62,10 +62,10 @@
     },
     {
       "kind": "asset",
-      "name": "dist/dpuse_connector_file_store_emulator_core-BbpaeCh_.js",
+      "name": "dist/dpuse_connector_file_store_emulator_core-BsHzkNfA.js",
       "type": "script",
-      "uncompressed": 24551,
-      "gzip": 11597,
+      "uncompressed": 25943,
+      "gzip": 12228,
       "brotli": 0
     },
     {
@@ -89,7 +89,7 @@
       "type": "script",
       "format": "esm",
       "uncompressed": 10386,
-      "gzip": 3401,
+      "gzip": 3400,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
@@ -129,71 +129,71 @@
     },
     {
       "kind": "filesystem",
-      "name": "rust/dpuse-connector-file-store-emulator-core/pkg/dpuse_connector_file_store_emulator_core_bg.js",
+      "name": "rust/dpuse_connector_file_store_emulator_core/pkg/dpuse_connector_file_store_emulator_core_bg.js",
       "type": "script",
       "format": "esm",
       "uncompressed": 3707
     },
     {
       "kind": "chunk",
-      "name": "rust/dpuse-connector-file-store-emulator-core/pkg/dpuse_connector_file_store_emulator_core_bg.js",
+      "name": "rust/dpuse_connector_file_store_emulator_core/pkg/dpuse_connector_file_store_emulator_core_bg.js",
       "type": "script",
       "format": "esm",
       "uncompressed": 1578,
-      "gzip": 704,
+      "gzip": 705,
       "brotli": 0,
-      "parent": "dist/dpuse_connector_file_store_emulator_core-BbpaeCh_.js"
+      "parent": "dist/dpuse_connector_file_store_emulator_core-BsHzkNfA.js"
     },
     {
       "kind": "filesystem",
-      "name": "rust/dpuse-connector-file-store-emulator-core/pkg/dpuse_connector_file_store_emulator_core_bg.wasm",
+      "name": "rust/dpuse_connector_file_store_emulator_core/pkg/dpuse_connector_file_store_emulator_core_bg.wasm",
       "type": "script",
       "format": "esm",
       "uncompressed": 1067
     },
     {
       "kind": "chunk",
-      "name": "rust/dpuse-connector-file-store-emulator-core/pkg/dpuse_connector_file_store_emulator_core_bg.wasm",
+      "name": "rust/dpuse_connector_file_store_emulator_core/pkg/dpuse_connector_file_store_emulator_core_bg.wasm",
       "type": "script",
       "format": "esm",
       "uncompressed": 396,
       "gzip": 278,
       "brotli": 0,
-      "parent": "dist/dpuse_connector_file_store_emulator_core-BbpaeCh_.js"
+      "parent": "dist/dpuse_connector_file_store_emulator_core-BsHzkNfA.js"
     },
     {
       "kind": "filesystem",
-      "name": "rust/dpuse-connector-file-store-emulator-core/pkg/dpuse_connector_file_store_emulator_core_bg.wasm?url",
+      "name": "rust/dpuse_connector_file_store_emulator_core/pkg/dpuse_connector_file_store_emulator_core_bg.wasm?url",
       "type": "other",
       "format": "other",
-      "uncompressed": 20898
+      "uncompressed": 22290
     },
     {
       "kind": "chunk",
-      "name": "rust/dpuse-connector-file-store-emulator-core/pkg/dpuse_connector_file_store_emulator_core_bg.wasm?url",
+      "name": "rust/dpuse_connector_file_store_emulator_core/pkg/dpuse_connector_file_store_emulator_core_bg.wasm?url",
       "type": "other",
       "format": "other",
-      "uncompressed": 20889,
-      "gzip": 9670,
+      "uncompressed": 22281,
+      "gzip": 10310,
       "brotli": 0,
-      "parent": "dist/dpuse_connector_file_store_emulator_core-BbpaeCh_.js"
+      "parent": "dist/dpuse_connector_file_store_emulator_core-BsHzkNfA.js"
     },
     {
       "kind": "filesystem",
-      "name": "rust/dpuse-connector-file-store-emulator-core/pkg/dpuse_connector_file_store_emulator_core.js",
+      "name": "rust/dpuse_connector_file_store_emulator_core/pkg/dpuse_connector_file_store_emulator_core.js",
       "type": "script",
       "format": "esm",
       "uncompressed": 272
     },
     {
       "kind": "chunk",
-      "name": "rust/dpuse-connector-file-store-emulator-core/pkg/dpuse_connector_file_store_emulator_core.js",
+      "name": "rust/dpuse_connector_file_store_emulator_core/pkg/dpuse_connector_file_store_emulator_core.js",
       "type": "script",
       "format": "esm",
       "uncompressed": 11,
       "gzip": 31,
       "brotli": 0,
-      "parent": "dist/dpuse_connector_file_store_emulator_core-BbpaeCh_.js"
+      "parent": "dist/dpuse_connector_file_store_emulator_core-BsHzkNfA.js"
     },
     {
       "kind": "filesystem",
@@ -215,7 +215,7 @@
       "type": "script",
       "format": "esm",
       "uncompressed": 4389,
-      "gzip": 1579,
+      "gzip": 1578,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
@@ -232,7 +232,7 @@
       "type": "script",
       "format": "esm",
       "uncompressed": 352,
-      "gzip": 236,
+      "gzip": 239,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     }
@@ -241,7 +241,7 @@
     {
       "kind": "dynamic-import",
       "source": "src/rustBridge.ts",
-      "target": "rust/dpuse-connector-file-store-emulator-core/pkg/dpuse_connector_file_store_emulator_core.js",
+      "target": "rust/dpuse_connector_file_store_emulator_core/pkg/dpuse_connector_file_store_emulator_core.js",
       "original": null
     },
     {
@@ -252,8 +252,8 @@
     },
     {
       "kind": "entrypoint",
-      "source": "dist/dpuse_connector_file_store_emulator_core-BbpaeCh_.js",
-      "target": "rust/dpuse-connector-file-store-emulator-core/pkg/dpuse_connector_file_store_emulator_core.js",
+      "source": "dist/dpuse_connector_file_store_emulator_core-BsHzkNfA.js",
+      "target": "rust/dpuse_connector_file_store_emulator_core/pkg/dpuse_connector_file_store_emulator_core.js",
       "original": null
     }
   ],

@@ -1,5 +1,5 @@
 // Dependencies - Framework
-import type * as RustModule from '../rust/dpuse-connector-file-store-emulator-core/pkg/dpuse_connector_file_store_emulator_core.js';
+import type * as RustModule from '../rust/dpuse_connector_file_store_emulator_core/pkg/dpuse_connector_file_store_emulator_core.js';
 
 // Interfaces/Types
 type RustBindings = typeof RustModule;
@@ -25,7 +25,7 @@ async function checksumWithRust(input: string): Promise<number> {
 // Helpers
 async function loadRustBindings(): Promise<RustBindings> {
     // eslint-disable-next-line unicorn/no-top-level-assignment-in-function
-    rustBindingsPromise ??= import('../rust/dpuse-connector-file-store-emulator-core/pkg/dpuse_connector_file_store_emulator_core.js');
+    rustBindingsPromise ??= import('../rust/dpuse_connector_file_store_emulator_core/pkg/dpuse_connector_file_store_emulator_core.js');
     return rustBindingsPromise;
 }
 
