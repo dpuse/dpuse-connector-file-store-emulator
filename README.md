@@ -128,25 +128,27 @@ This report is updated with each release, from the bundle the release builds, us
 
 _Note: Sonda's Vite reports currently exclude CSS files, since Vite does not generate source maps for CSS._
 
-| Chunk/Module/File                                                                                    | Composition                  |
-| :--------------------------------------------------------------------------------------------------- | :--------------------------- |
-| dist/dpuse-connector-file-store-emulator.es.js                                                       | 56.4 kB · gzip 16.1 kB       |
-| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)                                          | `██████████░░░░░░░░░░` 50.7% |
-| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js                                | `██░░░░░░░░░░░░░░░░░░` 12.4% |
-| &nbsp;&nbsp;&nbsp;&nbsp;src                                                                          | `█░░░░░░░░░░░░░░░░░░░` 5.7%  |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index.ts                                             | `█░░░░░░░░░░░░░░░░░░░` 5.2%  |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rustBridge.ts                                        | `░░░░░░░░░░░░░░░░░░░░` 0.4%  |
-| &nbsp;&nbsp;&nbsp;&nbsp;nanoid                                                                       | `░░░░░░░░░░░░░░░░░░░░` 0.2%  |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index.browser.js                                     | `░░░░░░░░░░░░░░░░░░░░` 0.2%  |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url-alphabet/index.js                                | `░░░░░░░░░░░░░░░░░░░░` 0.0%  |
-| dist/dpuse_connector_file_store_emulator_core-BsHzkNfA.js                                            | 25.3 kB · gzip 11.9 kB       |
-| &nbsp;&nbsp;&nbsp;&nbsp;wasm                                                                         | `██████░░░░░░░░░░░░░░` 29.9% |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpuse_connector_file_store_emulator_core_bg.wasm?url | `█████░░░░░░░░░░░░░░░` 26.6% |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpuse_connector_file_store_emulator_core_bg.js       | `░░░░░░░░░░░░░░░░░░░░` 1.9%  |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;__vite-plugin-wasm-helper                            | `░░░░░░░░░░░░░░░░░░░░` 0.9%  |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpuse_connector_file_store_emulator_core_bg.wasm     | `░░░░░░░░░░░░░░░░░░░░` 0.5%  |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpuse_connector_file_store_emulator_core.js          | `░░░░░░░░░░░░░░░░░░░░` 0.0%  |
-| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)                                          | `░░░░░░░░░░░░░░░░░░░░` 1.1%  |
+| Chunk/Module/File                                                                                      | Composition                                 |
+| :----------------------------------------------------------------------------------------------------- | :------------------------------------------ |
+| **dist/dpuse-connector-file-store-emulator.es.js**                                                     | 56.4 kB · gzip 16.1 kB · 69.0% of the build |
+| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js                                  | `████░░░░░░░░░░░░░░░░` 18.0% · 10.1 kB      |
+| &nbsp;&nbsp;&nbsp;&nbsp;src                                                                            | `██░░░░░░░░░░░░░░░░░░` 8.2% · 4.6 kB        |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ index.ts                                             | `▒▒░░░░░░░░░░░░░░░░░░` 7.6% · 4.3 kB        |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ rustBridge.ts                                        | `░░░░░░░░░░░░░░░░░░░░` 0.6% · 352 B         |
+| &nbsp;&nbsp;&nbsp;&nbsp;nanoid                                                                         | `░░░░░░░░░░░░░░░░░░░░` 0.3% · 196 B         |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ index.browser.js                                     | `░░░░░░░░░░░░░░░░░░░░` 0.3% · 192 B         |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ url-alphabet/index.js                                | `░░░░░░░░░░░░░░░░░░░░` 0.0% · 4 B           |
+| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)                                            | `███████████████░░░░░` 73.5% · 41.4 kB      |
+| **dist/dpuse_connector_file_store_emulator_core-BsHzkNfA.js**                                          | 25.3 kB · gzip 11.9 kB · 31.0% of the build |
+| &nbsp;&nbsp;&nbsp;&nbsp;wasm                                                                           | `███████████████████░` 96.5% · 24.4 kB      |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ dpuse_connector_file_store_emulator_core_bg.wasm?url | `▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░` 85.9% · 21.8 kB      |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ dpuse_connector_file_store_emulator_core_bg.js       | `▒░░░░░░░░░░░░░░░░░░░` 6.1% · 1.5 kB        |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ __vite-plugin-wasm-helper                            | `▒░░░░░░░░░░░░░░░░░░░` 2.9% · 760 B         |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ dpuse_connector_file_store_emulator_core_bg.wasm     | `░░░░░░░░░░░░░░░░░░░░` 1.5% · 396 B         |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ dpuse_connector_file_store_emulator_core.js          | `░░░░░░░░░░░░░░░░░░░░` 0.0% · 11 B          |
+| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)                                            | `█░░░░░░░░░░░░░░░░░░░` 3.5% · 917 B         |
+
+Bars show each row's share of its output file. ↳ rows are part of the row above.
 
 (bundler output, whitespace & JSON) = bytes Sonda can't trace to a source file: whitespace (indentation and line breaks), code the bundler generates (region comments, the combined import/export lines, its small runtime helper and wrappers), and imported JSON such as `config.json`, which the bundler doesn't map. The JSON and the generated code are real bytes that ship; the whitespace mostly disappears once compressed.
 
