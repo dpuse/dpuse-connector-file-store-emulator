@@ -1,16 +1,14 @@
 // ── External Dependencies & Registrations
+import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import Sonda from 'sonda/vite';
-import wasm from 'vite-plugin-wasm';
-import { defineConfig, type PluginOption } from 'vite';
 import { fileURLToPath, URL } from 'node:url';
+
+// ── DPUse Framework
+import { recordShippedPackages } from '@dpuse/dpuse-development/vite';
 
 // ── Data
 import config from './config.json' with { type: 'json' };
-
-// ── Initialisation ───────────────────────────────────────────────────────────────────────────────────────────────────
-
-const wasmPlugin = wasm() as PluginOption;
 
 // ── Vite Configuration ───────────────────────────────────────────────────────────────────────────────────────────────
 
@@ -29,7 +27,8 @@ export default defineConfig({
     },
     // Tests and config files sit in the tsconfig so they get type-checked, but their declarations must not reach the
     // published package. 'entryRoot' keeps the types under 'dist/types/src', where package.json points.
-    plugins: [dts({ entryRoot: '.', exclude: ['tests/**', '*.config.*'], outDirs: 'dist/types' }), wasmPlugin],
+    // 'recordShippedPackages' writes the record of what the build ships, which 'npm run document' lists licences from.
+    plugins: [dts({ entryRoot: '.', exclude: ['tests/**', '*.config.*'], outDirs: 'dist/types' }), recordShippedPackages()],
     resolve: {
         alias: {
             '~': fileURLToPath(new URL('./', import.meta.url)),

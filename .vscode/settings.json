@@ -1,3 +1,0 @@
-{
-    "rust-analyzer.linkedProjects": ["${workspaceFolder}/rust/dpuse-connector-file-store-emulator-core/Cargo.toml"]
-}
