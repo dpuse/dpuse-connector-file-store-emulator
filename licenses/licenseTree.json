@@ -1,24 +1,14 @@
 {
-  "version": "1,0,001",
+  "version": "1.0.302",
   "name": "@dpuse/dpuse-connector-file-store-emulator",
   "dependencies": {
     "@dpuse/dpuse-development": {
-      "version": "1.0.3",
-      "resolved": "https://registry.npmjs.org/@dpuse/dpuse-development/-/dpuse-development-1.0.3.tgz",
+      "version": "1.0.4",
+      "resolved": "https://registry.npmjs.org/@dpuse/dpuse-development/-/dpuse-development-1.0.4.tgz",
       "overridden": false,
       "dependencies": {
         "@dpuse/dpuse-shared": {
-          "version": "0.3.869",
-          "resolved": "https://registry.npmjs.org/@dpuse/dpuse-shared/-/dpuse-shared-0.3.869.tgz",
-          "overridden": false,
-          "dependencies": {
-            "file-type": {
-              "version": "22.1.1"
-            },
-            "valibot": {
-              "version": "1.5.0"
-            }
-          }
+          "version": "1.0.2"
         },
         "license-checker-rseidelsohn": {
           "version": "5.0.1",
