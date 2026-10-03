@@ -6,13 +6,13 @@
 [![DPUse version](https://img.shields.io/github/v/release/dpuse/dpuse-connector-file-store-emulator?color=f6821f&label=DPUse)](https://github.com/dpuse/dpuse-connector-file-store-emulator/releases/latest)
 [![CI](https://github.com/dpuse/dpuse-connector-file-store-emulator/actions/workflows/ci.yml/badge.svg)](https://github.com/dpuse/dpuse-connector-file-store-emulator/actions/workflows/ci.yml)
 
-[DPUse](https://www.dpuse.app) · [Report a Vulnerability](https://github.com/dpuse/dpuse-connector-file-store-emulator/security/advisories/new) · [Open an Issue](https://github.com/dpuse/dpuse-connector-file-store-emulator/issues)
-
 Provides read-only sample data simulating a cloud-based file storage solution such as Google Drive, Dropbox, or Microsoft OneDrive.
+
+[Report a Vulnerability](https://github.com/dpuse/dpuse-connector-file-store-emulator/security/advisories/new) · [Open an Issue](https://github.com/dpuse/dpuse-connector-file-store-emulator/issues)
 
 ## About DPUse
 
-DPUse (Data Positioning & Use) is an in-browser application that positions your data for use through three core activities: sourcing, contextualising, and publishing.
+[DPUse](https://www.dpuse.app) (Data Positioning & Use) is an in-browser application that positions your data for use through three core activities: sourcing, contextualising, and publishing.
 
 **Sourcing** uses a library of [Connectors](https://www.dpuse.app/connectors) to establish [Connections](https://www.dpuse.app) to applications, databases, file stores, and curated datasets; these connections are subsequently used to configure structured [Data Views](https://www.dpuse.app) from the underlying sources.
 
@@ -84,7 +84,7 @@ License data is updated each time `npm run document` is run, using [license-chec
 
 | Dependency                                                                                    | Version | License(s)                          | Document                                                                                                                                                                                                               |
 | :-------------------------------------------------------------------------------------------- | :-----: | :---------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                  | 0.3.869 | MIT                                 | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@0.3.869-LICENSE.txt)                                                                                                                                                  |
+| [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                  |  1.0.2  | MIT                                 | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@1.0.2-LICENSE.txt)                                                                                                                                                    |
 | [cfg-if](https://github.com/rust-lang/cfg-if)                                                 |  1.0.4  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/cfg-if@1.0.4-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/cfg-if@1.0.4-LICENSE-MIT)                                                                                            |
 | [js-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/js-sys)              | 0.3.83  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/js-sys@0.3.83-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/js-sys@0.3.83-LICENSE-MIT)                                                                                          |
 | [nanoid](https://github.com/ai/nanoid)                                                        |  6.0.1  | MIT                                 | [LICENSE](licenses/downloads/nanoid@6.0.1-LICENSE.txt)                                                                                                                                                                 |
@@ -99,9 +99,9 @@ License data is updated each time `npm run document` is run, using [license-chec
 
 The dependency tree below shows how each package in the table above is reached — direct and transitive — along with its installed version, release date, and update status. A package that does not ship itself, such as one whose parts are bundled separately, is left out and what ships beneath it is shown in its place. Packages flagged ❗ have a newer version available; ⚠️ indicates a package that hasn't been updated in the last 6 months or longer. Neither flag necessarily indicates a problem: we let new releases stabilise before upgrading, and some packages are mature and stable (have limited or no dependencies), so they require no active development.
 
-- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 0.3.869 — this month: 2026-10-02
+- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.2 — this month: 2026-10-03
     - **[valibot](https://github.com/open-circle/valibot)** 1.5.0 — this month: 2026-09-09
-- **[nanoid](https://github.com/ai/nanoid)** 6.0.1 — **1 month** ago: 2026-08-03
+- **[nanoid](https://github.com/ai/nanoid)** 6.0.1 — **2 months** ago: 2026-08-03
 - **dpuse-connector-file-store-emulator-core** 0.1.0 — this project's Rust code, compiled into its WebAssembly
     - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — **10 months** ago: 2025-11-28 ⚠️ → **latest**: 0.2.129 — this month: 2026-09-25 ❗
         - **[cfg-if](https://github.com/rust-lang/cfg-if)** 1.0.4 — **11 months** ago: 2025-10-15 ⚠️ → **latest**: 1.0.5 — this month: 2026-09-16 ❗

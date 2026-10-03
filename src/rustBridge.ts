@@ -28,7 +28,7 @@ export async function checksumWithRust(input: string): Promise<number> {
 
 // The WebAssembly loads once, on first use; the promise is kept so callers that arrive together share one load.
 async function loadRustBindings(): Promise<RustBindings> {
-    // eslint-disable-next-line unicorn/no-top-level-assignment-in-function
+    // eslint-disable-next-line unicorn/no-top-level-assignment-in-function -- Loads the Rust bindings once, then shares the same promise.
     rustBindingsPromise ??= (async (): Promise<RustBindings> => {
         const module = await import('../rust/dpuse_connector_file_store_emulator_core/pkg/dpuse_connector_file_store_emulator_core.js');
         await module.default(); // Fetches and compiles the .wasm file; '--target web' leaves this to the caller.
