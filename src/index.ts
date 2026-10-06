@@ -41,7 +41,6 @@ import type { Tool as RustCsvCoreTool } from '@dpuse/dpuse-tool-rust-csv-core-pa
 
 // ── Data
 import config from '~/config.json';
-import fileStoreFolderPathData from '@/fileStoreIndex.json';
 
 // ── Types ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
@@ -53,11 +52,13 @@ type FileStoreFolderPaths = Record<string, FileStoreFolderNode[]>; // File store
 
 // ── Constants ────────────────────────────────────────────────────────────────────────────────────────────────────────
 
+const INDEX_URL = 'https://sample-data-eu.dpuse.app/fileStoreIndex.json'; // Lists the file store's folders and files, published with them.
 const URL_PREFIX = 'https://sample-data-eu.dpuse.app/fileStore'; // Cloudflare R2 file store directory prefix.
 
 // ── Connectors ───────────────────────────────────────────────────────────────────────────────────────────────────────
 
 export class Connector implements ConnectorInterface {
+    #fileStoreFolderPaths: Promise<FileStoreFolderPaths> | undefined; // The file store index, loaded on first use.
     abortController: AbortController | undefined;
     readonly config: ConnectorConfig;
     connectorUtilities: ConnectorUtilities;
@@ -118,8 +119,8 @@ export class Connector implements ConnectorInterface {
     }
 
     // Find the folder path containing the specified object node
-    findObject(options: FindObjectOptions): Promise<FindObjectResult> {
-        const fileStoreFolderPaths = fileStoreFolderPathData as FileStoreFolderPaths;
+    async findObject(options: FindObjectOptions): Promise<FindObjectResult> {
+        const fileStoreFolderPaths = await this.loadFileStoreFolderPaths();
         // Loop through the folder path data checking for an object entry with an identifier equal to the object name.
         for (const folderPath in fileStoreFolderPaths) {
             if (!Object.hasOwn(fileStoreFolderPaths, folderPath)) {
@@ -128,9 +129,9 @@ export class Connector implements ConnectorInterface {
 
             const folderPathNodes = fileStoreFolderPaths[folderPath];
             const folderPathNode = folderPathNodes?.find((folderPathNode) => folderPathNode.typeId === 'object' && folderPathNode.id === options.nodeId);
-            if (folderPathNode) return Promise.resolve({ path: folderPath, object: undefined }); // Found, return folder path.
+            if (folderPathNode) return { path: folderPath }; // Found, return folder path.
         }
-        return Promise.reject(new Error('Not found.')); // Not found.
+        throw new Error('Not found.'); // Not found.
     }
 
     // Get a readable stream for the specified object node path
@@ -161,8 +162,8 @@ export class Connector implements ConnectorInterface {
     }
 
     // Lists all nodes (folders and objects) in the specified folder path
-    listNodes(options: ListNodesOptions): Promise<ListNodesResult> {
-        const fileStoreFolderPaths = fileStoreFolderPathData as FileStoreFolderPaths;
+    async listNodes(options: ListNodesOptions): Promise<ListNodesResult> {
+        const fileStoreFolderPaths = await this.loadFileStoreFolderPaths();
         const folderNodes = fileStoreFolderPaths[options.folderPath] ?? [];
         const connectionNodeConfigs: ConnectionNodeConfig[] = [];
         for (const folderNode of folderNodes) {
@@ -172,7 +173,7 @@ export class Connector implements ConnectorInterface {
                 connectionNodeConfigs.push(constructObjectNodeConfig(options.folderPath, folderNode.id, folderNode.name, folderNode.lastModifiedAt, folderNode.size));
             }
         }
-        return Promise.resolve({ cursor: undefined, isMore: false, connectionNodeConfigs, totalCount: connectionNodeConfigs.length });
+        return { cursor: undefined, isMore: false, connectionNodeConfigs, totalCount: connectionNodeConfigs.length };
     }
 
     // Preview the contents of the object node with the specified path
@@ -236,6 +237,27 @@ export class Connector implements ConnectorInterface {
             throw normalizeToError(error);
         } finally {
             this.abortController = undefined;
+        }
+    }
+
+    // ── Helpers ──────────────────────────────────────────────────────────────────────────────────────────────────────
+
+    // Loads the file store index once, from beside the files it lists, so it always matches them.
+    private loadFileStoreFolderPaths(): Promise<FileStoreFolderPaths> {
+        this.#fileStoreFolderPaths ??= this.fetchFileStoreFolderPaths();
+        return this.#fileStoreFolderPaths;
+    }
+
+    // A failed fetch is not kept, so the next call tries again.
+    private async fetchFileStoreFolderPaths(): Promise<FileStoreFolderPaths> {
+        try {
+            const response = await fetch(INDEX_URL);
+            if (!response.ok)
+                throw await buildFetchError(response, 'Failed to fetch the file store index.', 'dpuse-connector-file-store-emulator|Connector|fetchFileStoreFolderPaths');
+            return (await response.json()) as FileStoreFolderPaths;
+        } catch (error) {
+            this.#fileStoreFolderPaths = undefined;
+            throw normalizeToError(error);
         }
     }
 }

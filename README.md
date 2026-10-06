@@ -3,7 +3,7 @@
 <!-- OPENING_START -->
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
-[![DPUse version](https://img.shields.io/github/v/release/dpuse/dpuse-connector-file-store-emulator?color=f6821f&label=DPUse)](https://github.com/dpuse/dpuse-connector-file-store-emulator/releases/latest)
+[![DPUse version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.dpuse.app%2Fconfigs%2Fdpuse-connector-file-store-emulator&query=%24.data.version&prefix=v&label=DPUse&color=f6821f)](https://github.com/dpuse/dpuse-connector-file-store-emulator/releases/latest)
 [![CI](https://github.com/dpuse/dpuse-connector-file-store-emulator/actions/workflows/ci.yml/badge.svg)](https://github.com/dpuse/dpuse-connector-file-store-emulator/actions/workflows/ci.yml)
 
 Provides read-only sample data simulating a cloud-based file storage solution such as Google Drive, Dropbox, or Microsoft OneDrive.
@@ -82,37 +82,42 @@ This repository is managed using the common set of actions provided by [@dpuse/d
 
 License data is updated each time `npm run document` is run, using [license-checker](https://github.com/RSeidelsohn/license-checker-rseidelsohn) and [cargo tree](https://doc.rust-lang.org/cargo/commands/cargo-tree.html). The following table lists every package whose code, styles or assets are included in this project's build, as recorded by the build itself. Modules loaded at run time are not included; each documents its own. It also lists every Rust crate compiled into its WebAssembly, as resolved by Cargo; macros and other crates used only while compiling put none of their code in it, so are left out. These dependencies have been checked and confirmed to use MIT or Unicode-3.0, all of which allow commercial use. All are used unmodified, so any licence conditions that apply only to modified versions are not triggered. Developers cloning this repository should independently verify development dependencies.
 
-| Dependency                                                                                    | Version | License(s)                          | Document                                                                                                                                                                                                               |
-| :-------------------------------------------------------------------------------------------- | :-----: | :---------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                  |  1.0.2  | MIT                                 | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@1.0.2-LICENSE.txt)                                                                                                                                                    |
-| [cfg-if](https://github.com/rust-lang/cfg-if)                                                 |  1.0.4  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/cfg-if@1.0.4-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/cfg-if@1.0.4-LICENSE-MIT)                                                                                            |
-| [js-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/js-sys)              | 0.3.83  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/js-sys@0.3.83-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/js-sys@0.3.83-LICENSE-MIT)                                                                                          |
-| [nanoid](https://github.com/ai/nanoid)                                                        |  6.0.1  | MIT                                 | [LICENSE](licenses/downloads/nanoid@6.0.1-LICENSE.txt)                                                                                                                                                                 |
-| [once_cell](https://github.com/matklad/once_cell)                                             | 1.21.3  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/once_cell@1.21.3-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/once_cell@1.21.3-LICENSE-MIT)                                                                                    |
-| [unicode-ident](https://github.com/dtolnay/unicode-ident)                                     | 1.0.22  | (MIT OR Apache-2.0) AND Unicode-3.0 | [LICENSE-APACHE](licenses/downloads/unicode-ident@1.0.22-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/unicode-ident@1.0.22-LICENSE-MIT) [LICENSE-UNICODE](licenses/downloads/unicode-ident@1.0.22-LICENSE-UNICODE) |
-| [valibot](https://github.com/open-circle/valibot)                                             |  1.5.0  | MIT                                 | [LICENSE](licenses/downloads/valibot@1.5.0-LICENSE.txt)                                                                                                                                                                |
-| [wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)                                  | 0.2.106 | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/wasm-bindgen@0.2.106-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/wasm-bindgen@0.2.106-LICENSE-MIT)                                                                            |
-| [wasm-bindgen-shared](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/shared) | 0.2.106 | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/wasm-bindgen-shared@0.2.106-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/wasm-bindgen-shared@0.2.106-LICENSE-MIT)                                                              |
-| [web-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/web-sys)            | 0.3.83  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/web-sys@0.3.83-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/web-sys@0.3.83-LICENSE-MIT)                                                                                        |
+| Type       | Dependency                                                                                    | Version | License(s)                          | Document                                                                                                                                                                                                               |
+| :--------- | :-------------------------------------------------------------------------------------------- | :-----: | :---------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| JavaScript | [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                  | 1.0.113 | MIT                                 | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@1.0.113-LICENSE.txt)                                                                                                                                                  |
+| JavaScript | [nanoid](https://github.com/ai/nanoid)                                                        |  6.0.2  | MIT                                 | [LICENSE](licenses/downloads/nanoid@6.0.2-LICENSE.txt)                                                                                                                                                                 |
+| JavaScript | [valibot](https://github.com/open-circle/valibot)                                             |  1.5.0  | MIT                                 | [LICENSE](licenses/downloads/valibot@1.5.0-LICENSE.txt)                                                                                                                                                                |
+| Rust       | [cfg-if](https://github.com/rust-lang/cfg-if)                                                 |  1.0.4  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/cfg-if@1.0.4-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/cfg-if@1.0.4-LICENSE-MIT)                                                                                            |
+| Rust       | [js-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/js-sys)              | 0.3.83  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/js-sys@0.3.83-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/js-sys@0.3.83-LICENSE-MIT)                                                                                          |
+| Rust       | [once_cell](https://github.com/matklad/once_cell)                                             | 1.21.3  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/once_cell@1.21.3-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/once_cell@1.21.3-LICENSE-MIT)                                                                                    |
+| Rust       | [unicode-ident](https://github.com/dtolnay/unicode-ident)                                     | 1.0.22  | (MIT OR Apache-2.0) AND Unicode-3.0 | [LICENSE-APACHE](licenses/downloads/unicode-ident@1.0.22-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/unicode-ident@1.0.22-LICENSE-MIT) [LICENSE-UNICODE](licenses/downloads/unicode-ident@1.0.22-LICENSE-UNICODE) |
+| Rust       | [wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)                                  | 0.2.106 | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/wasm-bindgen@0.2.106-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/wasm-bindgen@0.2.106-LICENSE-MIT)                                                                            |
+| Rust       | [wasm-bindgen-shared](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/shared) | 0.2.106 | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/wasm-bindgen-shared@0.2.106-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/wasm-bindgen-shared@0.2.106-LICENSE-MIT)                                                              |
+| Rust       | [web-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/web-sys)            | 0.3.83  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/web-sys@0.3.83-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/web-sys@0.3.83-LICENSE-MIT)                                                                                        |
 
 ### Dependency Tree
 
 The dependency tree below shows how each package in the table above is reached — direct and transitive — along with its installed version, release date, and update status. A package that does not ship itself, such as one whose parts are bundled separately, is left out and what ships beneath it is shown in its place. Packages flagged ❗ have a newer version available; ⚠️ indicates a package that hasn't been updated in the last 6 months or longer. Neither flag necessarily indicates a problem: we let new releases stabilise before upgrading, and some packages are mature and stable (have limited or no dependencies), so they require no active development.
 
-- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.2 — this month: 2026-10-03
+#### JavaScript
+
+- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.113 — this month: 2026-10-05
     - **[valibot](https://github.com/open-circle/valibot)** 1.5.0 — this month: 2026-09-09
-- **[nanoid](https://github.com/ai/nanoid)** 6.0.1 — **2 months** ago: 2026-08-03
+- **[nanoid](https://github.com/ai/nanoid)** 6.0.2 — this month: 2026-10-05
+
+#### Rust
+
 - **dpuse-connector-file-store-emulator-core** 0.1.0 — this project's Rust code, compiled into its WebAssembly
-    - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — **10 months** ago: 2025-11-28 ⚠️ → **latest**: 0.2.129 — this month: 2026-09-25 ❗
-        - **[cfg-if](https://github.com/rust-lang/cfg-if)** 1.0.4 — **11 months** ago: 2025-10-15 ⚠️ → **latest**: 1.0.5 — this month: 2026-09-16 ❗
-        - **[once_cell](https://github.com/matklad/once_cell)** 1.21.3 — **18 months** ago: 2025-03-28 ⚠️ → **latest**: 1.21.4 — **6 months** ago: 2026-03-12 ❗
-        - **[wasm-bindgen-shared](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/shared)** 0.2.106 — **10 months** ago: 2025-11-28 ⚠️ → **latest**: 0.2.129 — this month: 2026-09-25 ❗
-            - **[unicode-ident](https://github.com/dtolnay/unicode-ident)** 1.0.22 — **11 months** ago: 2025-10-30 ⚠️ → **latest**: 1.0.26 — this month: 2026-09-17 ❗
-    - **[web-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/web-sys)** 0.3.83 — **10 months** ago: 2025-11-28 ⚠️ → **latest**: 0.3.106 — this month: 2026-09-25 ❗
-        - **[js-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/js-sys)** 0.3.83 — **10 months** ago: 2025-11-28 ⚠️ → **latest**: 0.3.106 — this month: 2026-09-25 ❗
-            - **[once_cell](https://github.com/matklad/once_cell)** 1.21.3 — **18 months** ago: 2025-03-28 ⚠️ → **latest**: 1.21.4 — **6 months** ago: 2026-03-12 ❗
-            - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — **10 months** ago: 2025-11-28 ⚠️ → **latest**: 0.2.129 — this month: 2026-09-25 ❗
-        - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — **10 months** ago: 2025-11-28 ⚠️ → **latest**: 0.2.129 — this month: 2026-09-25 ❗
+    - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.2.129 — this month: 2026-09-25 ❗
+        - **[cfg-if](https://github.com/rust-lang/cfg-if)** 1.0.4 — 11 mths ago: 2025-10-15 ⚠️ → latest: 1.0.5 — this month: 2026-09-16 ❗
+        - **[once_cell](https://github.com/matklad/once_cell)** 1.21.3 — 18 mths ago: 2025-03-28 ⚠️ → latest: 1.21.4 — 6 mths ago: 2026-03-12 ❗
+        - **[wasm-bindgen-shared](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/shared)** 0.2.106 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.2.129 — this month: 2026-09-25 ❗
+            - **[unicode-ident](https://github.com/dtolnay/unicode-ident)** 1.0.22 — 11 mths ago: 2025-10-30 ⚠️ → latest: 1.0.26 — this month: 2026-09-17 ❗
+    - **[web-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/web-sys)** 0.3.83 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.3.106 — this month: 2026-09-25 ❗
+        - **[js-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/js-sys)** 0.3.83 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.3.106 — this month: 2026-09-25 ❗
+            - **[once_cell](https://github.com/matklad/once_cell)** 1.21.3 — 18 mths ago: 2025-03-28 ⚠️ → latest: 1.21.4 — 6 mths ago: 2026-03-12 ❗
+            - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.2.129 — this month: 2026-09-25 ❗
+        - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.2.129 — this month: 2026-09-25 ❗
 
 <!-- DEPENDENCY_LICENSES_END -->
 
@@ -126,19 +131,22 @@ _Note: Sonda's Vite reports currently exclude CSS files, since Vite does not gen
 
 | Chunk/Module/File                                                     | Composition                                 |
 | :-------------------------------------------------------------------- | :------------------------------------------ |
-| **dist/dpuse-connector-file-store-emulator.es.js**                    | 56.5 kB · gzip 16.1 kB · 69.1% of the build |
-| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js | `████░░░░░░░░░░░░░░░░` 18.0% · 10.1 kB      |
-| &nbsp;&nbsp;&nbsp;&nbsp;src                                           | `██░░░░░░░░░░░░░░░░░░` 8.3% · 4.7 kB        |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ index.ts            | `▒▒░░░░░░░░░░░░░░░░░░` 7.6% · 4.3 kB        |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ rustBridge.ts       | `░░░░░░░░░░░░░░░░░░░░` 0.7% · 416 B         |
-| &nbsp;&nbsp;&nbsp;&nbsp;nanoid                                        | `░░░░░░░░░░░░░░░░░░░░` 0.3% · 196 B         |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ 2 smaller files     | `░░░░░░░░░░░░░░░░░░░░` 0.3% · 196 B         |
-| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)           | `███████████████░░░░░` 73.4% · 41.5 kB      |
-| **dist/dpuse_connector_file_store_emulator_core-D4jzEdo\_.js**        | 25.3 kB · gzip 11.9 kB · 30.9% of the build |
-| &nbsp;&nbsp;&nbsp;&nbsp;wasm → ….js                                   | `████████████████████` 98.8% · 25.0 kB      |
+| **dist/dpuse_connector_file_store_emulator_core-D4jzEdo\_.js**        | 25.3 kB · gzip 11.9 kB · 56.9% of the build |
+| &nbsp;&nbsp;&nbsp;&nbsp;(Rust WebAssembly as base64, 16.1 kB binary)  | `█████████████████░░░` 85.0% · 21.5 kB      |
+| &nbsp;&nbsp;&nbsp;&nbsp;wasm → ….js                                   | `███░░░░░░░░░░░░░░░░░` 13.7% · 3.5 kB       |
 | &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)           | `░░░░░░░░░░░░░░░░░░░░` 1.2% · 317 B         |
+| **dist/dpuse-connector-file-store-emulator.es.js**                    | 19.1 kB · gzip 6.1 kB · 43.1% of the build  |
+| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js | `███████████░░░░░░░░░` 53.0% · 10.1 kB      |
+| &nbsp;&nbsp;&nbsp;&nbsp;src                                           | `█████░░░░░░░░░░░░░░░` 26.8% · 5.1 kB       |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ index.ts            | `▒▒▒▒▒░░░░░░░░░░░░░░░` 24.7% · 4.7 kB       |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ rustBridge.ts       | `░░░░░░░░░░░░░░░░░░░░` 2.1% · 416 B         |
+| &nbsp;&nbsp;&nbsp;&nbsp;nanoid                                        | `░░░░░░░░░░░░░░░░░░░░` 1.0% · 194 B         |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ 2 smaller files     | `░░░░░░░░░░░░░░░░░░░░` 1.0% · 194 B         |
+| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)           | `████░░░░░░░░░░░░░░░░` 19.2% · 3.7 kB       |
 
 Bars show each row's share of its output file. ↳ rows are part of the row above.
+
+(Rust WebAssembly as base64…) = the compiled Rust code, embedded as base64 text, about a third larger than the binary it decodes to, which is the size given.
 
 (bundler output, whitespace & JSON) = bytes Sonda can't trace to a source file: whitespace (indentation and line breaks), code the bundler generates (region comments, the combined import/export lines, its small runtime helper and wrappers), and imported JSON such as `config.json`, which the bundler doesn't map. The JSON and the generated code are real bytes that ship; the whitespace mostly disappears once compressed.
 

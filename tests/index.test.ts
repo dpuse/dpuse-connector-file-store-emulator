@@ -18,8 +18,25 @@ vi.mock('@/rustBridge', () => ({ addNumbersWithRust: vi.fn().mockResolvedValue(6
 
 // ── Tests ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
+const INDEX_URL = 'https://sample-data-eu.dpuse.app/fileStoreIndex.json';
 const URL_PREFIX = 'https://sample-data-eu.dpuse.app/fileStore';
 const OBJECT_PATH = '/WDI_Data.csv';
+
+// A small stand-in for the published file store index.
+const FILE_STORE_INDEX = {
+    '': [
+        { childCount: 1, name: 'Encoding Samples', typeId: 'folder' },
+        { id: 'wdiDataId', lastModifiedAt: 1_700_000_000_000, name: 'WDI_Data.csv', size: 0, typeId: 'object' }
+    ],
+    '/Encoding Samples': [{ id: 'asciiId', lastModifiedAt: 1_700_000_000_000, name: 'ascii.txt', size: 900, typeId: 'object' }]
+};
+
+// Serves the index, and rejects any other request.
+function stubIndexFetch(): ReturnType<typeof vi.fn> {
+    const fetchMock = vi.fn((url: string) => (url === INDEX_URL ? Promise.resolve(Response.json(FILE_STORE_INDEX)) : Promise.reject(new Error('Unexpected fetch.'))));
+    vi.stubGlobal('fetch', fetchMock);
+    return fetchMock;
+}
 
 function createConnector(): Connector {
     const connectorUtilities = { inferDataTypes: () => ({ columnConfigs: [{ id: 'a' }], hasHeaderRow: true, typedRecords: [['typed']] }) };
@@ -52,20 +69,46 @@ describe('Connector', () => {
     });
 
     describe('listNodes', () => {
-        it('lists the folders and files at the root', async () => {
+        it('lists the folders and files at the root, from the published index', async () => {
+            const fetchMock = stubIndexFetch();
+
             const result = await createConnector().listNodes({ folderPath: '' });
 
+            expect(fetchMock).toHaveBeenCalledWith(INDEX_URL);
             expect(result.connectionNodeConfigs).toContainEqual(
-                expect.objectContaining({ name: 'Encoding Test Files 1', label: 'Encoding Test Files 1', typeId: 'folder', childCount: 30, folderPath: '' })
+                expect.objectContaining({ name: 'Encoding Samples', label: 'Encoding Samples', typeId: 'folder', childCount: 1, folderPath: '' })
             );
             expect(result.connectionNodeConfigs).toContainEqual(
-                expect.objectContaining({ id: 'BbTg3IMDfVsOcEHgPXDDo', label: 'WDI_Data.csv', extension: 'csv', mimeType: 'text/csv', size: 0, typeId: 'object' })
+                expect.objectContaining({ id: 'wdiDataId', label: 'WDI_Data.csv', extension: 'csv', mimeType: 'text/csv', size: 0, typeId: 'object' })
             );
             expect(result.totalCount).toBe(result.connectionNodeConfigs.length);
             expect(result.isMore).toBe(false);
         });
 
+        it('loads the index once for a connector, however many folders it lists', async () => {
+            const fetchMock = stubIndexFetch();
+            const connector = createConnector();
+
+            await connector.listNodes({ folderPath: '' });
+            await connector.listNodes({ folderPath: '/Encoding Samples' });
+
+            expect(fetchMock).toHaveBeenCalledTimes(1);
+        });
+
+        it('fails clearly when the index cannot be fetched, and tries again on the next call', async () => {
+            const notFound = { ok: false, status: 404, statusText: 'Not Found', text: () => Promise.resolve(''), headers: new Headers() };
+            const indexResponse = Response.json(FILE_STORE_INDEX);
+            vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(notFound).mockResolvedValue(indexResponse));
+            const connector = createConnector();
+
+            await expect(connector.listNodes({ folderPath: '' })).rejects.toThrow('Failed to fetch the file store index.');
+            const retryResult = await connector.listNodes({ folderPath: '' });
+            expect(retryResult.totalCount).toBe(2);
+        });
+
         it('lists nothing for a folder that does not exist', async () => {
+            stubIndexFetch();
+
             const result = await createConnector().listNodes({ folderPath: '/missing' });
 
             expect(result.connectionNodeConfigs).toEqual([]);
@@ -75,10 +118,14 @@ describe('Connector', () => {
 
     describe('findObject', () => {
         it('returns the folder holding an object', async () => {
-            expect(await createConnector().findObject({ nodeId: 'BbTg3IMDfVsOcEHgPXDDo' } as never)).toEqual({ path: '', object: undefined });
+            stubIndexFetch();
+
+            expect(await createConnector().findObject({ nodeId: 'asciiId' } as never)).toEqual({ path: '/Encoding Samples' });
         });
 
         it('rejects an object that does not exist', async () => {
+            stubIndexFetch();
+
             await expect(createConnector().findObject({ nodeId: 'missing' } as never)).rejects.toThrow('Not found.');
         });
     });
