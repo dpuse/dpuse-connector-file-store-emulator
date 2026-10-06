@@ -101,7 +101,7 @@ The dependency tree below shows how each package in the table above is reached �
 
 #### JavaScript
 
-- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.113 — this month: 2026-10-05
+- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.113 — this month: 2026-10-05 → latest: 1.0.116 — this month: 2026-10-06 ❗
     - **[valibot](https://github.com/open-circle/valibot)** 1.5.0 — this month: 2026-09-09
 - **[nanoid](https://github.com/ai/nanoid)** 6.0.2 — this month: 2026-10-05
 
@@ -135,14 +135,14 @@ _Note: Sonda's Vite reports currently exclude CSS files, since Vite does not gen
 | &nbsp;&nbsp;&nbsp;&nbsp;(Rust WebAssembly as base64, 16.1 kB binary)  | `█████████████████░░░` 85.0% · 21.5 kB      |
 | &nbsp;&nbsp;&nbsp;&nbsp;wasm → ….js                                   | `███░░░░░░░░░░░░░░░░░` 13.7% · 3.5 kB       |
 | &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)           | `░░░░░░░░░░░░░░░░░░░░` 1.2% · 317 B         |
-| **dist/dpuse-connector-file-store-emulator.es.js**                    | 19.1 kB · gzip 6.1 kB · 43.1% of the build  |
-| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js | `███████████░░░░░░░░░` 53.0% · 10.1 kB      |
-| &nbsp;&nbsp;&nbsp;&nbsp;src                                           | `█████░░░░░░░░░░░░░░░` 26.8% · 5.1 kB       |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ index.ts            | `▒▒▒▒▒░░░░░░░░░░░░░░░` 24.7% · 4.7 kB       |
+| **dist/dpuse-connector-file-store-emulator.es.js**                    | 19.2 kB · gzip 6.1 kB · 43.1% of the build  |
+| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js | `███████████░░░░░░░░░` 52.9% · 10.1 kB      |
+| &nbsp;&nbsp;&nbsp;&nbsp;src                                           | `█████░░░░░░░░░░░░░░░` 26.7% · 5.1 kB       |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ index.ts            | `▒▒▒▒▒░░░░░░░░░░░░░░░` 24.6% · 4.7 kB       |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ rustBridge.ts       | `░░░░░░░░░░░░░░░░░░░░` 2.1% · 416 B         |
 | &nbsp;&nbsp;&nbsp;&nbsp;nanoid                                        | `░░░░░░░░░░░░░░░░░░░░` 1.0% · 194 B         |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ 2 smaller files     | `░░░░░░░░░░░░░░░░░░░░` 1.0% · 194 B         |
-| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)           | `████░░░░░░░░░░░░░░░░` 19.2% · 3.7 kB       |
+| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)           | `████░░░░░░░░░░░░░░░░` 19.3% · 3.7 kB       |
 
 Bars show each row's share of its output file. ↳ rows are part of the row above.
 
