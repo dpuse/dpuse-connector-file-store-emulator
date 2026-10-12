@@ -3,7 +3,7 @@
 <!-- OPENING_START -->
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
-[![DPUse version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.dpuse.app%2Fconfigs%2Fdpuse-connector-file-store-emulator&query=%24.data.version&prefix=v&label=DPUse&color=f6821f)](https://github.com/dpuse/dpuse-connector-file-store-emulator/releases/latest)
+[![DPUse version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.dpuse.app%2Fconfigs%2Fdpuse-connector-file-store-emulator&query=%24.data.version&prefix=v&label=DPUse&color=blue)](https://github.com/dpuse/dpuse-connector-file-store-emulator/releases/latest)
 [![CI](https://github.com/dpuse/dpuse-connector-file-store-emulator/actions/workflows/ci.yml/badge.svg)](https://github.com/dpuse/dpuse-connector-file-store-emulator/actions/workflows/ci.yml)
 
 Provides read-only sample data simulating a cloud-based file storage solution such as Google Drive, Dropbox, or Microsoft OneDrive.
@@ -84,7 +84,7 @@ License data is updated each time `npm run document` is run, using [license-chec
 
 | Type       | Dependency                                                                                    | Version | License(s)                          | Document                                                                                                                                                                                                               |
 | :--------- | :-------------------------------------------------------------------------------------------- | :-----: | :---------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| JavaScript | [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                  | 1.0.113 | MIT                                 | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@1.0.113-LICENSE.txt)                                                                                                                                                  |
+| JavaScript | [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                  | 1.0.118 | MIT                                 | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@1.0.118-LICENSE.txt)                                                                                                                                                  |
 | JavaScript | [nanoid](https://github.com/ai/nanoid)                                                        |  6.0.2  | MIT                                 | [LICENSE](licenses/downloads/nanoid@6.0.2-LICENSE.txt)                                                                                                                                                                 |
 | JavaScript | [valibot](https://github.com/open-circle/valibot)                                             |  1.5.0  | MIT                                 | [LICENSE](licenses/downloads/valibot@1.5.0-LICENSE.txt)                                                                                                                                                                |
 | Rust       | [cfg-if](https://github.com/rust-lang/cfg-if)                                                 |  1.0.4  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/cfg-if@1.0.4-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/cfg-if@1.0.4-LICENSE-MIT)                                                                                            |
@@ -101,8 +101,8 @@ The dependency tree below shows how each package in the table above is reached �
 
 #### JavaScript
 
-- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.113 — this month: 2026-10-05 → latest: 1.0.116 — this month: 2026-10-06 ❗
-    - **[valibot](https://github.com/open-circle/valibot)** 1.5.0 — this month: 2026-09-09
+- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.118 — this month: 2026-10-11
+    - **[valibot](https://github.com/open-circle/valibot)** 1.5.0 — 1 mth ago: 2026-09-09
 - **[nanoid](https://github.com/ai/nanoid)** 6.0.2 — this month: 2026-10-05
 
 #### Rust
@@ -110,12 +110,12 @@ The dependency tree below shows how each package in the table above is reached �
 - **dpuse-connector-file-store-emulator-core** 0.1.0 — this project's Rust code, compiled into its WebAssembly
     - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.2.129 — this month: 2026-09-25 ❗
         - **[cfg-if](https://github.com/rust-lang/cfg-if)** 1.0.4 — 11 mths ago: 2025-10-15 ⚠️ → latest: 1.0.5 — this month: 2026-09-16 ❗
-        - **[once_cell](https://github.com/matklad/once_cell)** 1.21.3 — 18 mths ago: 2025-03-28 ⚠️ → latest: 1.21.4 — 6 mths ago: 2026-03-12 ❗
+        - **[once_cell](https://github.com/matklad/once_cell)** 1.21.3 — 18 mths ago: 2025-03-28 ⚠️ → latest: 1.21.4 — 7 mths ago: 2026-03-12 ⚠️ ❗
         - **[wasm-bindgen-shared](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/shared)** 0.2.106 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.2.129 — this month: 2026-09-25 ❗
-            - **[unicode-ident](https://github.com/dtolnay/unicode-ident)** 1.0.22 — 11 mths ago: 2025-10-30 ⚠️ → latest: 1.0.26 — this month: 2026-09-17 ❗
+            - **[unicode-ident](https://github.com/dtolnay/unicode-ident)** 1.0.22 — 11 mths ago: 2025-10-30 ⚠️ → latest: 1.0.27 — this month: 2026-10-12 ❗
     - **[web-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/web-sys)** 0.3.83 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.3.106 — this month: 2026-09-25 ❗
         - **[js-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/js-sys)** 0.3.83 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.3.106 — this month: 2026-09-25 ❗
-            - **[once_cell](https://github.com/matklad/once_cell)** 1.21.3 — 18 mths ago: 2025-03-28 ⚠️ → latest: 1.21.4 — 6 mths ago: 2026-03-12 ❗
+            - **[once_cell](https://github.com/matklad/once_cell)** 1.21.3 — 18 mths ago: 2025-03-28 ⚠️ → latest: 1.21.4 — 7 mths ago: 2026-03-12 ⚠️ ❗
             - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.2.129 — this month: 2026-09-25 ❗
         - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.2.129 — this month: 2026-09-25 ❗
 
@@ -129,22 +129,24 @@ This report is updated with each release, from the bundle the release builds, us
 
 _Note: Sonda's Vite reports currently exclude CSS files, since Vite does not generate source maps for CSS._
 
-| Chunk/Module/File                                                     | Composition                                 |
-| :-------------------------------------------------------------------- | :------------------------------------------ |
-| **dist/dpuse_connector_file_store_emulator_core-D4jzEdo\_.js**        | 25.3 kB · gzip 11.9 kB · 56.9% of the build |
-| &nbsp;&nbsp;&nbsp;&nbsp;(Rust WebAssembly as base64, 16.1 kB binary)  | `█████████████████░░░` 85.0% · 21.5 kB      |
-| &nbsp;&nbsp;&nbsp;&nbsp;wasm → ….js                                   | `███░░░░░░░░░░░░░░░░░` 13.7% · 3.5 kB       |
-| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)           | `░░░░░░░░░░░░░░░░░░░░` 1.2% · 317 B         |
-| **dist/dpuse-connector-file-store-emulator.es.js**                    | 19.2 kB · gzip 6.1 kB · 43.1% of the build  |
-| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js | `███████████░░░░░░░░░` 52.9% · 10.1 kB      |
-| &nbsp;&nbsp;&nbsp;&nbsp;src                                           | `█████░░░░░░░░░░░░░░░` 26.7% · 5.1 kB       |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ index.ts            | `▒▒▒▒▒░░░░░░░░░░░░░░░` 24.6% · 4.7 kB       |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ rustBridge.ts       | `░░░░░░░░░░░░░░░░░░░░` 2.1% · 416 B         |
-| &nbsp;&nbsp;&nbsp;&nbsp;nanoid                                        | `░░░░░░░░░░░░░░░░░░░░` 1.0% · 194 B         |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ 2 smaller files     | `░░░░░░░░░░░░░░░░░░░░` 1.0% · 194 B         |
-| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)           | `████░░░░░░░░░░░░░░░░` 19.3% · 3.7 kB       |
+| Chunk/Module/File                                                                                                                   | Composition                                                                                   |
+| :---------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------- |
+| **<abbr title="dist/dpuse_connector_file_store_emulator_core-D4jzEdo_.js">…_connector_file_store_emulator_core-D4jzEdo_.js</abbr>** | 25.3&nbsp;kB&nbsp;·&nbsp;gzip&nbsp;11.9&nbsp;kB&nbsp;·&nbsp;56.9%&nbsp;of&nbsp;the&nbsp;build |
+| &nbsp;&nbsp;&nbsp;&nbsp;(Rust WebAssembly as base64, 16.1 kB binary)                                                                | `█████████████████░░░`&nbsp;85.0%&nbsp;·&nbsp;21.5&nbsp;kB                                    |
+| &nbsp;&nbsp;&nbsp;&nbsp;wasm → ….js                                                                                                 | `███░░░░░░░░░░░░░░░░░`&nbsp;13.7%&nbsp;·&nbsp;3.5&nbsp;kB                                     |
+| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)                                                                         | `░░░░░░░░░░░░░░░░░░░░`&nbsp;1.2%&nbsp;·&nbsp;317&nbsp;B                                       |
+| **dist/dpuse-connector-file-store-emulator.es.js**                                                                                  | 19.2&nbsp;kB&nbsp;·&nbsp;gzip&nbsp;6.1&nbsp;kB&nbsp;·&nbsp;43.1%&nbsp;of&nbsp;the&nbsp;build  |
+| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js                                                               | `███████████░░░░░░░░░`&nbsp;52.9%&nbsp;·&nbsp;10.1&nbsp;kB                                    |
+| &nbsp;&nbsp;&nbsp;&nbsp;src → index.ts + 1 more                                                                                     | `█████░░░░░░░░░░░░░░░`&nbsp;26.7%&nbsp;·&nbsp;5.1&nbsp;kB                                     |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ index.ts                                                                          | `▒▒▒▒▒░░░░░░░░░░░░░░░`&nbsp;24.6%&nbsp;·&nbsp;4.7&nbsp;kB                                     |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ rustBridge.ts                                                                     | `░░░░░░░░░░░░░░░░░░░░`&nbsp;2.1%&nbsp;·&nbsp;416&nbsp;B                                       |
+| &nbsp;&nbsp;&nbsp;&nbsp;nanoid → index.browser.js + 1 more                                                                          | `░░░░░░░░░░░░░░░░░░░░`&nbsp;1.0%&nbsp;·&nbsp;194&nbsp;B                                       |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ 2 smaller files                                                                   | `░░░░░░░░░░░░░░░░░░░░`&nbsp;1.0%&nbsp;·&nbsp;194&nbsp;B                                       |
+| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)                                                                         | `████░░░░░░░░░░░░░░░░`&nbsp;19.3%&nbsp;·&nbsp;3.7&nbsp;kB                                     |
 
 Bars show each row's share of its output file. ↳ rows are part of the row above.
+
+- n more = the row also holds n more files from the same package or folder, each no larger than the one named. A package can appear under several output files, each holding different files, never the same file twice.
 
 (Rust WebAssembly as base64…) = the compiled Rust code, embedded as base64 text, about a third larger than the binary it decodes to, which is the size given.
 
