@@ -84,7 +84,7 @@ License data is updated each time `npm run document` is run, using [license-chec
 
 | Type       | Dependency                                                                                    | Version | License(s)                          | Document                                                                                                                                                                                                               |
 | :--------- | :-------------------------------------------------------------------------------------------- | :-----: | :---------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| JavaScript | [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                  | 1.0.118 | MIT                                 | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@1.0.118-LICENSE.txt)                                                                                                                                                  |
+| JavaScript | [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                  | 1.0.119 | MIT                                 | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@1.0.119-LICENSE.txt)                                                                                                                                                  |
 | JavaScript | [nanoid](https://github.com/ai/nanoid)                                                        |  6.0.2  | MIT                                 | [LICENSE](licenses/downloads/nanoid@6.0.2-LICENSE.txt)                                                                                                                                                                 |
 | JavaScript | [valibot](https://github.com/open-circle/valibot)                                             |  1.5.0  | MIT                                 | [LICENSE](licenses/downloads/valibot@1.5.0-LICENSE.txt)                                                                                                                                                                |
 | Rust       | [cfg-if](https://github.com/rust-lang/cfg-if)                                                 |  1.0.4  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/cfg-if@1.0.4-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/cfg-if@1.0.4-LICENSE-MIT)                                                                                            |
@@ -101,7 +101,7 @@ The dependency tree below shows how each package in the table above is reached �
 
 #### JavaScript
 
-- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.118 — this month: 2026-10-11
+- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.119 — this month: 2026-10-13
     - **[valibot](https://github.com/open-circle/valibot)** 1.5.0 — 1 mth ago: 2026-09-09
 - **[nanoid](https://github.com/ai/nanoid)** 6.0.2 — this month: 2026-10-05
 
@@ -136,7 +136,7 @@ _Note: Sonda's Vite reports currently exclude CSS files, since Vite does not gen
 | &nbsp;&nbsp;&nbsp;&nbsp;wasm → ….js                                                                                                 | `███░░░░░░░░░░░░░░░░░`&nbsp;13.7%&nbsp;·&nbsp;3.5&nbsp;kB                                     |
 | &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)                                                                         | `░░░░░░░░░░░░░░░░░░░░`&nbsp;1.2%&nbsp;·&nbsp;317&nbsp;B                                       |
 | **dist/dpuse-connector-file-store-emulator.es.js**                                                                                  | 19.2&nbsp;kB&nbsp;·&nbsp;gzip&nbsp;6.1&nbsp;kB&nbsp;·&nbsp;43.1%&nbsp;of&nbsp;the&nbsp;build  |
-| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js                                                               | `███████████░░░░░░░░░`&nbsp;52.9%&nbsp;·&nbsp;10.1&nbsp;kB                                    |
+| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js                                                               | `███████████░░░░░░░░░`&nbsp;53.0%&nbsp;·&nbsp;10.1&nbsp;kB                                    |
 | &nbsp;&nbsp;&nbsp;&nbsp;src → index.ts + 1 more                                                                                     | `█████░░░░░░░░░░░░░░░`&nbsp;26.7%&nbsp;·&nbsp;5.1&nbsp;kB                                     |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ index.ts                                                                          | `▒▒▒▒▒░░░░░░░░░░░░░░░`&nbsp;24.6%&nbsp;·&nbsp;4.7&nbsp;kB                                     |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ rustBridge.ts                                                                     | `░░░░░░░░░░░░░░░░░░░░`&nbsp;2.1%&nbsp;·&nbsp;416&nbsp;B                                       |

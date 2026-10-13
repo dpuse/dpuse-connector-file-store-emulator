@@ -27,7 +27,7 @@ import {
     buildFetchError,
     ConnectorError,
     extractExtensionFromPath,
-    extractNameFromPath,
+    extractPathWithoutExtension,
     loadTool,
     lookupMimeTypeForExtension,
     normalizeToError,
@@ -287,7 +287,7 @@ function constructFolderNodeConfig(folderPath: string, name: string, childCount:
 
 // Construct object (file) node configuration.
 function constructObjectNodeConfig(folderPath: string, id: string, fullName: string, lastModifiedAt: number, size: number): ConnectionNodeConfig {
-    const name = extractNameFromPath(fullName) ?? '';
+    const name = extractPathWithoutExtension(fullName) ?? '';
     const extension = extractExtensionFromPath(fullName);
     const lastModifiedAtTimestamp = lastModifiedAt;
     const mimeType = lookupMimeTypeForExtension(extension);
