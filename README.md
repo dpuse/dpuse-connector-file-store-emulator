@@ -84,7 +84,7 @@ License data is updated each time `npm run document` is run, using [license-chec
 
 | Type       | Dependency                                                                                    | Version | License(s)                          | Document                                                                                                                                                                                                               |
 | :--------- | :-------------------------------------------------------------------------------------------- | :-----: | :---------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| JavaScript | [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                  | 1.0.119 | MIT                                 | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@1.0.119-LICENSE.txt)                                                                                                                                                  |
+| JavaScript | [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                  | 1.0.126 | MIT                                 | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@1.0.126-LICENSE.txt)                                                                                                                                                  |
 | JavaScript | [nanoid](https://github.com/ai/nanoid)                                                        |  6.0.2  | MIT                                 | [LICENSE](licenses/downloads/nanoid@6.0.2-LICENSE.txt)                                                                                                                                                                 |
 | JavaScript | [valibot](https://github.com/open-circle/valibot)                                             |  1.5.0  | MIT                                 | [LICENSE](licenses/downloads/valibot@1.5.0-LICENSE.txt)                                                                                                                                                                |
 | Rust       | [cfg-if](https://github.com/rust-lang/cfg-if)                                                 |  1.0.4  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/cfg-if@1.0.4-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/cfg-if@1.0.4-LICENSE-MIT)                                                                                            |
@@ -101,7 +101,7 @@ The dependency tree below shows how each package in the table above is reached �
 
 #### JavaScript
 
-- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.119 — this month: 2026-10-13
+- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.126 — this month: 2026-10-19
     - **[valibot](https://github.com/open-circle/valibot)** 1.5.0 — 1 mth ago: 2026-09-09
 - **[nanoid](https://github.com/ai/nanoid)** 6.0.2 — this month: 2026-10-05
 
@@ -109,7 +109,7 @@ The dependency tree below shows how each package in the table above is reached �
 
 - **dpuse-connector-file-store-emulator-core** 0.1.0 — this project's Rust code, compiled into its WebAssembly
     - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.2.129 — this month: 2026-09-25 ❗
-        - **[cfg-if](https://github.com/rust-lang/cfg-if)** 1.0.4 — 11 mths ago: 2025-10-15 ⚠️ → latest: 1.0.5 — this month: 2026-09-16 ❗
+        - **[cfg-if](https://github.com/rust-lang/cfg-if)** 1.0.4 — 12 mths ago: 2025-10-15 ⚠️ → latest: 1.0.5 — 1 mth ago: 2026-09-16 ❗
         - **[once_cell](https://github.com/matklad/once_cell)** 1.21.3 — 18 mths ago: 2025-03-28 ⚠️ → latest: 1.21.4 — 7 mths ago: 2026-03-12 ⚠️ ❗
         - **[wasm-bindgen-shared](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/shared)** 0.2.106 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.2.129 — this month: 2026-09-25 ❗
             - **[unicode-ident](https://github.com/dtolnay/unicode-ident)** 1.0.22 — 11 mths ago: 2025-10-30 ⚠️ → latest: 1.0.27 — this month: 2026-10-12 ❗
@@ -136,13 +136,13 @@ _Note: Sonda's Vite reports currently exclude CSS files, since Vite does not gen
 | &nbsp;&nbsp;&nbsp;&nbsp;wasm → ….js                                                                                                 | `███░░░░░░░░░░░░░░░░░`&nbsp;13.7%&nbsp;·&nbsp;3.5&nbsp;kB                                     |
 | &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)                                                                         | `░░░░░░░░░░░░░░░░░░░░`&nbsp;1.2%&nbsp;·&nbsp;317&nbsp;B                                       |
 | **dist/dpuse-connector-file-store-emulator.es.js**                                                                                  | 19.2&nbsp;kB&nbsp;·&nbsp;gzip&nbsp;6.1&nbsp;kB&nbsp;·&nbsp;43.1%&nbsp;of&nbsp;the&nbsp;build  |
-| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js                                                               | `███████████░░░░░░░░░`&nbsp;53.0%&nbsp;·&nbsp;10.1&nbsp;kB                                    |
-| &nbsp;&nbsp;&nbsp;&nbsp;src → index.ts + 1 more                                                                                     | `█████░░░░░░░░░░░░░░░`&nbsp;26.7%&nbsp;·&nbsp;5.1&nbsp;kB                                     |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ index.ts                                                                          | `▒▒▒▒▒░░░░░░░░░░░░░░░`&nbsp;24.6%&nbsp;·&nbsp;4.7&nbsp;kB                                     |
+| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js                                                               | `███████████░░░░░░░░░`&nbsp;53.1%&nbsp;·&nbsp;10.2&nbsp;kB                                    |
+| &nbsp;&nbsp;&nbsp;&nbsp;src → index.ts + 1 more                                                                                     | `█████░░░░░░░░░░░░░░░`&nbsp;26.6%&nbsp;·&nbsp;5.1&nbsp;kB                                     |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ index.ts                                                                          | `▒▒▒▒▒░░░░░░░░░░░░░░░`&nbsp;24.4%&nbsp;·&nbsp;4.7&nbsp;kB                                     |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ rustBridge.ts                                                                     | `░░░░░░░░░░░░░░░░░░░░`&nbsp;2.1%&nbsp;·&nbsp;416&nbsp;B                                       |
 | &nbsp;&nbsp;&nbsp;&nbsp;nanoid → index.browser.js + 1 more                                                                          | `░░░░░░░░░░░░░░░░░░░░`&nbsp;1.0%&nbsp;·&nbsp;194&nbsp;B                                       |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ 2 smaller files                                                                   | `░░░░░░░░░░░░░░░░░░░░`&nbsp;1.0%&nbsp;·&nbsp;194&nbsp;B                                       |
-| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)                                                                         | `████░░░░░░░░░░░░░░░░`&nbsp;19.3%&nbsp;·&nbsp;3.7&nbsp;kB                                     |
+| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)                                                                         | `████░░░░░░░░░░░░░░░░`&nbsp;19.4%&nbsp;·&nbsp;3.7&nbsp;kB                                     |
 
 Bars show each row's share of its output file. ↳ rows are part of the row above.
 
@@ -162,10 +162,11 @@ This section is updated each time `npm run document` is run. Settings come from 
 
 ### Testing
 
-| Check                | Status | What it does                                                                                                                                                                                                 |
-| :------------------- | :----- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Unit tests           | ✅ On  | [Vitest](https://vitest.dev) runs the unit tests. Part of the [CI workflow](https://github.com/dpuse/dpuse-connector-file-store-emulator/actions/workflows/ci.yml) on every push and pull request to `main`. |
-| Property-based tests | ❌ Off | [fast-check](https://fast-check.dev) runs many random inputs per test to find edge cases, alongside the unit tests.                                                                                          |
+| Check                | Status | What it does                                                                                                                                                                                                                                                                                                                  |
+| :------------------- | :----- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Unit tests           | ✅ On  | [Vitest](https://vitest.dev) runs the unit tests. Part of the [CI workflow](https://github.com/dpuse/dpuse-connector-file-store-emulator/actions/workflows/ci.yml) on every push and pull request to `main`.                                                                                                                  |
+| Property-based tests | ❌ Off | [fast-check](https://fast-check.dev) runs many random inputs per test to find edge cases, alongside the unit tests.                                                                                                                                                                                                           |
+| Test coverage        | ✅ On  | ![Coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fdpuse%2Fdpuse-connector-file-store-emulator%2Fmain%2Fcode-health-reports%2Fvitest%2Fbadge.json) [Vitest's V8 coverage](https://vitest.dev/guide/coverage) measures the share of source lines the unit tests run. The target is 80%. |
 
 ### Code Quality
 
