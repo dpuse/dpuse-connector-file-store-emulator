@@ -28,7 +28,7 @@ const FILE_STORE_INDEX = {
         { childCount: 1, name: 'Encoding Samples', typeId: 'folder' },
         { id: 'wdiDataId', lastModifiedAt: 1_700_000_000_000, name: 'WDI_Data.csv', size: 0, typeId: 'object' }
     ],
-    '/Encoding Samples': [{ id: 'asciiId', lastModifiedAt: 1_700_000_000_000, name: 'ascii.txt', size: 900, typeId: 'object' }]
+    '/Encoding Samples': [{ id: 'asciiId', lastModifiedAt: 1_700_000_000_000, mimeType: 'text/plain', name: 'ascii.txt', size: 900, typeId: 'object' }]
 };
 
 // Serves the index, and rejects any other request.
@@ -83,6 +83,17 @@ describe('Connector', () => {
             );
             expect(result.totalCount).toBe(result.connectionNodeConfigs.length);
             expect(result.isMore).toBe(false);
+        });
+
+        it("takes a file's MIME type from the index, and from its extension only when the index has none", async () => {
+            stubIndexFetch();
+            const connector = createConnector();
+
+            const rootResult = await connector.listNodes({ folderPath: '' });
+            const folderResult = await connector.listNodes({ folderPath: '/Encoding Samples' });
+
+            expect(rootResult.connectionNodeConfigs).toContainEqual(expect.objectContaining({ id: 'wdiDataId', mimeType: 'text/csv' }));
+            expect(folderResult.connectionNodeConfigs).toContainEqual(expect.objectContaining({ id: 'asciiId', extension: 'txt', mimeType: 'text/plain' }));
         });
 
         it('loads the index once for a connector, however many folders it lists', async () => {

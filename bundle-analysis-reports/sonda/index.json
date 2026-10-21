@@ -1,7 +1,7 @@
 {
   "metadata": {
     "version": "0.14.0",
-    "generatedAt": "2026-10-20T12:54:20.795Z",
+    "generatedAt": "2026-10-21T13:36:40.988Z",
     "integration": "vite",
     "sources": false,
     "gzip": true,
@@ -22,7 +22,7 @@
       "type": "other",
       "format": "other",
       "uncompressed": 4013,
-      "gzip": 1160,
+      "gzip": 1161,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
@@ -55,8 +55,8 @@
       "kind": "asset",
       "name": "dist/dpuse-connector-file-store-emulator.es.js",
       "type": "script",
-      "uncompressed": 20749,
-      "gzip": 6612,
+      "uncompressed": 20769,
+      "gzip": 6630,
       "brotli": 0
     },
     {
@@ -72,7 +72,7 @@
       "type": "script",
       "format": "esm",
       "uncompressed": 11091,
-      "gzip": 3464,
+      "gzip": 3469,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
@@ -89,7 +89,7 @@
       "type": "script",
       "format": "esm",
       "uncompressed": 190,
-      "gzip": 180,
+      "gzip": 181,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
@@ -132,15 +132,15 @@
       "name": "src/index.ts",
       "type": "script",
       "format": "esm",
-      "uncompressed": 8372
+      "uncompressed": 8397
     },
     {
       "kind": "chunk",
       "name": "src/index.ts",
       "type": "script",
       "format": "esm",
-      "uncompressed": 5035,
-      "gzip": 1540,
+      "uncompressed": 5055,
+      "gzip": 1551,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },

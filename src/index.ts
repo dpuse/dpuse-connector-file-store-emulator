@@ -46,7 +46,7 @@ import config from '~/config.json';
 
 // File store folder paths.
 type FileStoreFolderNode =
-    ({ typeId: 'folder'; childCount: number } & { name: string }) | ({ typeId: 'object'; id: string; lastModifiedAt: number; size: number } & { name: string });
+    ({ typeId: 'folder'; childCount: number } & { name: string }) | ({ typeId: 'object'; id: string; lastModifiedAt: number; mimeType?: string; size: number } & { name: string });
 
 type FileStoreFolderPaths = Record<string, FileStoreFolderNode[]>; // File store folder paths.
 
@@ -168,7 +168,7 @@ export class Connector implements ConnectorInterface {
         const connectionNodeConfigs: ConnectionNodeConfig[] = folderNodes.map((folderNode) =>
             folderNode.typeId === 'folder'
                 ? constructFolderNodeConfig(options.folderPath, folderNode.name, folderNode.childCount)
-                : constructObjectNodeConfig(options.folderPath, folderNode.id, folderNode.name, folderNode.lastModifiedAt, folderNode.size)
+                : constructObjectNodeConfig(options.folderPath, folderNode.id, folderNode.name, folderNode.lastModifiedAt, folderNode.size, folderNode.mimeType)
         );
         return { cursor: undefined, isMore: false, connectionNodeConfigs, totalCount: connectionNodeConfigs.length };
     }
@@ -301,11 +301,10 @@ function constructFolderNodeConfig(folderPath: string, name: string, childCount:
 }
 
 // Construct object (file) node configuration.
-function constructObjectNodeConfig(folderPath: string, id: string, fullName: string, lastModifiedAt: number, size: number): ConnectionNodeConfig {
+function constructObjectNodeConfig(folderPath: string, id: string, fullName: string, lastModifiedAt: number, size: number, mimeType: string | undefined): ConnectionNodeConfig {
     const name = extractPathWithoutExtension(fullName) ?? '';
     const extension = extractExtensionFromPath(fullName);
     const lastModifiedAtTimestamp = lastModifiedAt;
-    const mimeType = lookupMimeTypeForExtension(extension);
     return {
         childCount: undefined,
         childNodes: [],
@@ -318,7 +317,7 @@ function constructObjectNodeConfig(folderPath: string, id: string, fullName: str
         id,
         label: fullName,
         lastModifiedAt: lastModifiedAtTimestamp,
-        mimeType,
+        mimeType: mimeType ?? lookupMimeTypeForExtension(extension), // The index's type, which matches what the bucket serves.
         name,
         size,
         typeId: 'object'
