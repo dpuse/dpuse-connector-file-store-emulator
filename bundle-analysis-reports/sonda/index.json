@@ -1,7 +1,7 @@
 {
   "metadata": {
     "version": "0.14.0",
-    "generatedAt": "2026-10-21T13:36:40.988Z",
+    "generatedAt": "2026-10-21T13:37:30.035Z",
     "integration": "vite",
     "sources": false,
     "gzip": true,
@@ -21,8 +21,8 @@
       "name": "[unassigned]",
       "type": "other",
       "format": "other",
-      "uncompressed": 4013,
-      "gzip": 1161,
+      "uncompressed": 3971,
+      "gzip": 1146,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
@@ -31,10 +31,10 @@
       "name": "[unassigned]",
       "type": "other",
       "format": "other",
-      "uncompressed": 317,
-      "gzip": 160,
+      "uncompressed": 297,
+      "gzip": 147,
       "brotli": 0,
-      "parent": "dist/dpuse_connector_file_store_emulator_core-D4jzEdo_.js"
+      "parent": "dist/dpuse_connector_file_store_emulator_core-lCYevEvI.js"
     },
     {
       "kind": "filesystem",
@@ -45,18 +45,18 @@
     },
     {
       "kind": "asset",
-      "name": "dist/dpuse_connector_file_store_emulator_core-D4jzEdo_.js",
+      "name": "dist/dpuse_connector_file_store_emulator_core-lCYevEvI.js",
       "type": "script",
-      "uncompressed": 25906,
-      "gzip": 12140,
+      "uncompressed": 25886,
+      "gzip": 12123,
       "brotli": 0
     },
     {
       "kind": "asset",
       "name": "dist/dpuse-connector-file-store-emulator.es.js",
       "type": "script",
-      "uncompressed": 20769,
-      "gzip": 6630,
+      "uncompressed": 20941,
+      "gzip": 6671,
       "brotli": 0
     },
     {
@@ -64,15 +64,15 @@
       "name": "node_modules/@dpuse/dpuse-shared/dist/dpuse-shared.es.js",
       "type": "script",
       "format": "esm",
-      "uncompressed": 37868
+      "uncompressed": 38173
     },
     {
       "kind": "chunk",
       "name": "node_modules/@dpuse/dpuse-shared/dist/dpuse-shared.es.js",
       "type": "script",
       "format": "esm",
-      "uncompressed": 11091,
-      "gzip": 3469,
+      "uncompressed": 11305,
+      "gzip": 3522,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
@@ -123,9 +123,9 @@
       "type": "script",
       "format": "esm",
       "uncompressed": 25589,
-      "gzip": 11980,
+      "gzip": 11976,
       "brotli": 0,
-      "parent": "dist/dpuse_connector_file_store_emulator_core-D4jzEdo_.js"
+      "parent": "dist/dpuse_connector_file_store_emulator_core-lCYevEvI.js"
     },
     {
       "kind": "filesystem",
@@ -140,7 +140,7 @@
       "type": "script",
       "format": "esm",
       "uncompressed": 5055,
-      "gzip": 1551,
+      "gzip": 1552,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
@@ -157,7 +157,7 @@
       "type": "script",
       "format": "esm",
       "uncompressed": 416,
-      "gzip": 246,
+      "gzip": 248,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     }
@@ -177,7 +177,7 @@
     },
     {
       "kind": "entrypoint",
-      "source": "dist/dpuse_connector_file_store_emulator_core-D4jzEdo_.js",
+      "source": "dist/dpuse_connector_file_store_emulator_core-lCYevEvI.js",
       "target": "rust/dpuse_connector_file_store_emulator_core/pkg/dpuse_connector_file_store_emulator_core.js",
       "original": null
     }
