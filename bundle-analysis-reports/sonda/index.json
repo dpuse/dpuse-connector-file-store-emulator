@@ -1,7 +1,7 @@
 {
   "metadata": {
     "version": "0.14.0",
-    "generatedAt": "2026-10-22T13:57:50.711Z",
+    "generatedAt": "2026-10-23T13:27:02.766Z",
     "integration": "vite",
     "sources": false,
     "gzip": true,
@@ -21,8 +21,8 @@
       "name": "[unassigned]",
       "type": "other",
       "format": "other",
-      "uncompressed": 3971,
-      "gzip": 1146,
+      "uncompressed": 3762,
+      "gzip": 1053,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
@@ -41,7 +41,7 @@
       "name": "config.json",
       "type": "script",
       "format": "esm",
-      "uncompressed": 2498
+      "uncompressed": 2289
     },
     {
       "kind": "asset",
@@ -55,8 +55,8 @@
       "kind": "asset",
       "name": "dist/dpuse-connector-file-store-emulator.es.js",
       "type": "script",
-      "uncompressed": 21039,
-      "gzip": 6685,
+      "uncompressed": 20830,
+      "gzip": 6579,
       "brotli": 0
     },
     {
@@ -72,7 +72,7 @@
       "type": "script",
       "format": "esm",
       "uncompressed": 11305,
-      "gzip": 3522,
+      "gzip": 3514,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
@@ -89,7 +89,7 @@
       "type": "script",
       "format": "esm",
       "uncompressed": 190,
-      "gzip": 181,
+      "gzip": 180,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
@@ -140,7 +140,7 @@
       "type": "script",
       "format": "esm",
       "uncompressed": 5153,
-      "gzip": 1565,
+      "gzip": 1561,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
