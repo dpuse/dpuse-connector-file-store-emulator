@@ -45,7 +45,8 @@ import config from '~/config.json';
 
 // File store folder paths.
 type FileStoreFolderNode =
-    ({ typeId: 'folder'; childCount: number; id: string } & { name: string }) | ({ typeId: 'object'; id: string; lastModifiedAt: number; mimeType?: string; size: number } & { name: string });
+    | ({ typeId: 'folder'; childCount: number; id: string } & { name: string })
+    | ({ typeId: 'object'; id: string; lastModifiedAt: number; mimeType?: string; size: number } & { name: string });
 
 type FileStoreFolderPaths = Record<string, FileStoreFolderNode[]>; // File store folder paths.
 
@@ -192,7 +193,8 @@ export class Connector implements ConnectorInterface {
                 dataFormatId: options.dataFormatId,
                 encodingId: options.encodingId
             }); // The user's choices, when made, replace what detection would find.
-            // An empty file is a table with no rows.
+            // An empty file is a table with no rows. An issue says so, because it is not an error but the user should know
+            // why there is nothing to show.
             if (filePreviewResult.bytes.length === 0) {
                 return {
                     asAt,
@@ -206,6 +208,7 @@ export class Connector implements ConnectorInterface {
                     recordDelimiterId: DEFAULT_RECORD_DELIMITER_ID,
                     parsedRecords: [],
                     inferenceRecords: [],
+                    issues: [{ id: 'empty', lineNumber: undefined, message: 'The file is empty.', severityId: 'info' }],
                     size: 0,
                     text: undefined,
                     valueDelimiterId: DEFAULT_VALUE_DELIMITER_ID
@@ -227,6 +230,7 @@ export class Connector implements ConnectorInterface {
                     recordDelimiterId: undefined,
                     parsedRecords: [],
                     inferenceRecords: [],
+                    issues: [],
                     size: filePreviewResult.bytes.length,
                     text: filePreviewResult.text,
                     valueDelimiterId: undefined
@@ -258,6 +262,7 @@ export class Connector implements ConnectorInterface {
                 recordDelimiterId: parseTextResult.recordDelimiterId,
                 parsedRecords: parseTextResult.parsedRecords,
                 inferenceRecords: inferenceSummary.typedRecords,
+                issues: parseTextResult.issues, // Records the parser could not read. The text is still returned, so the user can see them.
                 size: filePreviewResult.bytes.length,
                 text: filePreviewResult.text,
                 valueDelimiterId: parseTextResult.valueDelimiterId ?? DEFAULT_VALUE_DELIMITER_ID
