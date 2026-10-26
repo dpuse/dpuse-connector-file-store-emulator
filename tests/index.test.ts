@@ -25,7 +25,7 @@ const OBJECT_PATH = '/WDI_Data.csv';
 // A small stand-in for the published file store index.
 const FILE_STORE_INDEX = {
     '': [
-        { childCount: 1, name: 'Encoding Samples', typeId: 'folder' },
+        { childCount: 1, id: 'encodingSamplesId', name: 'Encoding Samples', typeId: 'folder' },
         { id: 'wdiDataId', lastModifiedAt: 1_700_000_000_000, name: 'WDI_Data.csv', size: 0, typeId: 'object' }
     ],
     '/Encoding Samples': [{ id: 'asciiId', lastModifiedAt: 1_700_000_000_000, mimeType: 'text/plain', name: 'ascii.txt', size: 900, typeId: 'object' }]
@@ -76,7 +76,7 @@ describe('Connector', () => {
 
             expect(fetchMock).toHaveBeenCalledWith(INDEX_URL);
             expect(result.connectionNodeConfigs).toContainEqual(
-                expect.objectContaining({ name: 'Encoding Samples', label: 'Encoding Samples', typeId: 'folder', childCount: 1, folderPath: '' })
+                expect.objectContaining({ id: 'encodingSamplesId', name: 'Encoding Samples', label: 'Encoding Samples', typeId: 'folder', childCount: 1, folderPath: '' })
             );
             expect(result.connectionNodeConfigs).toContainEqual(
                 expect.objectContaining({ id: 'wdiDataId', label: 'WDI_Data.csv', extension: 'csv', mimeType: 'text/csv', size: 0, typeId: 'object' })

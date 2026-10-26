@@ -1,7 +1,7 @@
 {
   "metadata": {
     "version": "0.14.0",
-    "generatedAt": "2026-10-25T10:50:51.647Z",
+    "generatedAt": "2026-10-26T09:06:36.339Z",
     "integration": "vite",
     "sources": false,
     "gzip": true,
@@ -21,8 +21,8 @@
       "name": "[unassigned]",
       "type": "other",
       "format": "other",
-      "uncompressed": 3692,
-      "gzip": 1049,
+      "uncompressed": 3666,
+      "gzip": 1051,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
@@ -55,8 +55,8 @@
       "kind": "asset",
       "name": "dist/dpuse-connector-file-store-emulator.es.js",
       "type": "script",
-      "uncompressed": 21157,
-      "gzip": 6520,
+      "uncompressed": 20901,
+      "gzip": 6388,
       "brotli": 0
     },
     {
@@ -64,49 +64,15 @@
       "name": "node_modules/@dpuse/dpuse-shared/dist/dpuse-shared.es.js",
       "type": "script",
       "format": "esm",
-      "uncompressed": 37897
+      "uncompressed": 53743
     },
     {
       "kind": "chunk",
       "name": "node_modules/@dpuse/dpuse-shared/dist/dpuse-shared.es.js",
       "type": "script",
       "format": "esm",
-      "uncompressed": 11268,
-      "gzip": 3386,
-      "brotli": 0,
-      "parent": "dist/dpuse-connector-file-store-emulator.es.js"
-    },
-    {
-      "kind": "filesystem",
-      "name": "node_modules/nanoid/index.browser.js",
-      "type": "script",
-      "format": "esm",
-      "uncompressed": 1337
-    },
-    {
-      "kind": "chunk",
-      "name": "node_modules/nanoid/index.browser.js",
-      "type": "script",
-      "format": "esm",
-      "uncompressed": 190,
-      "gzip": 180,
-      "brotli": 0,
-      "parent": "dist/dpuse-connector-file-store-emulator.es.js"
-    },
-    {
-      "kind": "filesystem",
-      "name": "node_modules/nanoid/url-alphabet/index.js",
-      "type": "script",
-      "format": "esm",
-      "uncompressed": 94
-    },
-    {
-      "kind": "chunk",
-      "name": "node_modules/nanoid/url-alphabet/index.js",
-      "type": "script",
-      "format": "esm",
-      "uncompressed": 4,
-      "gzip": 22,
+      "uncompressed": 11223,
+      "gzip": 3437,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
@@ -132,15 +98,15 @@
       "name": "src/index.ts",
       "type": "script",
       "format": "esm",
-      "uncompressed": 9417
+      "uncompressed": 9393
     },
     {
       "kind": "chunk",
       "name": "src/index.ts",
       "type": "script",
       "format": "esm",
-      "uncompressed": 5587,
-      "gzip": 1635,
+      "uncompressed": 5592,
+      "gzip": 1647,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     },
@@ -156,8 +122,8 @@
       "name": "src/rustBridge.ts",
       "type": "script",
       "format": "esm",
-      "uncompressed": 416,
-      "gzip": 247,
+      "uncompressed": 420,
+      "gzip": 252,
       "brotli": 0,
       "parent": "dist/dpuse-connector-file-store-emulator.es.js"
     }
@@ -187,12 +153,6 @@
       "name": "@dpuse/dpuse-shared",
       "paths": [
         "node_modules/@dpuse/dpuse-shared"
-      ]
-    },
-    {
-      "name": "nanoid",
-      "paths": [
-        "node_modules/nanoid"
       ]
     }
   ],

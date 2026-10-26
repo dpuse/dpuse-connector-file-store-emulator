@@ -1,6 +1,3 @@
-// ── External Dependencies & Registrations
-import { nanoid } from 'nanoid';
-
 // ── DPUse Framework
 import { addNumbersWithRust, checksumWithRust } from '@/rustBridge';
 import type {
@@ -48,7 +45,7 @@ import config from '~/config.json';
 
 // File store folder paths.
 type FileStoreFolderNode =
-    ({ typeId: 'folder'; childCount: number } & { name: string }) | ({ typeId: 'object'; id: string; lastModifiedAt: number; mimeType?: string; size: number } & { name: string });
+    ({ typeId: 'folder'; childCount: number; id: string } & { name: string }) | ({ typeId: 'object'; id: string; lastModifiedAt: number; mimeType?: string; size: number } & { name: string });
 
 type FileStoreFolderPaths = Record<string, FileStoreFolderNode[]>; // File store folder paths.
 
@@ -174,7 +171,7 @@ export class Connector implements ConnectorInterface {
         const folderNodes = fileStoreFolderPaths[options.folderPath] ?? [];
         const connectionNodeConfigs: ConnectionNodeConfig[] = folderNodes.map((folderNode) =>
             folderNode.typeId === 'folder'
-                ? constructFolderNodeConfig(options.folderPath, folderNode.name, folderNode.childCount)
+                ? constructFolderNodeConfig(options.folderPath, folderNode.id, folderNode.name, folderNode.childCount)
                 : constructObjectNodeConfig(options.folderPath, folderNode.id, folderNode.name, folderNode.lastModifiedAt, folderNode.size, folderNode.mimeType)
         );
         return { cursor: undefined, isMore: false, connectionNodeConfigs, totalCount: connectionNodeConfigs.length };
@@ -316,7 +313,7 @@ export class Connector implements ConnectorInterface {
 // ── Helpers ──────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 // Construct folder node configuration.
-function constructFolderNodeConfig(folderPath: string, name: string, childCount: number): ConnectionNodeConfig {
+function constructFolderNodeConfig(folderPath: string, id: string, name: string, childCount: number): ConnectionNodeConfig {
     return {
         childCount,
         childNodes: [],
@@ -326,7 +323,7 @@ function constructFolderNodeConfig(folderPath: string, name: string, childCount:
         handle: undefined,
         icon: null,
         iconDark: null,
-        id: nanoid(),
+        id,
         label: name,
         lastModifiedAt: undefined,
         mimeType: undefined,
