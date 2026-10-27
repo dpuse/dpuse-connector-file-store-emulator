@@ -35,7 +35,7 @@ import {
 
 // ── DPUse Tools
 import type { Tool as CSVParseTool } from '@dpuse/dpuse-tool-adaltas-csv-parser';
-import type { Tool as FileOperatorsTool } from '@dpuse/dpuse-tool-file-previewer';
+import type { Tool as FilePreviewerTool } from '@dpuse/dpuse-tool-file-previewer';
 import type { Tool as RustCsvCoreTool } from '@dpuse/dpuse-tool-rust-csv-core-parser';
 
 // ── Data
@@ -43,27 +43,22 @@ import config from '~/config.json';
 
 // ── Types ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-// File store folder paths.
 type FileStoreFolderNode =
-    | ({ typeId: 'folder'; childCount: number; id: string } & { name: string })
-    | ({ typeId: 'object'; id: string; lastModifiedAt: number; mimeType?: string; size: number } & { name: string });
-
-type FileStoreFolderPaths = Record<string, FileStoreFolderNode[]>; // File store folder paths.
+    { typeId: 'folder'; childCount: number; id: string; name: string } | { typeId: 'object'; id: string; lastModifiedAt: number; mimeType?: string; name: string; size: number };
+type FileStoreFolderPaths = Record<string, FileStoreFolderNode[]>;
 
 // ── Constants ────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-const INDEX_URL = 'https://sample-data-eu.dpuse.app/fileStoreIndex.json'; // Lists the file store's folders and files, published with them.
-const URL_PREFIX = 'https://sample-data-eu.dpuse.app/fileStore'; // Cloudflare R2 file store directory prefix.
-
-// Text the previewer takes as delimited is read as delimited even when no delimiter is found, such as a single column
-// or rows that split unevenly. It is then read with these, the most common ones. An empty file is read with them too.
 const DEFAULT_RECORD_DELIMITER_ID: RecordDelimiterId = '\n';
 const DEFAULT_VALUE_DELIMITER_ID: ValueDelimiterId = ',';
+const INDEX_URL = 'https://sample-data-eu.dpuse.app/fileStoreIndex.json';
+const INDEX_TIMEOUT_MS = 30_000; // A stalled index request fails after this, rather than holding up 'listNodes' and 'findObject'.
+const URL_PREFIX = 'https://sample-data-eu.dpuse.app/fileStore';
 
 // ── Connectors ───────────────────────────────────────────────────────────────────────────────────────────────────────
 
 export class Connector implements ConnectorInterface {
-    #fileStoreFolderPaths: Promise<FileStoreFolderPaths> | undefined; // The file store index, loaded on first use.
+    private fileStoreFolderPaths: Promise<FileStoreFolderPaths> | undefined; // The file store index, loaded on first use.
     abortController: AbortController | undefined;
     readonly config: ConnectorConfig;
     connectorUtilities: ConnectorUtilities;
@@ -78,14 +73,12 @@ export class Connector implements ConnectorInterface {
 
     // ── Actions ──────────────────────────────────────────────────────────────────────────────────────────────────────
 
-    // Abort the currently running operation
     abortOperation(): void {
         if (!this.abortController) return;
         this.abortController.abort();
         this.abortController = undefined;
     }
 
-    // Audit object content
     async auditObjectContent(options: AuditObjectContentOptions, chunk: (rowCount: number) => void): Promise<AuditObjectContentResult> {
         this.abortController = new AbortController();
 
@@ -98,10 +91,10 @@ export class Connector implements ConnectorInterface {
                 const rustCsvTool = await loadTool<RustCsvCoreTool>(this.toolConfigs, 'rust-csv-core-parser');
 
                 // Choose processing mode based on browser capability
-                const options2 = { delimiter: ',', hasHeaders: true };
+                const rustParseOptions = { delimiter: ',', hasHeaders: true };
                 const result = options.supportsTransferableStreams
-                    ? await rustCsvTool.processWithTransferableStream(stream, options2, chunk)
-                    : await rustCsvTool.processWithChunks(stream, options2, chunk);
+                    ? await rustCsvTool.processWithTransferableStream(stream, rustParseOptions, chunk)
+                    : await rustCsvTool.processWithChunks(stream, rustParseOptions, chunk);
 
                 return { processedRowCount: result.processedRowCount, durationMs: result.durationMs ?? 0 };
             }
@@ -136,7 +129,7 @@ export class Connector implements ConnectorInterface {
             const folderPathNode = folderPathNodes?.find((folderPathNode) => folderPathNode.typeId === 'object' && folderPathNode.id === options.nodeId);
             if (folderPathNode) return { path: folderPath }; // Found, return folder path.
         }
-        throw new Error('Not found.'); // Not found.
+        throw new ConnectorError(`Object '${options.nodeId}' not found.`, 'dpuse-connector-file-store-emulator|Connector|findObject');
     }
 
     // Get a readable stream for the specified object node path
@@ -145,7 +138,7 @@ export class Connector implements ConnectorInterface {
         const { signal } = (this.abortController = new AbortController());
 
         try {
-            const response = await fetch(`${URL_PREFIX}${options.path}`, { signal });
+            const response = await fetch(encodeURI(`${URL_PREFIX}${options.path}`), { signal }); // Encoded as the CSV parser and file previewer encode theirs.
             if (!response.ok) {
                 throw await buildFetchError(response, `Failed to fetch '${options.path}' file.`, 'dpuse-connector-file-store-emulator|Connector|getReadableStream');
             }
@@ -188,8 +181,8 @@ export class Connector implements ConnectorInterface {
             const startedAt = performance.now();
 
             // Preview file to determine file format and decode text.
-            const fileOperatorsTool = await loadTool<FileOperatorsTool>(this.toolConfigs, 'file-previewer');
-            const filePreviewResult = await fileOperatorsTool.previewFile(`${URL_PREFIX}${options.path}`, signal, options.chunkSize, options.mimeType, undefined, {
+            const filePreviewerTool = await loadTool<FilePreviewerTool>(this.toolConfigs, 'file-previewer');
+            const filePreviewResult = await filePreviewerTool.previewFile(`${URL_PREFIX}${options.path}`, signal, options.chunkSize, options.mimeType, undefined, {
                 dataFormatId: options.dataFormatId,
                 encodingId: options.encodingId
             }); // The user's choices, when made, replace what detection would find.
@@ -273,6 +266,7 @@ export class Connector implements ConnectorInterface {
             this.abortController = undefined;
         }
     }
+
     // Retrieves all records from a CSV object node using streaming and chunked processing
     async retrieveRecords(
         options: RetrieveRecordsOptions,
@@ -297,19 +291,19 @@ export class Connector implements ConnectorInterface {
 
     // Loads the file store index once, from beside the files it lists, so it always matches them.
     private loadFileStoreFolderPaths(): Promise<FileStoreFolderPaths> {
-        this.#fileStoreFolderPaths ??= this.fetchFileStoreFolderPaths();
-        return this.#fileStoreFolderPaths;
+        this.fileStoreFolderPaths ??= this.fetchFileStoreFolderPaths();
+        return this.fileStoreFolderPaths;
     }
 
     // A failed fetch is not kept, so the next call tries again.
     private async fetchFileStoreFolderPaths(): Promise<FileStoreFolderPaths> {
         try {
-            const response = await fetch(INDEX_URL);
+            const response = await fetch(INDEX_URL, { signal: AbortSignal.timeout(INDEX_TIMEOUT_MS) });
             if (!response.ok)
                 throw await buildFetchError(response, 'Failed to fetch the file store index.', 'dpuse-connector-file-store-emulator|Connector|fetchFileStoreFolderPaths');
             return (await response.json()) as FileStoreFolderPaths;
         } catch (error) {
-            this.#fileStoreFolderPaths = undefined;
+            this.fileStoreFolderPaths = undefined;
             throw normalizeToError(error);
         }
     }
@@ -342,7 +336,6 @@ function constructFolderNodeConfig(folderPath: string, id: string, name: string,
 function constructObjectNodeConfig(folderPath: string, id: string, fullName: string, lastModifiedAt: number, size: number, mimeType: string | undefined): ConnectionNodeConfig {
     const name = extractPathWithoutExtension(fullName) ?? '';
     const extension = extractExtensionFromPath(fullName);
-    const lastModifiedAtTimestamp = lastModifiedAt;
     return {
         childCount: undefined,
         childNodes: [],
@@ -354,7 +347,7 @@ function constructObjectNodeConfig(folderPath: string, id: string, fullName: str
         iconDark: null,
         id,
         label: fullName,
-        lastModifiedAt: lastModifiedAtTimestamp,
+        lastModifiedAt,
         mimeType: mimeType ?? lookupMimeTypeForExtension(extension), // The index's type, which matches what the bucket serves.
         name,
         size,
