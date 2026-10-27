@@ -84,7 +84,7 @@ License data is updated each time `npm run document` is run, using [license-chec
 
 | Type       | Dependency                                                                                    | Version | License(s)                          | Document                                                                                                                                                                                                               |
 | :--------- | :-------------------------------------------------------------------------------------------- | :-----: | :---------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| JavaScript | [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                  | 1.0.146 | MIT                                 | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@1.0.146-LICENSE.txt)                                                                                                                                                  |
+| JavaScript | [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                  | 1.0.147 | MIT                                 | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@1.0.147-LICENSE.txt)                                                                                                                                                  |
 | JavaScript | [valibot](https://github.com/open-circle/valibot)                                             |  1.5.0  | MIT                                 | [LICENSE](licenses/downloads/valibot@1.5.0-LICENSE.txt)                                                                                                                                                                |
 | Rust       | [cfg-if](https://github.com/rust-lang/cfg-if)                                                 |  1.0.4  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/cfg-if@1.0.4-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/cfg-if@1.0.4-LICENSE-MIT)                                                                                            |
 | Rust       | [js-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/js-sys)              | 0.3.83  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/js-sys@0.3.83-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/js-sys@0.3.83-LICENSE-MIT)                                                                                          |
@@ -100,7 +100,7 @@ The dependency tree below shows how each package in the table above is reached �
 
 #### JavaScript
 
-- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.146 — this month: 2026-10-26
+- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.147 — this month: 2026-10-27
     - **[valibot](https://github.com/open-circle/valibot)** 1.5.0 — 1 mth ago: 2026-09-09
 
 #### Rust
@@ -129,16 +129,16 @@ _Note: Sonda's Vite reports currently exclude CSS files, since Vite does not gen
 
 | Chunk/Module/File                                                                                                                    | Composition                                                                                   |
 | :----------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------- |
-| **<abbr title="dist/dpuse_connector_file_store_emulator_core-lCYevEvI.js">…\_connector_file_store_emulator_core-lCYevEvI.js</abbr>** | 25.3&nbsp;kB&nbsp;·&nbsp;gzip&nbsp;11.8&nbsp;kB&nbsp;·&nbsp;55.1%&nbsp;of&nbsp;the&nbsp;build |
+| **<abbr title="dist/dpuse_connector_file_store_emulator_core-lCYevEvI.js">…\_connector_file_store_emulator_core-lCYevEvI.js</abbr>** | 25.3&nbsp;kB&nbsp;·&nbsp;gzip&nbsp;11.8&nbsp;kB&nbsp;·&nbsp;54.2%&nbsp;of&nbsp;the&nbsp;build |
 | &nbsp;&nbsp;&nbsp;&nbsp;(Rust WebAssembly as base64, 16.1 kB binary)                                                                 | `█████████████████░░░`&nbsp;85.1%&nbsp;·&nbsp;21.5&nbsp;kB                                    |
 | &nbsp;&nbsp;&nbsp;&nbsp;wasm → ….js                                                                                                  | `███░░░░░░░░░░░░░░░░░`&nbsp;13.7%&nbsp;·&nbsp;3.5&nbsp;kB                                     |
 | &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)                                                                          | `░░░░░░░░░░░░░░░░░░░░`&nbsp;1.1%&nbsp;·&nbsp;297&nbsp;B                                       |
-| **dist/dpuse-connector-file-store-emulator.es.js**                                                                                   | 20.6&nbsp;kB&nbsp;·&nbsp;gzip&nbsp;6.3&nbsp;kB&nbsp;·&nbsp;44.9%&nbsp;of&nbsp;the&nbsp;build  |
-| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js                                                                | `███████████░░░░░░░░░`&nbsp;53.3%&nbsp;·&nbsp;11.0&nbsp;kB                                    |
-| &nbsp;&nbsp;&nbsp;&nbsp;src → index.ts + 1 more                                                                                      | `██████░░░░░░░░░░░░░░`&nbsp;29.2%&nbsp;·&nbsp;6.0&nbsp;kB                                     |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ index.ts                                                                           | `▒▒▒▒▒░░░░░░░░░░░░░░░`&nbsp;27.2%&nbsp;·&nbsp;5.6&nbsp;kB                                     |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ rustBridge.ts                                                                      | `░░░░░░░░░░░░░░░░░░░░`&nbsp;2.0%&nbsp;·&nbsp;420&nbsp;B                                       |
-| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)                                                                          | `████░░░░░░░░░░░░░░░░`&nbsp;17.6%&nbsp;·&nbsp;3.6&nbsp;kB                                     |
+| **dist/dpuse-connector-file-store-emulator.es.js**                                                                                   | 21.3&nbsp;kB&nbsp;·&nbsp;gzip&nbsp;6.5&nbsp;kB&nbsp;·&nbsp;45.8%&nbsp;of&nbsp;the&nbsp;build  |
+| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js                                                                | `██████████░░░░░░░░░░`&nbsp;51.3%&nbsp;·&nbsp;11.0&nbsp;kB                                    |
+| &nbsp;&nbsp;&nbsp;&nbsp;src → index.ts + 1 more                                                                                      | `██████░░░░░░░░░░░░░░`&nbsp;31.5%&nbsp;·&nbsp;6.7&nbsp;kB                                     |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ index.ts                                                                           | `▒▒▒▒▒▒░░░░░░░░░░░░░░`&nbsp;29.5%&nbsp;·&nbsp;6.3&nbsp;kB                                     |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ rustBridge.ts                                                                      | `░░░░░░░░░░░░░░░░░░░░`&nbsp;1.9%&nbsp;·&nbsp;420&nbsp;B                                       |
+| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)                                                                          | `███░░░░░░░░░░░░░░░░░`&nbsp;17.2%&nbsp;·&nbsp;3.7&nbsp;kB                                     |
 
 Bars show each row's share of its output file. ↳ rows are part of the row above.
 
