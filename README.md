@@ -84,7 +84,7 @@ License data is updated each time `npm run document` is run, using [license-chec
 
 | Type       | Dependency                                                                                    | Version | License(s)                          | Document                                                                                                                                                                                                               |
 | :--------- | :-------------------------------------------------------------------------------------------- | :-----: | :---------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| JavaScript | [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                  | 1.0.153 | MIT                                 | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@1.0.153-LICENSE.txt)                                                                                                                                                  |
+| JavaScript | [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                  | 1.0.155 | MIT                                 | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@1.0.155-LICENSE.txt)                                                                                                                                                  |
 | JavaScript | [valibot](https://github.com/open-circle/valibot)                                             |  1.5.0  | MIT                                 | [LICENSE](licenses/downloads/valibot@1.5.0-LICENSE.txt)                                                                                                                                                                |
 | Rust       | [cfg-if](https://github.com/rust-lang/cfg-if)                                                 |  1.0.4  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/cfg-if@1.0.4-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/cfg-if@1.0.4-LICENSE-MIT)                                                                                            |
 | Rust       | [js-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/js-sys)              | 0.3.83  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/js-sys@0.3.83-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/js-sys@0.3.83-LICENSE-MIT)                                                                                          |
@@ -100,22 +100,22 @@ The dependency tree below shows how each package in the table above is reached �
 
 #### JavaScript
 
-- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.153 — this month: 2026-10-27
+- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.155 — this month: 2026-10-28
     - **[valibot](https://github.com/open-circle/valibot)** 1.5.0 — 1 mth ago: 2026-09-09
 
 #### Rust
 
 - **dpuse-connector-file-store-emulator-core** 0.1.0 — this project's Rust code, compiled into its WebAssembly
-    - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.2.129 — 1 mth ago: 2026-09-25 ❗
+    - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — 11 mths ago: 2025-11-28 ⚠️ → latest: 0.2.129 — 1 mth ago: 2026-09-25 ❗
         - **[cfg-if](https://github.com/rust-lang/cfg-if)** 1.0.4 — 12 mths ago: 2025-10-15 ⚠️ → latest: 1.0.5 — 1 mth ago: 2026-09-16 ❗
-        - **[once_cell](https://github.com/matklad/once_cell)** 1.21.3 — 18 mths ago: 2025-03-28 ⚠️ → latest: 1.21.4 — 7 mths ago: 2026-03-12 ⚠️ ❗
-        - **[wasm-bindgen-shared](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/shared)** 0.2.106 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.2.129 — 1 mth ago: 2026-09-25 ❗
+        - **[once_cell](https://github.com/matklad/once_cell)** 1.21.3 — 19 mths ago: 2025-03-28 ⚠️ → latest: 1.21.4 — 7 mths ago: 2026-03-12 ⚠️ ❗
+        - **[wasm-bindgen-shared](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/shared)** 0.2.106 — 11 mths ago: 2025-11-28 ⚠️ → latest: 0.2.129 — 1 mth ago: 2026-09-25 ❗
             - **[unicode-ident](https://github.com/dtolnay/unicode-ident)** 1.0.22 — 11 mths ago: 2025-10-30 ⚠️ → latest: 1.0.27 — this month: 2026-10-12 ❗
-    - **[web-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/web-sys)** 0.3.83 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.3.106 — 1 mth ago: 2026-09-25 ❗
-        - **[js-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/js-sys)** 0.3.83 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.3.106 — 1 mth ago: 2026-09-25 ❗
-            - **[once_cell](https://github.com/matklad/once_cell)** 1.21.3 — 18 mths ago: 2025-03-28 ⚠️ → latest: 1.21.4 — 7 mths ago: 2026-03-12 ⚠️ ❗
-            - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.2.129 — 1 mth ago: 2026-09-25 ❗
-        - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — 10 mths ago: 2025-11-28 ⚠️ → latest: 0.2.129 — 1 mth ago: 2026-09-25 ❗
+    - **[web-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/web-sys)** 0.3.83 — 11 mths ago: 2025-11-28 ⚠️ → latest: 0.3.106 — 1 mth ago: 2026-09-25 ❗
+        - **[js-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/js-sys)** 0.3.83 — 11 mths ago: 2025-11-28 ⚠️ → latest: 0.3.106 — 1 mth ago: 2026-09-25 ❗
+            - **[once_cell](https://github.com/matklad/once_cell)** 1.21.3 — 19 mths ago: 2025-03-28 ⚠️ → latest: 1.21.4 — 7 mths ago: 2026-03-12 ⚠️ ❗
+            - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — 11 mths ago: 2025-11-28 ⚠️ → latest: 0.2.129 — 1 mth ago: 2026-09-25 ❗
+        - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — 11 mths ago: 2025-11-28 ⚠️ → latest: 0.2.129 — 1 mth ago: 2026-09-25 ❗
 
 <!-- DEPENDENCY_LICENSES_END -->
 
