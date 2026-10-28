@@ -9,7 +9,6 @@ import type {
     FindObjectOptions,
     FindObjectResult,
     GetReadableStreamOptions,
-    InferenceRecord,
     ListNodesOptions,
     ListNodesResult,
     ParsingRecord,
@@ -75,11 +74,7 @@ export class Connector implements ConnectorInterface {
         this.abortController = undefined;
     }
 
-    async auditObjectContent(
-        options: AuditObjectContentOptions,
-        chunk: (recordCount: number) => void,
-        records?: (inferenceRecords: InferenceRecord[]) => Promise<void>
-    ): Promise<AuditObjectContentResult> {
+    async auditObjectContent(options: AuditObjectContentOptions, chunk: (recordCount: number) => void): Promise<AuditObjectContentResult> {
         const { signal } = (this.abortController = new AbortController());
 
         try {
@@ -87,7 +82,6 @@ export class Connector implements ConnectorInterface {
             const contentAuditConfig = await auditObjectContentWithParser({
                 constructColumnAuditor: this.connectorUtilities.constructColumnAuditor,
                 onProgress: chunk,
-                onRecords: records,
                 options,
                 signal,
                 stream,
