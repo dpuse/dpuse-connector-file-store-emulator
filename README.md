@@ -40,6 +40,7 @@ This connector is a Source connector that supports only read actions. Connectors
 | :------------------- | :-------: |
 | Abort Operation      |     ✓     |
 | Audit Object Content |     ✓     |
+| Close Store          |           |
 | Create Object        |           |
 | Describe Connection  |           |
 | Drop Object          |           |
@@ -48,7 +49,10 @@ This connector is a Source connector that supports only read actions. Connectors
 | Get Readable Stream  |     ✓     |
 | Get Record           |           |
 | List Nodes           |     ✓     |
+| Load Object Records  |           |
+| Open Store           |           |
 | Preview Object       |     ✓     |
+| Query Records        |           |
 | Remove Records       |           |
 | Retrieve Chunks      |           |
 | Retrieve Records     |     ✓     |
@@ -84,7 +88,7 @@ License data is updated each time `npm run document` is run, using [license-chec
 
 | Type       | Dependency                                                                                    | Version | License(s)                          | Document                                                                                                                                                                                                               |
 | :--------- | :-------------------------------------------------------------------------------------------- | :-----: | :---------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| JavaScript | [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                  | 1.0.157 | MIT                                 | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@1.0.157-LICENSE.txt)                                                                                                                                                  |
+| JavaScript | [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                  | 1.0.162 | MIT                                 | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@1.0.162-LICENSE.txt)                                                                                                                                                  |
 | JavaScript | [valibot](https://github.com/open-circle/valibot)                                             |  1.5.0  | MIT                                 | [LICENSE](licenses/downloads/valibot@1.5.0-LICENSE.txt)                                                                                                                                                                |
 | Rust       | [cfg-if](https://github.com/rust-lang/cfg-if)                                                 |  1.0.4  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/cfg-if@1.0.4-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/cfg-if@1.0.4-LICENSE-MIT)                                                                                            |
 | Rust       | [js-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/js-sys)              | 0.3.83  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/js-sys@0.3.83-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/js-sys@0.3.83-LICENSE-MIT)                                                                                          |
@@ -100,7 +104,7 @@ The dependency tree below shows how each package in the table above is reached �
 
 #### JavaScript
 
-- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.157 — this month: 2026-10-28
+- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.162 — this month: 2026-10-29
     - **[valibot](https://github.com/open-circle/valibot)** 1.5.0 — 1 mth ago: 2026-09-09
 
 #### Rust
@@ -129,10 +133,10 @@ _Note: Sonda's Vite reports currently exclude CSS files, since Vite does not gen
 
 | Chunk/Module/File                                                     | Composition                                                                                   |
 | :-------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------- |
-| **dist/dpuse-connector-file-store-emulator.es.js**                    | 21.8&nbsp;kB&nbsp;·&nbsp;gzip&nbsp;6.6&nbsp;kB&nbsp;·&nbsp;100.0%&nbsp;of&nbsp;the&nbsp;build |
-| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js | `█████████████░░░░░░░`&nbsp;66.2%&nbsp;·&nbsp;14.4&nbsp;kB                                    |
-| &nbsp;&nbsp;&nbsp;&nbsp;src → index.ts                                | `████░░░░░░░░░░░░░░░░`&nbsp;17.5%&nbsp;·&nbsp;3.8&nbsp;kB                                     |
-| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)           | `███░░░░░░░░░░░░░░░░░`&nbsp;16.3%&nbsp;·&nbsp;3.5&nbsp;kB                                     |
+| **dist/dpuse-connector-file-store-emulator.es.js**                    | 22.2&nbsp;kB&nbsp;·&nbsp;gzip&nbsp;6.8&nbsp;kB&nbsp;·&nbsp;100.0%&nbsp;of&nbsp;the&nbsp;build |
+| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js | `█████████████░░░░░░░`&nbsp;66.7%&nbsp;·&nbsp;14.8&nbsp;kB                                    |
+| &nbsp;&nbsp;&nbsp;&nbsp;src → index.ts                                | `███░░░░░░░░░░░░░░░░░`&nbsp;17.2%&nbsp;·&nbsp;3.8&nbsp;kB                                     |
+| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)           | `███░░░░░░░░░░░░░░░░░`&nbsp;16.1%&nbsp;·&nbsp;3.6&nbsp;kB                                     |
 
 Bars show each row's share of its output file.
 
