@@ -12,8 +12,8 @@ import type {
     ListNodesOptions,
     ListNodesResult,
     ParsingRecord,
-    PreviewConfig,
     PreviewObjectOptions,
+    PreviewObjectResult,
     RecordRetrievalTypeId,
     RetrieveRecordsOptions,
     RetrieveRecordsSummary,
@@ -22,7 +22,7 @@ import type {
 import {
     auditObjectContentWithParser,
     buildFetchError,
-    buildPreviewConfig,
+    buildPreviewObjectResult,
     ConnectorError,
     extractExtensionFromPath,
     extractPathWithoutExtension,
@@ -74,7 +74,7 @@ export class Connector implements ConnectorInterface {
         this.abortController = undefined;
     }
 
-    async auditObjectContent(options: AuditObjectContentOptions, chunk: (recordCount: number) => void): Promise<AuditObjectContentResult> {
+    async auditObjectContent(options: AuditObjectContentOptions, chunk: (recordCount: number, byteCount: number) => void): Promise<AuditObjectContentResult> {
         const { signal } = (this.abortController = new AbortController());
 
         try {
@@ -138,7 +138,7 @@ export class Connector implements ConnectorInterface {
     }
 
     // Preview the contents of the object node with the specified path
-    async previewObject(options: PreviewObjectOptions): Promise<PreviewConfig> {
+    async previewObject(options: PreviewObjectOptions): Promise<PreviewObjectResult> {
         // Create an abort controller and extract its signal.
         const { signal } = (this.abortController = new AbortController());
 
@@ -152,7 +152,7 @@ export class Connector implements ConnectorInterface {
                 dataFormatId: options.dataFormatId,
                 encodingId: options.encodingId
             }); // The user's choices, when made, replace what detection would find.
-            return await buildPreviewConfig({
+            return await buildPreviewObjectResult({
                 asAt,
                 filePreview,
                 inferDataTypes: this.connectorUtilities.inferDataTypes,

@@ -1,14 +1,14 @@
 {
-  "version": "1.0.339",
+  "version": "1.0.340",
   "name": "@dpuse/dpuse-connector-file-store-emulator",
   "dependencies": {
     "@dpuse/dpuse-development": {
-      "version": "1.0.141",
-      "resolved": "https://registry.npmjs.org/@dpuse/dpuse-development/-/dpuse-development-1.0.141.tgz",
+      "version": "1.0.144",
+      "resolved": "https://registry.npmjs.org/@dpuse/dpuse-development/-/dpuse-development-1.0.144.tgz",
       "overridden": false,
       "dependencies": {
         "@dpuse/dpuse-shared": {
-          "version": "1.0.166"
+          "version": "1.0.171"
         },
         "license-checker-rseidelsohn": {
           "version": "5.0.1",
@@ -1201,8 +1201,8 @@
       }
     },
     "@dpuse/dpuse-shared": {
-      "version": "1.0.166",
-      "resolved": "https://registry.npmjs.org/@dpuse/dpuse-shared/-/dpuse-shared-1.0.166.tgz",
+      "version": "1.0.171",
+      "resolved": "https://registry.npmjs.org/@dpuse/dpuse-shared/-/dpuse-shared-1.0.171.tgz",
       "overridden": false,
       "dependencies": {
         "file-type": {
@@ -1276,7 +1276,7 @@
       "overridden": false,
       "dependencies": {
         "@dpuse/dpuse-shared": {
-          "version": "1.0.166"
+          "version": "1.0.171"
         },
         "csv-parse": {
           "version": "7.0.3",
@@ -1291,7 +1291,7 @@
       "overridden": false,
       "dependencies": {
         "@dpuse/dpuse-shared": {
-          "version": "1.0.166"
+          "version": "1.0.171"
         },
         "file-type": {
           "version": "22.3.0"
@@ -1309,13 +1309,13 @@
       "overridden": false,
       "dependencies": {
         "@dpuse/dpuse-shared": {
-          "version": "1.0.166"
+          "version": "1.0.171"
         }
       }
     },
     "@dpuse/eslint-config-dpuse": {
-      "version": "1.0.145",
-      "resolved": "https://registry.npmjs.org/@dpuse/eslint-config-dpuse/-/eslint-config-dpuse-1.0.145.tgz",
+      "version": "1.0.148",
+      "resolved": "https://registry.npmjs.org/@dpuse/eslint-config-dpuse/-/eslint-config-dpuse-1.0.148.tgz",
       "overridden": false,
       "dependencies": {
         "@eslint-community/eslint-plugin-eslint-comments": {
@@ -1608,14 +1608,7 @@
                   "version": "1.7.0"
                 },
                 "jsdoc-type-pratt-parser": {
-                  "version": "9.4.0",
-                  "resolved": "https://registry.npmjs.org/jsdoc-type-pratt-parser/-/jsdoc-type-pratt-parser-9.4.0.tgz",
-                  "overridden": false,
-                  "dependencies": {
-                    "@types/estree": {
-                      "version": "1.0.9"
-                    }
-                  }
+                  "version": "9.4.0"
                 }
               }
             },
@@ -1807,8 +1800,8 @@
           }
         },
         "eslint-plugin-regexp": {
-          "version": "3.3.2",
-          "resolved": "https://registry.npmjs.org/eslint-plugin-regexp/-/eslint-plugin-regexp-3.3.2.tgz",
+          "version": "3.3.3",
+          "resolved": "https://registry.npmjs.org/eslint-plugin-regexp/-/eslint-plugin-regexp-3.3.3.tgz",
           "overridden": false,
           "dependencies": {
             "@eslint-community/eslint-utils": {
@@ -1824,15 +1817,12 @@
               "version": "10.14.0"
             },
             "jsdoc-type-pratt-parser": {
-              "version": "9.2.2",
-              "resolved": "https://registry.npmjs.org/jsdoc-type-pratt-parser/-/jsdoc-type-pratt-parser-9.2.2.tgz",
+              "version": "9.4.0",
+              "resolved": "https://registry.npmjs.org/jsdoc-type-pratt-parser/-/jsdoc-type-pratt-parser-9.4.0.tgz",
               "overridden": false,
               "dependencies": {
                 "@types/estree": {
                   "version": "1.0.9"
-                },
-                "@types/node": {
-                  "version": "26.6.6"
                 }
               }
             },
@@ -1878,8 +1868,8 @@
           }
         },
         "eslint-plugin-security": {
-          "version": "4.2.0",
-          "resolved": "https://registry.npmjs.org/eslint-plugin-security/-/eslint-plugin-security-4.2.0.tgz",
+          "version": "4.2.1",
+          "resolved": "https://registry.npmjs.org/eslint-plugin-security/-/eslint-plugin-security-4.2.1.tgz",
           "overridden": false,
           "dependencies": {
             "safe-regex": {
@@ -1928,7 +1918,7 @@
               "overridden": false
             },
             "globals": {
-              "version": "17.13.0"
+              "version": "17.14.0"
             },
             "jsx-ast-utils-x": {
               "version": "0.1.0",
@@ -2074,7 +2064,7 @@
               "overridden": false
             },
             "globals": {
-              "version": "17.13.0"
+              "version": "17.14.0"
             },
             "identifier-regex": {
               "version": "1.1.0",
@@ -2479,8 +2469,8 @@
           "version": "10.14.0"
         },
         "globals": {
-          "version": "17.13.0",
-          "resolved": "https://registry.npmjs.org/globals/-/globals-17.13.0.tgz",
+          "version": "17.14.0",
+          "resolved": "https://registry.npmjs.org/globals/-/globals-17.14.0.tgz",
           "overridden": false
         },
         "typescript-eslint": {
