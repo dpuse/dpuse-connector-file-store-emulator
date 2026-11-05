@@ -1,7 +1,7 @@
 {
     "id": "dpuse-connector-file-store-emulator",
     "label": {
-        "en": "File Store Emulator"
+        "en": "DPUse File Store Emulator"
     },
     "description": {
         "en": "The File Store Emulator Connector is a read-only connector that provides access to a sample dataset simulating a hypothetical cloud-based file storage service such as Google Drive, Dropbox, or Microsoft OneDrive. It is intended for demonstration, evaluation, and testing, and is freely available to all users."
@@ -36,5 +36,5 @@
     "vendorAccountURL": null,
     "vendorDocumentationURL": null,
     "vendorHomeURL": null,
-    "version": "1.0.344"
+    "version": "1.0.345"
 }

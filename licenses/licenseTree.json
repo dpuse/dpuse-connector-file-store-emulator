@@ -1,5 +1,5 @@
 {
-  "version": "1.0.342",
+  "version": "1.0.344",
   "name": "@dpuse/dpuse-connector-file-store-emulator",
   "dependencies": {
     "@dpuse/dpuse-development": {
