@@ -79,7 +79,7 @@ export class Connector implements ConnectorInterface {
 
         try {
             const stream = await fetchObjectStream(options.path, signal);
-            const contentAuditConfig = await auditObjectContentWithParser({
+            return await auditObjectContentWithParser({
                 constructColumnAuditor: this.connectorUtilities.constructColumnAuditor,
                 onProgress: chunk,
                 options,
@@ -87,7 +87,6 @@ export class Connector implements ConnectorInterface {
                 stream,
                 toolConfigs: this.toolConfigs
             });
-            return { contentAuditConfig };
         } catch (error) {
             throw normalizeToError(error);
         } finally {
@@ -222,11 +221,9 @@ async function fetchObjectStream(path: string, signal: AbortSignal): Promise<Rea
 function constructFolderNodeConfig(folderPath: string, id: string, name: string, childCount: number): ConnectionNodeConfig {
     return {
         childCount,
-        childNodes: [],
         description: '',
         extension: undefined,
         folderPath,
-        handle: undefined,
         icon: null,
         iconDark: null,
         id,
@@ -245,11 +242,9 @@ function constructObjectNodeConfig(folderPath: string, id: string, fullName: str
     const extension = extractExtensionFromPath(fullName);
     return {
         childCount: undefined,
-        childNodes: [],
         description: '',
         extension,
         folderPath,
-        handle: undefined,
         icon: null,
         iconDark: null,
         id,
