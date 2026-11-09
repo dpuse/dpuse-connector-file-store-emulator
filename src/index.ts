@@ -4,7 +4,7 @@ import { auditObjectContentWithParser, buildFetchError, buildPreviewObjectResult
 import { ConnectorError, extractExtensionFromPath, extractPathWithoutExtension, loadTool } from '@dpuse/dpuse-shared';
 import type { ConnectorInterface, ConnectorUtilities, FindObjectOptions, FindObjectResult } from '@dpuse/dpuse-shared';
 import type { GetReadableStreamOptions, ListNodesOptions, ListNodesResult, ParsedRecord } from '@dpuse/dpuse-shared';
-import { lookupMimeTypeForExtension, normalizeToError, retrieveRecordsWithParser } from '@dpuse/dpuse-shared';
+import { normalizeToError, retrieveRecordsWithParser } from '@dpuse/dpuse-shared';
 import type { PreviewObjectOptions, PreviewObjectResult, RecordRetrievalTypeId } from '@dpuse/dpuse-shared';
 import type { RetrieveRecordsOptions, RetrieveRecordsSummary, ToolConfig } from '@dpuse/dpuse-shared';
 
@@ -14,7 +14,7 @@ import type { Tool as FilePreviewerTool } from '@dpuse/dpuse-tool-file-previewer
 // ── Types ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 type FileStoreIndexEntry =
-    { typeId: 'folder'; childCount: number; id: string; name: string } | { typeId: 'object'; id: string; lastModifiedAt: number; mimeType?: string; name: string; size: number };
+    { typeId: 'folder'; childCount: number; id: string; name: string } | { typeId: 'object'; id: string; lastModifiedAt: number; mimeType: string; name: string; size: number };
 type FileStoreIndex = Record<string, FileStoreIndexEntry[]>;
 
 // ── Constants ────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -210,7 +210,7 @@ function constructFolderNodeConfig(folderPath: string, id: string, name: string,
     };
 }
 
-function constructObjectNodeConfig(folderPath: string, id: string, fullName: string, lastModifiedAt: number, size: number, mimeType: string | undefined): ConnectionNodeConfig {
+function constructObjectNodeConfig(folderPath: string, id: string, fullName: string, lastModifiedAt: number, size: number, mimeType: string): ConnectionNodeConfig {
     const name = extractPathWithoutExtension(fullName) ?? '';
     const extension = extractExtensionFromPath(fullName);
     return {
@@ -223,7 +223,7 @@ function constructObjectNodeConfig(folderPath: string, id: string, fullName: str
         id,
         label: fullName,
         lastModifiedAt,
-        mimeType: mimeType ?? lookupMimeTypeForExtension(extension), // The index's type, which matches what the bucket serves. Files without one are typed by extension.
+        mimeType, // The index's type, which matches what the bucket serves.
         name,
         size,
         typeId: 'object'

@@ -1,10 +1,10 @@
 {
-  "version": "1.0.349",
+  "version": "1.0.350",
   "name": "@dpuse/dpuse-connector-file-store-emulator",
   "dependencies": {
     "@dpuse/dpuse-development": {
-      "version": "1.0.148",
-      "resolved": "https://registry.npmjs.org/@dpuse/dpuse-development/-/dpuse-development-1.0.148.tgz",
+      "version": "1.0.149",
+      "resolved": "https://registry.npmjs.org/@dpuse/dpuse-development/-/dpuse-development-1.0.149.tgz",
       "overridden": false,
       "dependencies": {
         "@dpuse/dpuse-shared": {
