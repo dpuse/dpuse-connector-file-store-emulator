@@ -29,12 +29,12 @@
     "itemTypeId": "file",
     "lastUpdatedAt": null,
     "status": null,
-    "statusId": "beta",
+    "statusId": "releaseCandidate",
     "typeId": "connector",
     "usage": null,
     "usageId": "source",
     "vendorAccountURL": null,
     "vendorDocumentationURL": null,
     "vendorHomeURL": null,
-    "version": "1.0.351"
+    "version": "1.0.352"
 }
