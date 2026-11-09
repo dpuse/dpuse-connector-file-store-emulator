@@ -370,6 +370,17 @@ describe('Connector', () => {
             expect(shared.buildPreviewObjectResult).toHaveBeenCalledWith(expect.objectContaining({ filePreview, parserId: 'dpuse-tool-adaltas-csv-parser', toolConfigs: [] }));
         });
 
+        // The file previewer encodes the URL itself, so the connector must hand it the path as it is, or a name with a space
+        // would be encoded twice.
+        it('hands the file previewer the path unencoded', async () => {
+            const previewFile = vi.fn().mockResolvedValue({});
+            tools.byName['file-previewer'] = { previewFile };
+
+            await createConnector().previewObject(buildPreviewOptions({ path: '/Type Samples/people.csv' }));
+
+            expect(previewFile).toHaveBeenCalledWith(`${URL_PREFIX}/Type Samples/people.csv`, expect.any(AbortSignal), undefined, undefined, undefined, expect.anything());
+        });
+
         it('fails when the file previewer tool cannot be loaded', async () => {
             tools.byName['file-previewer'] = new Error('Failed to load the file previewer.');
 
