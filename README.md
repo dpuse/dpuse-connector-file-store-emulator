@@ -84,42 +84,19 @@ This repository is managed using the common set of actions provided by [@dpuse/d
 
 ## Dependency Licenses
 
-License data is updated each time `npm run document` is run, using [license-checker](https://github.com/RSeidelsohn/license-checker-rseidelsohn) and [cargo tree](https://doc.rust-lang.org/cargo/commands/cargo-tree.html). The following table lists every package whose code, styles or assets are included in this project's build, as recorded by the build itself. Modules loaded at run time are not included; each documents its own. It also lists every Rust crate compiled into its WebAssembly, as resolved by Cargo; macros and other crates used only while compiling put none of their code in it, so are left out. These dependencies have been checked and confirmed to use MIT or Unicode-3.0, all of which allow commercial use. All are used unmodified, so any licence conditions that apply only to modified versions are not triggered. Developers cloning this repository should independently verify development dependencies.
+License data is updated each time `npm run document` is run, using [license-checker](https://github.com/RSeidelsohn/license-checker-rseidelsohn). The following table lists every package whose code, styles or assets are included in this project's build, as recorded by the build itself. Modules loaded at run time are not included; each documents its own. These dependencies have been checked and confirmed to use MIT, all of which allow commercial use. All are used unmodified, so any licence conditions that apply only to modified versions are not triggered. Developers cloning this repository should independently verify development dependencies.
 
-| Type       | Dependency                                                                                    | Version | License(s)                          | Document                                                                                                                                                                                                               |
-| :--------- | :-------------------------------------------------------------------------------------------- | :-----: | :---------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| JavaScript | [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)                                  | 1.0.198 | MIT                                 | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@1.0.198-LICENSE.txt)                                                                                                                                                  |
-| JavaScript | [valibot](https://github.com/open-circle/valibot)                                             |  1.5.0  | MIT                                 | [LICENSE](licenses/downloads/valibot@1.5.0-LICENSE.txt)                                                                                                                                                                |
-| Rust       | [cfg-if](https://github.com/rust-lang/cfg-if)                                                 |  1.0.4  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/cfg-if@1.0.4-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/cfg-if@1.0.4-LICENSE-MIT)                                                                                            |
-| Rust       | [js-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/js-sys)              | 0.3.83  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/js-sys@0.3.83-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/js-sys@0.3.83-LICENSE-MIT)                                                                                          |
-| Rust       | [once_cell](https://github.com/matklad/once_cell)                                             | 1.21.3  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/once_cell@1.21.3-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/once_cell@1.21.3-LICENSE-MIT)                                                                                    |
-| Rust       | [unicode-ident](https://github.com/dtolnay/unicode-ident)                                     | 1.0.22  | (MIT OR Apache-2.0) AND Unicode-3.0 | [LICENSE-APACHE](licenses/downloads/unicode-ident@1.0.22-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/unicode-ident@1.0.22-LICENSE-MIT) [LICENSE-UNICODE](licenses/downloads/unicode-ident@1.0.22-LICENSE-UNICODE) |
-| Rust       | [wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)                                  | 0.2.106 | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/wasm-bindgen@0.2.106-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/wasm-bindgen@0.2.106-LICENSE-MIT)                                                                            |
-| Rust       | [wasm-bindgen-shared](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/shared) | 0.2.106 | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/wasm-bindgen-shared@0.2.106-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/wasm-bindgen-shared@0.2.106-LICENSE-MIT)                                                              |
-| Rust       | [web-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/web-sys)            | 0.3.83  | MIT OR Apache-2.0                   | [LICENSE-APACHE](licenses/downloads/web-sys@0.3.83-LICENSE-APACHE) [LICENSE-MIT](licenses/downloads/web-sys@0.3.83-LICENSE-MIT)                                                                                        |
+| Dependency                                                   | Version | License(s) | Document                                                              |
+| :----------------------------------------------------------- | :-----: | :--------- | :-------------------------------------------------------------------- |
+| [@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared) | 1.0.200 | MIT        | [LICENSE](licenses/downloads/@dpuse/dpuse-shared@1.0.200-LICENSE.txt) |
+| [valibot](https://github.com/open-circle/valibot)            |  1.5.0  | MIT        | [LICENSE](licenses/downloads/valibot@1.5.0-LICENSE.txt)               |
 
 ### Dependency Tree
 
 The dependency tree below shows how each package in the table above is reached — direct and transitive — along with its installed version, release date, and update status. A package that does not ship itself, such as one whose parts are bundled separately, is left out and what ships beneath it is shown in its place. Packages flagged ❗ have a newer version available; ⚠️ indicates a package that hasn't been updated in the last 6 months or longer. Neither flag necessarily indicates a problem: we let new releases stabilise before upgrading, and some packages are mature and stable (have limited or no dependencies), so they require no active development.
 
-#### JavaScript
-
-- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.198 — this month: 2026-11-09
+- **[@dpuse/dpuse-shared](https://github.com/dpuse/dpuse-shared)** 1.0.200 — this month: 2026-11-09
     - **[valibot](https://github.com/open-circle/valibot)** 1.5.0 — 2 mths ago: 2026-09-09
-
-#### Rust
-
-- **dpuse-connector-file-store-emulator-core** 0.1.0 — this project's Rust code, compiled into its WebAssembly
-    - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — 11 mths ago: 2025-11-28 ⚠️ → latest: 0.2.130 — this month: 2026-10-30 ❗
-        - **[cfg-if](https://github.com/rust-lang/cfg-if)** 1.0.4 — 12 mths ago: 2025-10-15 ⚠️ → latest: 1.0.5 — 1 mth ago: 2026-09-16 ❗
-        - **[once_cell](https://github.com/matklad/once_cell)** 1.21.3 — 19 mths ago: 2025-03-28 ⚠️ → latest: 1.21.4 — 7 mths ago: 2026-03-12 ⚠️ ❗
-        - **[wasm-bindgen-shared](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/shared)** 0.2.106 — 11 mths ago: 2025-11-28 ⚠️ → latest: 0.2.130 — this month: 2026-10-30 ❗
-            - **[unicode-ident](https://github.com/dtolnay/unicode-ident)** 1.0.22 — 12 mths ago: 2025-10-30 ⚠️ → latest: 1.0.27 — this month: 2026-10-12 ❗
-    - **[web-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/web-sys)** 0.3.83 — 11 mths ago: 2025-11-28 ⚠️ → latest: 0.3.107 — this month: 2026-10-30 ❗
-        - **[js-sys](https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/js-sys)** 0.3.83 — 11 mths ago: 2025-11-28 ⚠️ → latest: 0.3.107 — this month: 2026-10-30 ❗
-            - **[once_cell](https://github.com/matklad/once_cell)** 1.21.3 — 19 mths ago: 2025-03-28 ⚠️ → latest: 1.21.4 — 7 mths ago: 2026-03-12 ⚠️ ❗
-            - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — 11 mths ago: 2025-11-28 ⚠️ → latest: 0.2.130 — this month: 2026-10-30 ❗
-        - **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** 0.2.106 — 11 mths ago: 2025-11-28 ⚠️ → latest: 0.2.130 — this month: 2026-10-30 ❗
 
 <!-- DEPENDENCY_LICENSES_END -->
 
@@ -133,10 +110,10 @@ _Note: Sonda's Vite reports currently exclude CSS files, since Vite does not gen
 
 | Chunk/Module/File                                                     | Composition                                                                                   |
 | :-------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------- |
-| **dist/dpuse-connector-file-store-emulator.es.js**                    | 39.2&nbsp;kB&nbsp;·&nbsp;gzip&nbsp;9.2&nbsp;kB&nbsp;·&nbsp;100.0%&nbsp;of&nbsp;the&nbsp;build |
-| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js | `███████████████░░░░░`&nbsp;77.0%&nbsp;·&nbsp;30.1&nbsp;kB                                    |
-| &nbsp;&nbsp;&nbsp;&nbsp;src → index.ts                                | `██░░░░░░░░░░░░░░░░░░`&nbsp;9.6%&nbsp;·&nbsp;3.8&nbsp;kB                                      |
-| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)           | `███░░░░░░░░░░░░░░░░░`&nbsp;13.4%&nbsp;·&nbsp;5.2&nbsp;kB                                     |
+| **dist/dpuse-connector-file-store-emulator.es.js**                    | 37.9&nbsp;kB&nbsp;·&nbsp;gzip&nbsp;8.6&nbsp;kB&nbsp;·&nbsp;100.0%&nbsp;of&nbsp;the&nbsp;build |
+| &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js | `████████████████░░░░`&nbsp;79.7%&nbsp;·&nbsp;30.2&nbsp;kB                                    |
+| &nbsp;&nbsp;&nbsp;&nbsp;src → index.ts                                | `██░░░░░░░░░░░░░░░░░░`&nbsp;10.9%&nbsp;·&nbsp;4.1&nbsp;kB                                     |
+| &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)           | `██░░░░░░░░░░░░░░░░░░`&nbsp;9.4%&nbsp;·&nbsp;3.5&nbsp;kB                                      |
 
 Bars show each row's share of its output file.
 
@@ -167,11 +144,11 @@ This section is updated each time `npm run document` is run. Settings come from 
 
 ### Security Analysis
 
-| Check           | Status | What it does                                                                                                                                                                                                                                                                                                                                                                                                              |
-| :-------------- | :----- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Push protection | ✅ On  | [GitHub push protection](https://docs.github.com/en/code-security/secret-scanning/push-protection-for-repositories-and-organizations) blocks pushes that contain credentials.                                                                                                                                                                                                                                             |
-| Static analysis | ✅ On  | [![CodeQL](https://github.com/dpuse/dpuse-connector-file-store-emulator/actions/workflows/codeql.yml/badge.svg)](https://github.com/dpuse/dpuse-connector-file-store-emulator/security/code-scanning) [CodeQL](https://codeql.github.com) scans GitHub Actions and JavaScript/TypeScript and Rust for security vulnerabilities, using the extended security queries, on every push and pull request to `main` and weekly. |
-| Secret scanning | ✅ On  | [GitHub secret scanning](https://docs.github.com/en/code-security/secret-scanning) detects credentials, such as API keys and tokens, committed to the repository.                                                                                                                                                                                                                                                         |
+| Check           | Status | What it does                                                                                                                                                                                                                                                                                                                                                                                                     |
+| :-------------- | :----- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Push protection | ✅ On  | [GitHub push protection](https://docs.github.com/en/code-security/secret-scanning/push-protection-for-repositories-and-organizations) blocks pushes that contain credentials.                                                                                                                                                                                                                                    |
+| Static analysis | ✅ On  | [![CodeQL](https://github.com/dpuse/dpuse-connector-file-store-emulator/actions/workflows/codeql.yml/badge.svg)](https://github.com/dpuse/dpuse-connector-file-store-emulator/security/code-scanning) [CodeQL](https://codeql.github.com) scans GitHub Actions and JavaScript/TypeScript for security vulnerabilities, using the extended security queries, on every push and pull request to `main` and weekly. |
+| Secret scanning | ✅ On  | [GitHub secret scanning](https://docs.github.com/en/code-security/secret-scanning) detects credentials, such as API keys and tokens, committed to the repository.                                                                                                                                                                                                                                                |
 
 ### Dependencies
 

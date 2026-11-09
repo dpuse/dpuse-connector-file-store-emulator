@@ -16,9 +16,6 @@ vi.mock('@dpuse/dpuse-shared', async (importOriginal) => ({
     loadTool: vi.fn((_toolConfigs: unknown, name: string) => Promise.resolve(tools.byName[name]))
 }));
 
-// The WebAssembly module is not built for Node, and preview only calls it while it is being tried out.
-vi.mock('@/rustBridge', () => ({ addNumbersWithRust: vi.fn().mockResolvedValue(68), checksumWithRust: vi.fn().mockResolvedValue(0) }));
-
 // ── Tests ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 const INDEX_URL = 'https://sample-data-eu.dpuse.app/fileStoreIndex.json';
@@ -41,11 +38,12 @@ function stubIndexFetch(): ReturnType<typeof vi.fn> {
     return fetchMock;
 }
 
+const connectorUtilities = {
+    constructColumnAuditor: () => ({ auditRecords: vi.fn(), completeAudit: () => [{ id: 'a' }] }),
+    inferDataTypes: () => ({ columnConfigs: [{ id: 'a' }], hasHeaders: true, typedRecords: [['typed']] })
+};
+
 function createConnector(): Connector {
-    const connectorUtilities = {
-        constructColumnAuditor: () => ({ auditRecords: vi.fn(), completeAudit: () => [{ id: 'a' }] }),
-        inferDataTypes: () => ({ columnConfigs: [{ id: 'a' }], hasHeaders: true, typedRecords: [['typed']] })
-    };
     return new Connector(connectorUtilities as never, []);
 }
 
@@ -56,23 +54,49 @@ describe('Connector', () => {
         for (const mock of Object.values(shared)) mock.mockReset();
     });
 
-    it('constructs with the static config and no active operation', () => {
-        const connector = createConnector();
-        expect(connector.config.id).toBe('dpuse-connector-file-store-emulator');
-        expect(connector.abortController).toBeUndefined();
-    });
-
-    it('aborts a running operation and clears it, and does nothing when none is running', () => {
+    it('aborts a running operation, and does nothing when none is running', async () => {
         const connector = createConnector();
         expect(() => {
             connector.abortOperation();
         }).not.toThrow();
 
-        const abortController = new AbortController();
-        connector.abortController = abortController;
+        const fetchMock = vi.fn(
+            (_url: string, init: { signal: AbortSignal }) =>
+                new Promise((_resolve, reject) => {
+                    init.signal.addEventListener('abort', () => {
+                        reject(new Error('Aborted.'));
+                    });
+                })
+        );
+        vi.stubGlobal('fetch', fetchMock);
+        const stream = connector.getReadableStream({ id: '', path: OBJECT_PATH });
         connector.abortOperation();
-        expect(abortController.signal.aborted).toBe(true);
-        expect(connector.abortController).toBeUndefined();
+        await expect(stream).rejects.toThrow('Aborted.');
+    });
+
+    it('can still abort an operation after an earlier one ends', async () => {
+        const firstResponse = Promise.withResolvers<unknown>();
+        const fetchMock = vi
+            .fn()
+            .mockImplementationOnce(() => firstResponse.promise)
+            .mockImplementationOnce(
+                (_url: string, init: { signal: AbortSignal }) =>
+                    new Promise((_resolve, reject) => {
+                        init.signal.addEventListener('abort', () => {
+                            reject(new Error('Aborted.'));
+                        });
+                    })
+            );
+        vi.stubGlobal('fetch', fetchMock);
+        const connector = createConnector();
+
+        const firstStream = connector.getReadableStream({ id: '', path: OBJECT_PATH });
+        const secondStream = connector.getReadableStream({ id: '', path: OBJECT_PATH });
+        firstResponse.resolve({ ok: true, body: new ReadableStream<Uint8Array>() });
+        await firstStream;
+        connector.abortOperation();
+
+        await expect(secondStream).rejects.toThrow('Aborted.');
     });
 
     describe('listNodes', () => {
@@ -124,6 +148,12 @@ describe('Connector', () => {
             expect(retryResult.totalCount).toBe(2);
         });
 
+        it('says how long it waited when the index request times out', async () => {
+            vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new DOMException('The operation was aborted due to timeout.', 'TimeoutError')));
+
+            await expect(createConnector().listNodes({ folderPath: '' })).rejects.toThrow('Failed to fetch the file store index within 30 seconds.');
+        });
+
         it('lists nothing for a folder that does not exist', async () => {
             stubIndexFetch();
 
@@ -157,7 +187,6 @@ describe('Connector', () => {
 
             expect(await connector.getReadableStream({ id: '', path: OBJECT_PATH })).toBe(body);
             expect(fetchMock).toHaveBeenCalledWith(`${URL_PREFIX}${OBJECT_PATH}`, expect.objectContaining({ signal: expect.any(AbortSignal) as AbortSignal }));
-            expect(connector.abortController).toBeUndefined();
         });
 
         it('encodes the path, so a name with a space can be fetched', async () => {
@@ -198,15 +227,13 @@ describe('Connector', () => {
                 encodingId: 'utf-8'
             });
             expect(shared.buildPreviewObjectResult).toHaveBeenCalledWith(expect.objectContaining({ filePreview, parserId: 'dpuse-tool-adaltas-csv-parser', toolConfigs: [] }));
-            expect(connector.abortController).toBeUndefined();
         });
 
-        it('passes on a failure and clears the operation', async () => {
+        it('passes on a failure', async () => {
             tools.byName['file-previewer'] = { previewFile: vi.fn().mockRejectedValue(new Error('Not readable.')) };
             const connector = createConnector();
 
             await expect(connector.previewObject({ path: OBJECT_PATH } as never)).rejects.toThrow('Not readable.');
-            expect(connector.abortController).toBeUndefined();
         });
     });
 
@@ -227,7 +254,6 @@ describe('Connector', () => {
             expect(fetchMock).toHaveBeenCalledWith(`${URL_PREFIX}${OBJECT_PATH}`, expect.objectContaining({ signal: expect.any(AbortSignal) as AbortSignal }));
             expect(shared.retrieveRecordsWithParser).toHaveBeenCalledWith({ chunk, options, signal: expect.any(AbortSignal) as AbortSignal, stream: body, toolConfigs: [] });
             expect(complete).toHaveBeenCalledWith(summary);
-            expect(connector.abortController).toBeUndefined();
         });
 
         it('fails when the object cannot be fetched', async () => {
@@ -252,14 +278,13 @@ describe('Connector', () => {
             expect(await connector.auditObjectContent(options as never, chunk)).toBe(auditResult);
             expect(shared.auditObjectContentWithParser).toHaveBeenCalledWith(
                 expect.objectContaining({
-                    constructColumnAuditor: connector.connectorUtilities.constructColumnAuditor,
+                    constructColumnAuditor: connectorUtilities.constructColumnAuditor,
                     onProgress: chunk,
                     options,
                     stream: body,
                     toolConfigs: []
                 })
             );
-            expect(connector.abortController).toBeUndefined();
         });
 
         it('stops the fetch when the operation is aborted', async () => {
@@ -281,13 +306,12 @@ describe('Connector', () => {
             expect(shared.auditObjectContentWithParser).not.toHaveBeenCalled();
         });
 
-        it('passes on a failure and clears the operation', async () => {
+        it('passes on a failure', async () => {
             vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, body: new ReadableStream<Uint8Array>() }));
             shared.auditObjectContentWithParser.mockRejectedValue(new Error('Bad CSV.'));
             const connector = createConnector();
 
             await expect(connector.auditObjectContent({ path: OBJECT_PATH } as never, vi.fn())).rejects.toThrow('Bad CSV.');
-            expect(connector.abortController).toBeUndefined();
         });
     });
 });
