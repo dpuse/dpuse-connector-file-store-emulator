@@ -25,6 +25,12 @@ const INDEX_TIMEOUT_MS = 30_000; // A stalled index request fails after this, ra
 const URL_PREFIX = 'https://sample-data-eu.dpuse.app/fileStore';
 const RESOURCE_FILE_SUFFIX = '.resource.json'; // A file's Data Resource sits beside it, e.g. 'people.resource.json' for 'people.csv'.
 
+// A file with a resource beside it shows a file with a green tick, in place of the plain file icon, so the user can tell
+// it is read as its resource says. The app draws a node's icon as an image, so the colours are written in for each colour
+// scheme: the app's muted grey for the file, as its plain file icon has.
+const DESCRIBED_FILE_ICON = buildDescribedFileIcon('#52525b', '#16a34a');
+const DESCRIBED_FILE_ICON_DARK = buildDescribedFileIcon('#a1a1aa', '#4ade80');
+
 // ── Connectors ───────────────────────────────────────────────────────────────────────────────────────────────────────
 
 export class Connector implements ConnectorInterface {
@@ -97,15 +103,20 @@ export class Connector implements ConnectorInterface {
         }
     }
 
-    // Lists the folders and files directly inside the folder.
+    // Lists the folders and files directly inside the folder. A resource file describes the file beside it rather than
+    // being data, so it is left out and that file is marked instead. A folder counts what it lists.
     async listNodes(options: ListNodesOptions): Promise<ListNodesResult> {
         const fileStoreIndex = await this.loadFileStoreIndex();
-        const folderNodes = fileStoreIndex[options.folderPath] ?? [];
-        const connectionNodeConfigs: ConnectionNodeConfig[] = folderNodes.map((folderNode) =>
-            folderNode.typeId === 'folder'
-                ? constructFolderNodeConfig(options.folderPath, folderNode.id, folderNode.name, folderNode.childCount)
-                : constructObjectNodeConfig(options.folderPath, folderNode.id, folderNode.name, folderNode.lastModifiedAt, folderNode.size, folderNode.mimeType)
-        );
+        const { listedNodes, describedFileStems } = selectListedNodes(fileStoreIndex[options.folderPath] ?? []);
+        const connectionNodeConfigs: ConnectionNodeConfig[] = listedNodes.map((folderNode) => {
+            if (folderNode.typeId === 'object') {
+                const hasResource = describedFileStems.has(extractPathWithoutExtension(folderNode.name) ?? folderNode.name);
+                return constructObjectNodeConfig(options.folderPath, folderNode.id, folderNode.name, folderNode.lastModifiedAt, folderNode.size, folderNode.mimeType, hasResource);
+            }
+            const childNodes = fileStoreIndex[`${options.folderPath}/${folderNode.name}`];
+            const childCount = childNodes == null ? folderNode.childCount : selectListedNodes(childNodes).listedNodes.length;
+            return constructFolderNodeConfig(options.folderPath, folderNode.id, folderNode.name, childCount);
+        });
         return { cursor: undefined, isMore: false, connectionNodeConfigs, totalCount: connectionNodeConfigs.length };
     }
 
@@ -234,7 +245,15 @@ function constructFolderNodeConfig(folderPath: string, id: string, name: string,
     };
 }
 
-function constructObjectNodeConfig(folderPath: string, id: string, fullName: string, lastModifiedAt: number, size: number, mimeType: string): ConnectionNodeConfig {
+function constructObjectNodeConfig(
+    folderPath: string,
+    id: string,
+    fullName: string,
+    lastModifiedAt: number,
+    size: number,
+    mimeType: string,
+    hasResource: boolean
+): ConnectionNodeConfig {
     const name = extractPathWithoutExtension(fullName) ?? '';
     const extension = extractExtensionFromPath(fullName);
     return {
@@ -242,8 +261,8 @@ function constructObjectNodeConfig(folderPath: string, id: string, fullName: str
         description: '',
         extension,
         folderPath,
-        icon: null,
-        iconDark: null,
+        icon: hasResource ? DESCRIBED_FILE_ICON : null,
+        iconDark: hasResource ? DESCRIBED_FILE_ICON_DARK : null,
         id,
         label: fullName,
         lastModifiedAt,
@@ -252,4 +271,25 @@ function constructObjectNodeConfig(folderPath: string, id: string, fullName: str
         size,
         typeId: 'object'
     };
+}
+
+// The nodes a folder lists: every folder and file, apart from a resource file that sits beside the file it describes. A
+// resource with no such file is listed, so it can still be found. Also returns the names, without extension, of the files
+// that have a resource.
+function selectListedNodes(folderNodes: FileStoreIndexEntry[]): { describedFileStems: Set<string>; listedNodes: FileStoreIndexEntry[] } {
+    const isResourceNode = (node: FileStoreIndexEntry): boolean => node.typeId === 'object' && node.name.endsWith(RESOURCE_FILE_SUFFIX);
+    const fileStems = new Set(folderNodes.filter((node) => node.typeId === 'object' && !isResourceNode(node)).map((node) => extractPathWithoutExtension(node.name) ?? node.name));
+    const describedFileStems = new Set(
+        folderNodes
+            .filter((node) => isResourceNode(node))
+            .map((node) => node.name.slice(0, -RESOURCE_FILE_SUFFIX.length))
+            .filter((stem) => fileStems.has(stem))
+    );
+    const listedNodes = folderNodes.filter((node) => !isResourceNode(node) || !describedFileStems.has(node.name.slice(0, -RESOURCE_FILE_SUFFIX.length)));
+    return { describedFileStems, listedNodes };
+}
+
+// Lucide's 'file-check' icon, at the stroke width the app draws its own file icon with.
+function buildDescribedFileIcon(fileColor: string, tickColor: string): string {
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><g stroke="${fileColor}"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></g><path stroke="${tickColor}" d="m9 15 2 2 4-4"/></svg>`;
 }

@@ -53,16 +53,19 @@ const FILE_STORE_INDEX = {
         { id: 'asciiId', lastModifiedAt: 1_700_000_000_000, mimeType: 'text/plain', name: 'ascii.txt', size: 900, typeId: 'object' },
         { id: 'readmeId', lastModifiedAt: 1_700_000_000_000, mimeType: 'text/plain', name: 'README', size: 50, typeId: 'object' }
     ],
-    // A file with a Data Resource beside it. Its folder is left out of the root, so the root's listing stays small.
-    '/Application': [
+    // A file with a Data Resource beside it, and a resource with no file. Their folders are left out of the root, so the
+    // root's listing stays small. The index counts every file in a folder, resource files included.
+    '/Shared': [{ childCount: 3, id: 'applicationId', name: 'Application', typeId: 'folder' }],
+    '/Shared/Application': [
+        { id: 'notesResourceId', lastModifiedAt: 1_700_000_000_000, mimeType: 'application/json', name: 'notes.resource.json', size: 100, typeId: 'object' },
         { id: 'peopleId', lastModifiedAt: 1_700_000_000_000, mimeType: 'text/csv', name: 'people.csv', size: 500, typeId: 'object' },
         { id: 'peopleResourceId', lastModifiedAt: 1_700_000_000_000, mimeType: 'application/json', name: 'people.resource.json', size: 400, typeId: 'object' }
     ]
 };
 
 // The Data Resource beside 'people.csv', and the columns it states.
-const PEOPLE_PATH = '/Application/people.csv';
-const PEOPLE_RESOURCE_URL = `${URL_PREFIX}/Application/people.resource.json`;
+const PEOPLE_PATH = '/Shared/Application/people.csv';
+const PEOPLE_RESOURCE_URL = `${URL_PREFIX}/Shared/Application/people.resource.json`;
 const PEOPLE_RESOURCE = {
     dialect: { delimiter: ',', header: true },
     encoding: 'utf-8',
@@ -320,6 +323,35 @@ describe('Connector', () => {
             await expect(createConnector().listNodes({ folderPath: '' })).rejects.toThrow('Failed to fetch the file store index within 30 seconds.');
         });
 
+        // A resource file describes the file beside it rather than being data, so the listing shows only that file, marked
+        // with its own icon.
+        it('leaves out a resource file beside the file it describes, and marks that file', async () => {
+            stubIndexFetch();
+
+            const result = await createConnector().listNodes({ folderPath: '/Shared/Application' });
+
+            expect(result.connectionNodeConfigs.map(({ label }) => label)).toEqual(['notes.resource.json', 'people.csv']);
+            expect(result.connectionNodeConfigs[1]?.icon).toContain('<svg');
+            expect(result.connectionNodeConfigs[1]?.iconDark).toContain('<svg');
+            expect(result.totalCount).toBe(2);
+        });
+
+        it('lists a resource file with no file to describe, as a plain file', async () => {
+            stubIndexFetch();
+
+            const result = await createConnector().listNodes({ folderPath: '/Shared/Application' });
+
+            expect(result.connectionNodeConfigs[0]).toMatchObject({ icon: null, iconDark: null, label: 'notes.resource.json' });
+        });
+
+        it('counts only what a folder lists, without the resource files it leaves out', async () => {
+            stubIndexFetch();
+
+            const result = await createConnector().listNodes({ folderPath: '/Shared' });
+
+            expect(result.connectionNodeConfigs[0]?.childCount).toBe(2);
+        });
+
         it('lists nothing for a folder that does not exist', async () => {
             stubIndexFetch();
 
@@ -440,7 +472,7 @@ describe('Connector', () => {
             tools.byName['file-previewer'] = { previewFile: vi.fn().mockResolvedValue({}) };
 
             await expect(createConnector().previewObject(buildPreviewOptions({ path: PEOPLE_PATH }))).rejects.toThrow(
-                "Failed to fetch '/Application/people.resource.json' resource."
+                "Failed to fetch '/Shared/Application/people.resource.json' resource."
             );
             expect(shared.buildPreviewObjectResult).not.toHaveBeenCalled();
         });
