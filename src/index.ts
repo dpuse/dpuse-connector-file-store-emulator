@@ -4,7 +4,7 @@ import { auditObjectContentWithParser, buildFetchError, buildPreviewObjectResult
 import { ConnectorError, extractExtensionFromPath, extractPathWithoutExtension, loadTool } from '@dpuse/dpuse-shared';
 import type { ConnectorInterface, ConnectorUtilities, FindObjectOptions, FindObjectResult } from '@dpuse/dpuse-shared';
 import type { GetReadableStreamOptions, ListNodesOptions, ListNodesResult, ParsedRecord } from '@dpuse/dpuse-shared';
-import { normalizeToError, retrieveRecordsWithParser } from '@dpuse/dpuse-shared';
+import { normalizeToError, readTableSchema, retrieveRecordsWithParser } from '@dpuse/dpuse-shared';
 import type { PreviewObjectOptions, PreviewObjectResult, RecordRetrievalTypeId } from '@dpuse/dpuse-shared';
 import type { RetrieveRecordsOptions, RetrieveRecordsSummary, ToolConfig } from '@dpuse/dpuse-shared';
 
@@ -16,12 +16,14 @@ import type { Tool as FilePreviewerTool } from '@dpuse/dpuse-tool-file-previewer
 type FileStoreIndexEntry =
     { typeId: 'folder'; childCount: number; id: string; name: string } | { typeId: 'object'; id: string; lastModifiedAt: number; mimeType: string; name: string; size: number };
 type FileStoreIndex = Record<string, FileStoreIndexEntry[]>;
+type TableResource = ReturnType<typeof readTableSchema>;
 
 // ── Constants ────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 const INDEX_URL = 'https://sample-data-eu.dpuse.app/fileStoreIndex.json'; // Fetched from the bucket rather than bundled, so changing the sample files needs no connector release.
 const INDEX_TIMEOUT_MS = 30_000; // A stalled index request fails after this, rather than holding up 'listNodes' and 'findObject'.
 const URL_PREFIX = 'https://sample-data-eu.dpuse.app/fileStore';
+const RESOURCE_FILE_SUFFIX = '.resource.json'; // A file's Data Resource sits beside it, e.g. 'people.resource.json' for 'people.csv'.
 
 // ── Connectors ───────────────────────────────────────────────────────────────────────────────────────────────────────
 
@@ -51,9 +53,11 @@ export class Connector implements ConnectorInterface {
         const { signal } = abortController;
 
         try {
+            const tableResource = await this.findTableResource(options.path, signal); // The options already read the file as its resource says, because they come from its preview.
             const stream = await fetchObjectStream(options.path, signal);
             return await auditObjectContentWithParser({
                 constructColumnAuditor: this.connectorUtilities.constructColumnAuditor,
+                declaredColumnConfigs: tableResource?.declaredColumnConfigs,
                 onProgress: chunk,
                 options,
                 signal,
@@ -114,21 +118,25 @@ export class Connector implements ConnectorInterface {
             const asAt = Date.now();
             const startedAt = performance.now();
 
-            // Preview file to determine file format and decode text.
+            // A file's resource says how it is read, in place of the user's choices and of detection. A file without one is
+            // read as the user chose, or as detected.
+            const tableResource = await this.findTableResource(options.path, signal);
+            const declaredReadingConfig = tableResource?.declaredReadingConfig;
             const filePreviewerTool = await loadTool<FilePreviewerTool>(this.toolConfigs, 'file-previewer');
-            // The user's choices of format and encoding, when made, replace what detection would find.
             const filePreview = await filePreviewerTool.previewFile(`${URL_PREFIX}${options.path}`, signal, options.chunkSize, options.mimeType, undefined, {
-                dataFormatId: options.dataFormatId,
-                encodingId: options.encodingId
+                dataFormatId: declaredReadingConfig?.dataFormatId ?? options.dataFormatId,
+                encodingId: declaredReadingConfig?.encodingId ?? options.encodingId
             });
             return await buildPreviewObjectResult({
                 asAt,
+                declaredColumnConfigs: tableResource?.declaredColumnConfigs,
                 filePreview,
+                hasHeaders: declaredReadingConfig?.hasHeaders,
                 inferDataTypes: this.connectorUtilities.inferDataTypes,
                 parserId: options.parserId,
                 startedAt,
                 toolConfigs: this.toolConfigs,
-                valueDelimiterId: options.valueDelimiterId
+                valueDelimiterId: declaredReadingConfig?.valueDelimiterId ?? options.valueDelimiterId
             });
         } catch (error) {
             throw normalizeToError(error);
@@ -163,6 +171,22 @@ export class Connector implements ConnectorInterface {
     private loadFileStoreIndex(): Promise<FileStoreIndex> {
         this.pendingFileStoreIndex ??= this.fetchFileStoreIndex();
         return this.pendingFileStoreIndex;
+    }
+
+    // The Data Resource beside a file, read for how the file is read and the columns it holds. The index lists every file,
+    // so only a file with a resource beside it costs a fetch.
+    private async findTableResource(path: string, signal: AbortSignal): Promise<TableResource | undefined> {
+        const resourcePath = `${extractPathWithoutExtension(path) ?? path}${RESOURCE_FILE_SUFFIX}`;
+        const separatorIndex = resourcePath.lastIndexOf('/');
+        const fileStoreIndex = await this.loadFileStoreIndex();
+        const hasResource = fileStoreIndex[resourcePath.slice(0, separatorIndex)]?.some(
+            (entry) => entry.typeId === 'object' && entry.name === resourcePath.slice(separatorIndex + 1)
+        );
+        if (hasResource !== true) return undefined;
+
+        const response = await fetch(encodeURI(`${URL_PREFIX}${resourcePath}`), { signal }); // Encoded as the file's own URL is.
+        if (!response.ok) throw await buildFetchError(response, `Failed to fetch '${resourcePath}' resource.`, 'dpuse-connector-file-store-emulator.Connector.findTableResource');
+        return readTableSchema((await response.json()) as Parameters<typeof readTableSchema>[0]); // Checked by 'readTableSchema', which rejects a resource without a valid schema.
     }
 
     // A failed fetch is not kept, so the next call tries again.

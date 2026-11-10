@@ -2,7 +2,8 @@
 import { afterEach, describe, expect, it, type Mock, vi } from 'vitest';
 
 // ── DPUse Framework
-import type { AuditObjectContentOptions, ConnectorActionName, FindObjectOptions, PreviewObjectOptions, RetrieveRecordsOptions } from '@dpuse/dpuse-shared';
+import type { AuditObjectContentOptions, ConnectorActionName, DeclaredColumnConfig, FindObjectOptions } from '@dpuse/dpuse-shared';
+import type { PreviewObjectOptions, RetrieveRecordsOptions } from '@dpuse/dpuse-shared';
 
 // ── Local Framework
 import config from '~/config.json';
@@ -15,7 +16,7 @@ type FetchMock = Mock<(url: string, init: { signal: AbortSignal }) => Promise<un
 
 interface Operation {
     name: string;
-    holdUntil?: (fetchMock: FetchMock, release: Promise<void>) => void; // Only for operations that can be aborted.
+    holdUntil?: (fetchMock: FetchMock, release: Promise<void>) => Promise<void>; // Only for operations that can be aborted. Settles once the held request has started.
     start: (connector: Connector) => Promise<unknown>;
 }
 type AbortableOperation = Required<Operation>;
@@ -51,8 +52,32 @@ const FILE_STORE_INDEX = {
     '/Encoding Samples': [
         { id: 'asciiId', lastModifiedAt: 1_700_000_000_000, mimeType: 'text/plain', name: 'ascii.txt', size: 900, typeId: 'object' },
         { id: 'readmeId', lastModifiedAt: 1_700_000_000_000, mimeType: 'text/plain', name: 'README', size: 50, typeId: 'object' }
+    ],
+    // A file with a Data Resource beside it. Its folder is left out of the root, so the root's listing stays small.
+    '/Application': [
+        { id: 'peopleId', lastModifiedAt: 1_700_000_000_000, mimeType: 'text/csv', name: 'people.csv', size: 500, typeId: 'object' },
+        { id: 'peopleResourceId', lastModifiedAt: 1_700_000_000_000, mimeType: 'application/json', name: 'people.resource.json', size: 400, typeId: 'object' }
     ]
 };
+
+// The Data Resource beside 'people.csv', and the columns it states.
+const PEOPLE_PATH = '/Application/people.csv';
+const PEOPLE_RESOURCE_URL = `${URL_PREFIX}/Application/people.resource.json`;
+const PEOPLE_RESOURCE = {
+    dialect: { delimiter: ',', header: true },
+    encoding: 'utf-8',
+    path: 'people.csv',
+    schema: {
+        fields: [
+            { name: 'personId', title: 'Person ID', type: 'string' },
+            { name: 'birthDate', title: 'Birth date', type: 'date' }
+        ]
+    }
+};
+const PEOPLE_COLUMN_CONFIGS: DeclaredColumnConfig[] = [
+    { dataSubtypeId: 'plain', dataTypeId: 'string', label: 'Person ID', name: 'personId' },
+    { dataSubtypeId: 'date', dataTypeId: 'temporal', label: 'Birth date', name: 'birthDate' }
+];
 
 const CONNECTOR_UTILITIES = {
     constructColumnAuditor: () => ({ auditRecords: vi.fn(), completeAudit: () => [{ id: 'a' }] }),
@@ -85,7 +110,8 @@ const CONNECTOR_ACTION_NAMES = Object.keys({
 
 // The actions that do work, in the order a user meets them. 'holdUntil', on the ones that create an abort controller,
 // makes the action's request wait for 'release' and then succeed: a fetched object for the actions that fetch, a file
-// preview for 'previewObject', which reads through the file previewer tool.
+// preview for 'previewObject', which reads through the file previewer tool. Previews and audits read the index first, to
+// find a file's resource, so the promise it returns says when the held request has actually started.
 const OPERATIONS: Operation[] = [
     {
         name: 'listNodes',
@@ -103,12 +129,15 @@ const OPERATIONS: Operation[] = [
     {
         name: 'previewObject',
         holdUntil: (_fetchMock, release) => {
+            const started = Promise.withResolvers<undefined>();
             tools.byName['file-previewer'] = {
                 previewFile: async () => {
+                    started.resolve(undefined);
                     await release;
                     return {};
                 }
             };
+            return started.promise;
         },
         start: (connector) => connector.previewObject(buildPreviewOptions())
     },
@@ -170,10 +199,11 @@ describe('Connector', () => {
         it.each(ABORTABLE_OPERATIONS)('can still stop a later operation after $name ends', async ({ holdUntil, start }) => {
             const fetchMock = stubWaitingRequests();
             const release = Promise.withResolvers<undefined>();
-            holdUntil(fetchMock, release.promise);
+            const started = holdUntil(fetchMock, release.promise);
             const connector = createConnector();
 
             const earlierOperation = start(connector);
+            await started;
             const laterOperation = connector.getReadableStream({ id: '', path: OBJECT_PATH });
             release.resolve(undefined);
             await earlierOperation;
@@ -354,6 +384,7 @@ describe('Connector', () => {
 
     describe('previewObject', () => {
         it("previews the file with the user's choices, then builds the preview with the parser they chose", async () => {
+            stubIndexFetch();
             const filePreview = { bytes: new Uint8Array(4), dataFormatId: 'dtv', text: 'a,b\n' };
             const previewFile = vi.fn().mockResolvedValue(filePreview);
             tools.byName['file-previewer'] = { previewFile };
@@ -367,12 +398,57 @@ describe('Connector', () => {
                 dataFormatId: 'dtv',
                 encodingId: 'utf-8'
             });
-            expect(shared.buildPreviewObjectResult).toHaveBeenCalledWith(expect.objectContaining({ filePreview, parserId: 'dpuse-tool-adaltas-csv-parser', toolConfigs: [] }));
+            expect(shared.buildPreviewObjectResult).toHaveBeenCalledWith(
+                expect.objectContaining({ declaredColumnConfigs: undefined, filePreview, hasHeaders: undefined, parserId: 'dpuse-tool-adaltas-csv-parser', toolConfigs: [] })
+            );
+        });
+
+        // A file's resource says how it is read, so it replaces the user's choices of format, encoding and delimiter.
+        it('previews a file with a resource beside it as the resource says, with the columns it states', async () => {
+            const fetchMock = stubIndexFetch();
+            const previewFile = vi.fn().mockResolvedValue({});
+            tools.byName['file-previewer'] = { previewFile };
+
+            await createConnector().previewObject(buildPreviewOptions({ dataFormatId: 'json', encodingId: 'utf-16le', path: PEOPLE_PATH, valueDelimiterId: ';' }));
+
+            expect(fetchMock).toHaveBeenCalledWith(PEOPLE_RESOURCE_URL, expect.objectContaining({ signal: expect.any(AbortSignal) as AbortSignal }));
+            expect(previewFile).toHaveBeenCalledWith(`${URL_PREFIX}${PEOPLE_PATH}`, expect.any(AbortSignal), undefined, undefined, undefined, {
+                dataFormatId: 'dtv',
+                encodingId: 'utf-8'
+            });
+            expect(shared.buildPreviewObjectResult).toHaveBeenCalledWith(
+                expect.objectContaining({ declaredColumnConfigs: PEOPLE_COLUMN_CONFIGS, hasHeaders: true, valueDelimiterId: ',' })
+            );
+        });
+
+        // The index lists every file, so a file without a resource costs no request for one.
+        it('fetches no resource for a file the index shows has none', async () => {
+            const fetchMock = stubIndexFetch();
+            tools.byName['file-previewer'] = { previewFile: vi.fn().mockResolvedValue({}) };
+
+            await createConnector().previewObject(buildPreviewOptions());
+
+            expect(fetchMock).toHaveBeenCalledTimes(1);
+            expect(fetchMock).toHaveBeenCalledWith(INDEX_URL, expect.anything());
+        });
+
+        it('fails when the resource cannot be fetched, rather than reading the file without it', async () => {
+            vi.stubGlobal(
+                'fetch',
+                vi.fn((url: string) => Promise.resolve(url === INDEX_URL ? Response.json(FILE_STORE_INDEX) : new Response(null, { status: 503 })))
+            );
+            tools.byName['file-previewer'] = { previewFile: vi.fn().mockResolvedValue({}) };
+
+            await expect(createConnector().previewObject(buildPreviewOptions({ path: PEOPLE_PATH }))).rejects.toThrow(
+                "Failed to fetch '/Application/people.resource.json' resource."
+            );
+            expect(shared.buildPreviewObjectResult).not.toHaveBeenCalled();
         });
 
         // The file previewer encodes the URL itself, so the connector must hand it the path as it is, or a name with a space
         // would be encoded twice.
         it('hands the file previewer the path unencoded', async () => {
+            stubIndexFetch();
             const previewFile = vi.fn().mockResolvedValue({});
             tools.byName['file-previewer'] = { previewFile };
 
@@ -382,6 +458,7 @@ describe('Connector', () => {
         });
 
         it('fails when the file previewer tool cannot be loaded', async () => {
+            stubIndexFetch();
             tools.byName['file-previewer'] = new Error('Failed to load the file previewer.');
 
             await expect(createConnector().previewObject(buildPreviewOptions())).rejects.toThrow('Failed to load the file previewer.');
@@ -430,7 +507,7 @@ describe('Connector', () => {
     describe('auditObjectContent', () => {
         it('fetches the object and audits it with the parser that read its preview', async () => {
             const body = new ReadableStream<Uint8Array>();
-            vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, body }));
+            stubObjectFetch({ ok: true, body });
             const auditResult = { contentAuditConfig: { recordCount: 2 }, hasHeaders: true };
             shared.auditObjectContentWithParser.mockResolvedValue(auditResult);
             const chunk = vi.fn();
@@ -441,6 +518,7 @@ describe('Connector', () => {
             expect(shared.auditObjectContentWithParser).toHaveBeenCalledWith(
                 expect.objectContaining({
                     constructColumnAuditor: CONNECTOR_UTILITIES.constructColumnAuditor,
+                    declaredColumnConfigs: undefined,
                     onProgress: chunk,
                     options,
                     stream: body,
@@ -449,8 +527,16 @@ describe('Connector', () => {
             );
         });
 
+        it('hands the auditor the columns the resource beside the file states', async () => {
+            stubObjectFetch({ ok: true, body: new ReadableStream<Uint8Array>() });
+
+            await createConnector().auditObjectContent(buildAuditOptions({ path: PEOPLE_PATH }), vi.fn());
+
+            expect(shared.auditObjectContentWithParser).toHaveBeenCalledWith(expect.objectContaining({ declaredColumnConfigs: PEOPLE_COLUMN_CONFIGS }));
+        });
+
         it('passes on a failure to read the content', async () => {
-            vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, body: new ReadableStream<Uint8Array>() }));
+            stubObjectFetch({ ok: true, body: new ReadableStream<Uint8Array>() });
             shared.auditObjectContentWithParser.mockRejectedValue(new Error('Bad CSV.'));
 
             await expect(createConnector().auditObjectContent(buildAuditOptions(), vi.fn())).rejects.toThrow('Bad CSV.');
@@ -507,11 +593,27 @@ function buildNotFoundResponse(): Response {
     return new Response(null, { status: 404, statusText: 'Not Found' });
 }
 
-// Serves the index, and rejects any other request.
+// Serves the index and the resource beside 'people.csv', and rejects any other request.
 function stubIndexFetch(): ReturnType<typeof vi.fn> {
-    const fetchMock = vi.fn((url: string) => (url === INDEX_URL ? Promise.resolve(Response.json(FILE_STORE_INDEX)) : Promise.reject(new Error('Unexpected fetch.'))));
+    const fetchMock = vi.fn((url: string) => (isDescriptionUrl(url) ? Promise.resolve(buildDescriptionResponse(url)) : Promise.reject(new Error('Unexpected fetch.'))));
     vi.stubGlobal('fetch', fetchMock);
     return fetchMock;
+}
+
+// Serves the index and the resource beside 'people.csv', and the response given for any other request.
+function stubObjectFetch(response: unknown): FetchMock {
+    const fetchMock: FetchMock = vi.fn((url: string) => Promise.resolve(isDescriptionUrl(url) ? buildDescriptionResponse(url) : response));
+    vi.stubGlobal('fetch', fetchMock);
+    return fetchMock;
+}
+
+// The requests that describe the files rather than fetch one: the index, and a file's resource.
+function isDescriptionUrl(url: string): boolean {
+    return url === INDEX_URL || url === PEOPLE_RESOURCE_URL;
+}
+
+function buildDescriptionResponse(url: string): Response {
+    return Response.json(url === INDEX_URL ? FILE_STORE_INDEX : PEOPLE_RESOURCE);
 }
 
 // Stands in for a request that is still running: it settles only by failing, once the signal is aborted. A signal
@@ -525,17 +627,28 @@ function waitForAbort(signal: AbortSignal): Promise<never> {
     });
 }
 
-// Makes every fetch, and every file preview, run until it is aborted.
+// Makes every fetch, and every file preview, run until it is aborted. The index and resources are still served at once,
+// because previews and audits read them first.
 function stubWaitingRequests(): FetchMock {
-    const fetchMock: FetchMock = vi.fn((_url: string, init: { signal: AbortSignal }) => waitForAbort(init.signal));
+    const fetchMock: FetchMock = vi.fn((url: string, init: { signal: AbortSignal }) =>
+        isDescriptionUrl(url) ? Promise.resolve(buildDescriptionResponse(url)) : waitForAbort(init.signal)
+    );
     vi.stubGlobal('fetch', fetchMock);
     tools.byName['file-previewer'] = { previewFile: (_url: string, signal: AbortSignal) => waitForAbort(signal) };
     return fetchMock;
 }
 
-function holdFetchUntil(fetchMock: FetchMock, release: Promise<void>): void {
-    fetchMock.mockImplementationOnce(async () => {
+// Makes the next fetch of a file wait for 'release' and then succeed. Every other request runs as before.
+function holdFetchUntil(fetchMock: FetchMock, release: Promise<void>): Promise<void> {
+    const runRequest = fetchMock.getMockImplementation();
+    const started = Promise.withResolvers<undefined>();
+    let isHolding = true;
+    fetchMock.mockImplementation(async (url, init) => {
+        if (!isHolding || isDescriptionUrl(url)) return runRequest?.(url, init);
+        isHolding = false;
+        started.resolve(undefined);
         await release;
         return { ok: true, body: new ReadableStream<Uint8Array>() };
     });
+    return started.promise;
 }
