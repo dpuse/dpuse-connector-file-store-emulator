@@ -186,6 +186,13 @@ export class Connector implements ConnectorInterface {
 
     // The Data Resource beside a file, read for how the file is read and the columns it holds. The index lists every file,
     // so only a file with a resource beside it costs a fetch.
+    // TODO: Also read a folder's 'datapackage.json' (https://datapackage.org/standard/data-package/) when a file has no
+    // '<name>.resource.json'. The '.resource.json' file is DPUse's own convention. Other tools that follow the standard
+    // usually write one 'datapackage.json' per folder instead, with an entry for each file holding its schema, dialect
+    // and encoding. A user's own files described by such a tool would otherwise be read by detection, as if they had no
+    // description. Find the entry whose 'path' names the file and pass it to 'readTableSchema'. 'listNodes' should then
+    // also hide 'datapackage.json' and mark the files it describes. Other file connectors copy this lookup, so they
+    // need it too.
     private async findTableResource(path: string, signal: AbortSignal): Promise<TableResource | undefined> {
         const resourcePath = `${extractPathWithoutExtension(path) ?? path}${RESOURCE_FILE_SUFFIX}`;
         const separatorIndex = resourcePath.lastIndexOf('/');
