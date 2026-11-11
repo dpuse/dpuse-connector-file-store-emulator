@@ -426,7 +426,7 @@ describe('Connector', () => {
             const connector = createConnector();
 
             expect(await connector.previewObject(options)).toBe(previewObjectResult);
-            expect(previewFile).toHaveBeenCalledWith(`${URL_PREFIX}${OBJECT_PATH}`, expect.any(AbortSignal), 4096, 'text/csv', undefined, {
+            expect(previewFile).toHaveBeenCalledWith(`${URL_PREFIX}${OBJECT_PATH}`, expect.any(AbortSignal), 4096, 'text/csv', {
                 dataFormatId: 'dtv',
                 encodingId: 'utf-8'
             });
@@ -450,7 +450,7 @@ describe('Connector', () => {
             await createConnector().previewObject(buildPreviewOptions({ dataFormatId: 'json', encodingId: 'utf-16le', path: PEOPLE_PATH, valueDelimiterId: ';' }));
 
             expect(fetchMock).toHaveBeenCalledWith(PEOPLE_RESOURCE_URL, expect.objectContaining({ signal: expect.any(AbortSignal) as AbortSignal }));
-            expect(previewFile).toHaveBeenCalledWith(`${URL_PREFIX}${PEOPLE_PATH}`, expect.any(AbortSignal), undefined, undefined, undefined, {
+            expect(previewFile).toHaveBeenCalledWith(`${URL_PREFIX}${PEOPLE_PATH}`, expect.any(AbortSignal), undefined, undefined, {
                 dataFormatId: 'dtv',
                 encodingId: 'utf-8'
             });
@@ -495,7 +495,7 @@ describe('Connector', () => {
 
             await createConnector().previewObject(buildPreviewOptions({ path: '/Type Samples/people.csv' }));
 
-            expect(previewFile).toHaveBeenCalledWith(`${URL_PREFIX}/Type Samples/people.csv`, expect.any(AbortSignal), undefined, undefined, undefined, expect.anything());
+            expect(previewFile).toHaveBeenCalledWith(`${URL_PREFIX}/Type Samples/people.csv`, expect.any(AbortSignal), undefined, undefined, expect.anything());
         });
 
         it('fails when the file previewer tool cannot be loaded', async () => {
