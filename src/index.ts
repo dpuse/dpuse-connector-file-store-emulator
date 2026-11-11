@@ -4,10 +4,10 @@ import { auditObjectContentWithParser, buildFetchError, buildPreviewObjectResult
 import { ConnectorError, extractExtensionFromPath, extractPathWithoutExtension, loadTool } from '@dpuse/dpuse-shared';
 import type { ConnectorInterface, ConnectorUtilities, FilePreviewerInterface } from '@dpuse/dpuse-shared';
 import type { FindObjectOptions, FindObjectResult, GetReadableStreamOptions } from '@dpuse/dpuse-shared';
-import type { ListNodesOptions, ListNodesResult, ParsedRecord } from '@dpuse/dpuse-shared';
-import { normalizeToError, readTableSchema, retrieveRecordsWithParser } from '@dpuse/dpuse-shared';
-import type { PreviewObjectOptions, PreviewObjectResult, RecordRetrievalTypeId } from '@dpuse/dpuse-shared';
-import type { RetrieveRecordsOptions, RetrieveRecordsSummary, ToolConfig } from '@dpuse/dpuse-shared';
+import type { ListNodesOptions, ListNodesResult } from '@dpuse/dpuse-shared';
+import { normalizeToError, readTableSchema, resolveRequestSignal, retrieveRecordsWithParser } from '@dpuse/dpuse-shared';
+import type { ParsedRecordsChunk, PreviewObjectOptions, PreviewObjectResult, RetrieveRecordsOptions } from '@dpuse/dpuse-shared';
+import type { RetrieveRecordsSummary, ToolConfig } from '@dpuse/dpuse-shared';
 
 // ── Types ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
@@ -33,28 +33,18 @@ const DESCRIBED_FILE_ICON_DARK = buildDescribedFileIcon('#a1a1aa', '#4ade80');
 
 export class Connector implements ConnectorInterface {
     private pendingFileStoreIndex: Promise<FileStoreIndex> | undefined; // The file store index, loaded on first use.
-    private abortController: AbortController | undefined; // The latest operation's. An operation that ends clears it only if no later one has replaced it.
     private readonly connectorUtilities: ConnectorUtilities;
     private readonly toolConfigs;
 
     constructor(connectorUtilities: ConnectorUtilities, toolConfigs: ToolConfig[]) {
-        this.abortController = undefined;
         this.connectorUtilities = connectorUtilities;
         this.toolConfigs = toolConfigs;
     }
 
     // ── Actions ──────────────────────────────────────────────────────────────────────────────────────────────────────
 
-    abortOperation(): void {
-        if (!this.abortController) return;
-        this.abortController.abort();
-        this.abortController = undefined;
-    }
-
     async auditObjectContent(options: AuditObjectContentOptions, chunk: (recordCount: number, byteCount: number) => void): Promise<AuditObjectContentResult> {
-        const abortController = new AbortController();
-        this.abortController = abortController;
-        const { signal } = abortController;
+        const signal = resolveRequestSignal(options);
 
         try {
             const tableResource = await this.findTableResource(options.path, signal); // The options already read the file as its resource says, because they come from its preview.
@@ -70,8 +60,6 @@ export class Connector implements ConnectorInterface {
             });
         } catch (error) {
             throw normalizeToError(error);
-        } finally {
-            if (this.abortController === abortController) this.abortController = undefined;
         }
     }
 
@@ -88,16 +76,12 @@ export class Connector implements ConnectorInterface {
     }
 
     async getReadableStream(options: GetReadableStreamOptions): Promise<ReadableStream<Uint8Array>> {
-        const abortController = new AbortController();
-        this.abortController = abortController;
-        const { signal } = abortController;
+        const signal = resolveRequestSignal(options);
 
         try {
             return await fetchObjectStream(options.path, signal);
         } catch (error) {
             throw normalizeToError(error);
-        } finally {
-            if (this.abortController === abortController) this.abortController = undefined;
         }
     }
 
@@ -119,9 +103,7 @@ export class Connector implements ConnectorInterface {
     }
 
     async previewObject(options: PreviewObjectOptions): Promise<PreviewObjectResult> {
-        const abortController = new AbortController();
-        this.abortController = abortController;
-        const { signal } = abortController;
+        const signal = resolveRequestSignal(options);
 
         try {
             const asAt = Date.now();
@@ -157,28 +139,18 @@ export class Connector implements ConnectorInterface {
             });
         } catch (error) {
             throw normalizeToError(error);
-        } finally {
-            if (this.abortController === abortController) this.abortController = undefined;
         }
     }
 
     // Retrieves all records from the object node, with the tool that read its preview.
-    async retrieveRecords(
-        options: RetrieveRecordsOptions,
-        chunk: (typeId: RecordRetrievalTypeId, records: ParsedRecord[]) => void | Promise<void>, // A returned promise holds the read back until it settles.
-        complete: (result: RetrieveRecordsSummary) => void
-    ): Promise<void> {
-        const abortController = new AbortController();
-        this.abortController = abortController;
-        const { signal } = abortController;
+    async *retrieveRecords(options: RetrieveRecordsOptions): AsyncGenerator<ParsedRecordsChunk, RetrieveRecordsSummary, undefined> {
+        const signal = resolveRequestSignal(options);
 
         try {
             const stream = await fetchObjectStream(options.path, signal);
-            complete(await retrieveRecordsWithParser({ chunk, options, signal, stream, toolConfigs: this.toolConfigs }));
+            return yield* retrieveRecordsWithParser({ options, signal, stream, toolConfigs: this.toolConfigs });
         } catch (error) {
             throw normalizeToError(error);
-        } finally {
-            if (this.abortController === abortController) this.abortController = undefined;
         }
     }
 

@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it, type Mock, vi } from 'vitest';
 
 // ── DPUse Framework
 import type { AuditObjectContentOptions, ConnectorActionName, DeclaredColumnConfig, FindObjectOptions } from '@dpuse/dpuse-shared';
-import type { PreviewObjectOptions, RetrieveRecordsOptions } from '@dpuse/dpuse-shared';
+import type { ParsedRecordsChunk, PreviewObjectOptions, RetrieveRecordsOptions, RetrieveRecordsSummary } from '@dpuse/dpuse-shared';
 
 // ── Local Framework
 import config from '~/config.json';
@@ -17,7 +17,7 @@ type FetchMock = Mock<(url: string, init: { signal: AbortSignal }) => Promise<un
 interface Operation {
     name: string;
     holdUntil?: (fetchMock: FetchMock, release: Promise<void>) => Promise<void>; // Only for operations that can be aborted. Settles once the held request has started.
-    start: (connector: Connector) => Promise<unknown>;
+    start: (connector: Connector, signal?: AbortSignal) => Promise<unknown>; // 'signal' stands in for the one the engine adds to a request the app names.
 }
 type AbortableOperation = Required<Operation>;
 
@@ -90,7 +90,6 @@ const CONNECTOR_UTILITIES = {
 // Every action a connector may implement. Typed as a record of 'ConnectorActionName', so the file stops compiling when
 // dpuse-shared adds an action until it is listed here.
 const CONNECTOR_ACTION_NAMES = Object.keys({
-    abortOperation: true,
     auditObjectContent: true,
     closeStore: true,
     createObject: true,
@@ -106,15 +105,16 @@ const CONNECTOR_ACTION_NAMES = Object.keys({
     previewObject: true,
     queryRecords: true,
     removeRecords: true,
-    retrieveChunks: true,
     retrieveRecords: true,
     upsertRecords: true
 } satisfies Record<ConnectorActionName, true>);
 
-// The actions that do work, in the order a user meets them. 'holdUntil', on the ones that create an abort controller,
+// The actions that do work, in the order a user meets them. 'holdUntil', on the ones that take the request's signal,
 // makes the action's request wait for 'release' and then succeed: a fetched object for the actions that fetch, a file
 // preview for 'previewObject', which reads through the file previewer tool. Previews and audits read the index first, to
 // find a file's resource, so the promise it returns says when the held request has actually started.
+const EMPTY_SUMMARY: RetrieveRecordsSummary = { recordCount: 0 };
+
 const OPERATIONS: Operation[] = [
     {
         name: 'listNodes',
@@ -127,7 +127,7 @@ const OPERATIONS: Operation[] = [
     {
         name: 'getReadableStream',
         holdUntil: holdFetchUntil,
-        start: (connector) => connector.getReadableStream({ id: '', path: OBJECT_PATH })
+        start: (connector, signal) => connector.getReadableStream({ path: OBJECT_PATH, signal })
     },
     {
         name: 'previewObject',
@@ -142,17 +142,21 @@ const OPERATIONS: Operation[] = [
             };
             return started.promise;
         },
-        start: (connector) => connector.previewObject(buildPreviewOptions())
+        start: (connector, signal) => connector.previewObject(buildPreviewOptions({ signal }))
     },
     {
         name: 'retrieveRecords',
         holdUntil: holdFetchUntil,
-        start: (connector) => connector.retrieveRecords(buildRetrieveOptions(), vi.fn(), vi.fn())
+        start: (connector, signal) => {
+            // The parser is mocked, so it is given a read with no records for when the fetch succeeds.
+            shared.retrieveRecordsWithParser.mockImplementation(() => buildRetrieval([], EMPTY_SUMMARY));
+            return readRetrieval(connector.retrieveRecords(buildRetrieveOptions({ signal })));
+        }
     },
     {
         name: 'auditObjectContent',
         holdUntil: holdFetchUntil,
-        start: (connector) => connector.auditObjectContent(buildAuditOptions(), vi.fn())
+        start: (connector, signal) => connector.auditObjectContent(buildAuditOptions({ signal }), vi.fn())
     }
 ];
 const ABORTABLE_OPERATIONS = OPERATIONS.filter((operation): operation is AbortableOperation => operation.holdUntil !== undefined);
@@ -180,39 +184,33 @@ describe('Connector', () => {
         });
     });
 
-    describe('abortOperation', () => {
-        it('does nothing when no operation is running', () => {
-            expect(() => {
-                createConnector().abortOperation();
-            }).not.toThrow();
-        });
-
-        it.each(ABORTABLE_OPERATIONS)('stops a running $name', async ({ start }) => {
+    // The engine gives each request the app names a signal of its own, so each can be stopped without touching another.
+    describe('abort', () => {
+        it.each(ABORTABLE_OPERATIONS)('stops a running $name when its request is aborted', async ({ start }) => {
             stubWaitingRequests();
-            const connector = createConnector();
+            const abortController = new AbortController();
 
-            const operation = start(connector);
-            connector.abortOperation();
+            const operation = start(createConnector(), abortController.signal);
+            abortController.abort();
 
             await expect(operation).rejects.toThrow('Aborted.');
         });
 
-        // The connector keeps only the latest operation's abort controller. An earlier operation that ends must leave it
-        // in place, or the later one could no longer be aborted.
-        it.each(ABORTABLE_OPERATIONS)('can still stop a later operation after $name ends', async ({ holdUntil, start }) => {
+        it.each(ABORTABLE_OPERATIONS)('leaves a running $name alone when another request on the same connector is aborted', async ({ holdUntil, start }) => {
             const fetchMock = stubWaitingRequests();
             const release = Promise.withResolvers<undefined>();
             const started = holdUntil(fetchMock, release.promise);
             const connector = createConnector();
+            const laterAbortController = new AbortController();
 
-            const earlierOperation = start(connector);
+            const earlierOperation = start(connector, new AbortController().signal);
             await started;
-            const laterOperation = connector.getReadableStream({ id: '', path: OBJECT_PATH });
+            const laterOperation = connector.getReadableStream({ path: OBJECT_PATH, signal: laterAbortController.signal });
+            laterAbortController.abort();
             release.resolve(undefined);
-            await earlierOperation;
-            connector.abortOperation();
 
             await expect(laterOperation).rejects.toThrow('Aborted.');
+            await expect(earlierOperation).resolves.not.toThrow();
         });
     });
 
@@ -389,7 +387,7 @@ describe('Connector', () => {
             vi.stubGlobal('fetch', fetchMock);
             const connector = createConnector();
 
-            expect(await connector.getReadableStream({ id: '', path: OBJECT_PATH })).toBe(body);
+            expect(await connector.getReadableStream({ path: OBJECT_PATH })).toBe(body);
             expect(fetchMock).toHaveBeenCalledWith(`${URL_PREFIX}${OBJECT_PATH}`, expect.objectContaining({ signal: expect.any(AbortSignal) as AbortSignal }));
         });
 
@@ -397,20 +395,20 @@ describe('Connector', () => {
             const fetchMock = vi.fn().mockResolvedValue({ ok: true, body: new ReadableStream<Uint8Array>() });
             vi.stubGlobal('fetch', fetchMock);
 
-            await createConnector().getReadableStream({ id: '', path: '/Type Samples/people.csv' });
+            await createConnector().getReadableStream({ path: '/Type Samples/people.csv' });
             expect(fetchMock).toHaveBeenCalledWith(`${URL_PREFIX}/Type%20Samples/people.csv`, expect.anything());
         });
 
         it('fails when the response has no body', async () => {
             vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, body: null }));
 
-            await expect(createConnector().getReadableStream({ id: '', path: OBJECT_PATH })).rejects.toThrow('Readable streams are not supported in this runtime.');
+            await expect(createConnector().getReadableStream({ path: OBJECT_PATH })).rejects.toThrow('Readable streams are not supported in this runtime.');
         });
 
         it('fails when the fetch is not successful', async () => {
             vi.stubGlobal('fetch', vi.fn().mockResolvedValue(buildNotFoundResponse()));
 
-            await expect(createConnector().getReadableStream({ id: '', path: OBJECT_PATH })).rejects.toThrow(`Failed to fetch '${OBJECT_PATH}' file.`);
+            await expect(createConnector().getReadableStream({ path: OBJECT_PATH })).rejects.toThrow(`Failed to fetch '${OBJECT_PATH}' file.`);
         });
     });
 
@@ -502,40 +500,45 @@ describe('Connector', () => {
     });
 
     describe('retrieveRecords', () => {
-        it('fetches the object, reads it with the parser that read its preview, and reports the summary', async () => {
+        it('fetches the object, reads it with the parser that read its preview, and hands on its chunks and summary', async () => {
             const body = new ReadableStream<Uint8Array>();
             const fetchMock = vi.fn().mockResolvedValue({ ok: true, body });
             vi.stubGlobal('fetch', fetchMock);
-            const summary = { recordCount: 3 };
-            shared.retrieveRecordsWithParser.mockResolvedValue(summary);
-            // Loading into a store, the engine's 'chunk' returns a promise so the read waits for each batch to be stored.
-            // The parser must receive that same function for the wait to work.
-            const chunk = vi.fn(() => Promise.resolve());
-            const complete = vi.fn();
+            const chunks: ParsedRecordsChunk[] = [{ records: [[{ value: 'a', valueWasQuoted: false }]], typeId: 'parsingRecordArray' }];
+            const summary = { recordCount: 1 };
+            shared.retrieveRecordsWithParser.mockImplementation(() => buildRetrieval(chunks, summary));
             const options = buildRetrieveOptions({ parserId: 'dpuse-tool-adaltas-csv-parser' });
-            const connector = createConnector();
+            const retrieval = createConnector().retrieveRecords(options);
 
-            await connector.retrieveRecords(options, chunk, complete);
+            const receivedChunks: ParsedRecordsChunk[] = [];
+            let result = await retrieval.next();
+            while (result.done !== true) {
+                receivedChunks.push(result.value);
+                result = await retrieval.next();
+            }
 
             expect(fetchMock).toHaveBeenCalledWith(`${URL_PREFIX}${OBJECT_PATH}`, expect.objectContaining({ signal: expect.any(AbortSignal) as AbortSignal }));
-            expect(shared.retrieveRecordsWithParser).toHaveBeenCalledWith({ chunk, options, signal: expect.any(AbortSignal) as AbortSignal, stream: body, toolConfigs: [] });
-            expect(complete).toHaveBeenCalledWith(summary);
+            expect(shared.retrieveRecordsWithParser).toHaveBeenCalledWith({ options, signal: expect.any(AbortSignal) as AbortSignal, stream: body, toolConfigs: [] });
+            expect(receivedChunks).toEqual(chunks);
+            expect(result.value).toBe(summary);
         });
 
         it('fails when the object cannot be fetched', async () => {
             vi.stubGlobal('fetch', vi.fn().mockResolvedValue(buildNotFoundResponse()));
 
-            await expect(createConnector().retrieveRecords(buildRetrieveOptions(), vi.fn(), vi.fn())).rejects.toThrow(`Failed to fetch '${OBJECT_PATH}' file.`);
+            const retrieval = createConnector().retrieveRecords(buildRetrieveOptions());
+
+            await expect(readRetrieval(retrieval)).rejects.toThrow(`Failed to fetch '${OBJECT_PATH}' file.`);
             expect(shared.retrieveRecordsWithParser).not.toHaveBeenCalled();
         });
 
-        it('passes on a failure to read the records, without reporting the read as complete', async () => {
+        it('passes on a failure to read the records', async () => {
             vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, body: new ReadableStream<Uint8Array>() }));
-            shared.retrieveRecordsWithParser.mockRejectedValue(new Error('Bad CSV.'));
-            const complete = vi.fn();
+            shared.retrieveRecordsWithParser.mockImplementation(() => buildRetrieval([], new Error('Bad CSV.')));
 
-            await expect(createConnector().retrieveRecords(buildRetrieveOptions(), vi.fn(), complete)).rejects.toThrow('Bad CSV.');
-            expect(complete).not.toHaveBeenCalled();
+            const retrieval = createConnector().retrieveRecords(buildRetrieveOptions());
+
+            await expect(readRetrieval(retrieval)).rejects.toThrow('Bad CSV.');
         });
     });
 
@@ -624,6 +627,23 @@ function buildRetrieveOptions(overrides: Partial<RetrieveRecordsOptions> = {}): 
 }
 
 // The response the bucket sends for a file it does not hold.
+// Reads a retrieval through, as the engine does, and returns its summary.
+async function readRetrieval(retrieval: AsyncGenerator<unknown, RetrieveRecordsSummary>): Promise<RetrieveRecordsSummary> {
+    let result = await retrieval.next();
+    while (result.done !== true) result = await retrieval.next();
+    return result.value;
+}
+
+// A parser's read that yields the chunks given, then returns the summary or fails with the error.
+async function* buildRetrieval(chunks: ParsedRecordsChunk[], ending: Error | RetrieveRecordsSummary): AsyncGenerator<ParsedRecordsChunk, RetrieveRecordsSummary> {
+    for (const chunk of chunks) {
+        await Promise.resolve(); // Hands each chunk over a turn later, as a parser reading a stream does.
+        yield chunk;
+    }
+    if (ending instanceof Error) throw ending;
+    return ending;
+}
+
 function buildNotFoundResponse(): Response {
     return new Response(null, { status: 404, statusText: 'Not Found' });
 }

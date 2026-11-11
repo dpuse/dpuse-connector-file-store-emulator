@@ -1,5 +1,5 @@
 {
-  "version": "1.0.360",
+  "version": "1.0.361",
   "name": "@dpuse/dpuse-connector-file-store-emulator",
   "dependencies": {
     "@dpuse/dpuse-development": {
@@ -8,7 +8,7 @@
       "overridden": false,
       "dependencies": {
         "@dpuse/dpuse-shared": {
-          "version": "1.0.210"
+          "version": "1.0.212"
         },
         "license-checker-rseidelsohn": {
           "version": "5.0.1",
@@ -1201,8 +1201,8 @@
       }
     },
     "@dpuse/dpuse-shared": {
-      "version": "1.0.210",
-      "resolved": "https://registry.npmjs.org/@dpuse/dpuse-shared/-/dpuse-shared-1.0.210.tgz",
+      "version": "1.0.212",
+      "resolved": "https://registry.npmjs.org/@dpuse/dpuse-shared/-/dpuse-shared-1.0.212.tgz",
       "overridden": false,
       "dependencies": {
         "file-type": {
@@ -1276,7 +1276,7 @@
       "overridden": false,
       "dependencies": {
         "@dpuse/dpuse-shared": {
-          "version": "1.0.210"
+          "version": "1.0.212"
         },
         "csv-parse": {
           "version": "7.0.3",
@@ -1291,7 +1291,7 @@
       "overridden": false,
       "dependencies": {
         "@dpuse/dpuse-shared": {
-          "version": "1.0.210"
+          "version": "1.0.212"
         }
       }
     },
