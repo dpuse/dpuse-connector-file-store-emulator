@@ -241,9 +241,13 @@ async function fetchObjectStream(path: string, signal: AbortSignal): Promise<Rea
 
 // Fetches the bytes a locator names. A server that ignores the range sends the whole file, so the bytes before the start
 // are skipped instead.
+// The browser cache is not used. The bucket compresses a whole file but not a range, and Chrome keeps the compressed
+// copy. Chrome answers a later range from that copy by cutting the compressed bytes, which cannot be decoded, so the read
+// fails with 'ERR_CONTENT_DECODING_FAILED' for any range that does not start at the first byte.
 async function fetchObjectRangeStream(path: string, locator: StructureLocator, signal: AbortSignal): Promise<ReadableStream<Uint8Array>> {
     const lastOffset = locator.endOffset == null ? '' : String(locator.endOffset - 1); // HTTP ranges include their last byte.
-    const response = await fetch(encodeURI(`${URL_PREFIX}${path}`), { headers: { Range: `bytes=${String(locator.startOffset)}-${lastOffset}` }, signal });
+    const headers = { Range: `bytes=${String(locator.startOffset)}-${lastOffset}` };
+    const response = await fetch(encodeURI(`${URL_PREFIX}${path}`), { cache: 'no-store', headers, signal });
     if (!response.ok) throw await buildFetchError(response, `Failed to fetch '${path}' file.`, 'dpuse-connector-file-store-emulator.fetchObjectRangeStream');
     if (response.body == null)
         throw new ConnectorError('Readable streams are not supported in this runtime.', 'dpuse-connector-file-store-emulator.fetchObjectRangeStream.unsupported');

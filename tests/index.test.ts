@@ -569,8 +569,22 @@ describe('Connector', () => {
             const options = buildListStructureOptions();
 
             expect(await createConnector().listObjectStructureEntries(options)).toBe(listResult);
-            expect(fetchMock).toHaveBeenCalledWith(`${URL_PREFIX}${JSON_PATH}`, { headers: { Range: 'bytes=10-29' }, signal: expect.any(AbortSignal) as AbortSignal });
+            expect(fetchMock).toHaveBeenCalledWith(`${URL_PREFIX}${JSON_PATH}`, {
+                cache: 'no-store',
+                headers: { Range: 'bytes=10-29' },
+                signal: expect.any(AbortSignal) as AbortSignal
+            });
             expect(shared.listObjectStructureEntriesWithParser).toHaveBeenCalledWith({ options, signal: expect.any(AbortSignal) as AbortSignal, stream: body, toolConfigs: [] });
+        });
+
+        // A compressed copy in the browser cache cannot give a range that starts part way in, so a range always goes to
+        // the network.
+        it('reads a range from the network, not the browser cache', async () => {
+            const fetchMock = stubObjectFetch({ ok: true, body: new ReadableStream<Uint8Array>(), status: 206 });
+
+            await createConnector().listObjectStructureEntries(buildListStructureOptions());
+
+            expect(fetchMock).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({ cache: 'no-store' }));
         });
 
         it('reads on to the end of the file when the locator has no end', async () => {

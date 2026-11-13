@@ -110,9 +110,9 @@ _Note: Sonda's Vite reports currently exclude CSS files, since Vite does not gen
 
 | Chunk/Module/File                                                     | Composition                                                                                    |
 | :-------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------- |
-| **dist/dpuse-connector-file-store-emulator.es.js**                    | 50.5&nbsp;kB&nbsp;·&nbsp;gzip&nbsp;11.3&nbsp;kB&nbsp;·&nbsp;100.0%&nbsp;of&nbsp;the&nbsp;build |
+| **dist/dpuse-connector-file-store-emulator.es.js**                    | 50.6&nbsp;kB&nbsp;·&nbsp;gzip&nbsp;11.3&nbsp;kB&nbsp;·&nbsp;100.0%&nbsp;of&nbsp;the&nbsp;build |
 | &nbsp;&nbsp;&nbsp;&nbsp;@dpuse/dpuse-shared → dist/dpuse-shared.es.js | `████████████████░░░░`&nbsp;78.0%&nbsp;·&nbsp;39.4&nbsp;kB                                     |
-| &nbsp;&nbsp;&nbsp;&nbsp;src → index.ts                                | `███░░░░░░░░░░░░░░░░░`&nbsp;12.6%&nbsp;·&nbsp;6.4&nbsp;kB                                      |
+| &nbsp;&nbsp;&nbsp;&nbsp;src → index.ts                                | `███░░░░░░░░░░░░░░░░░`&nbsp;12.7%&nbsp;·&nbsp;6.4&nbsp;kB                                      |
 | &nbsp;&nbsp;&nbsp;&nbsp;(bundler output, whitespace & JSON)           | `██░░░░░░░░░░░░░░░░░░`&nbsp;9.3%&nbsp;·&nbsp;4.7&nbsp;kB                                       |
 
 Bars show each row's share of its output file.
