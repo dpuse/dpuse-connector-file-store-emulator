@@ -4,10 +4,12 @@ import { auditObjectContentWithParser, buildFetchError, buildPreviewObjectResult
 import { ConnectorError, extractExtensionFromPath, extractPathWithoutExtension, loadTool } from '@dpuse/dpuse-shared';
 import type { ConnectorInterface, ConnectorUtilities, FilePreviewerInterface } from '@dpuse/dpuse-shared';
 import type { FindObjectOptions, FindObjectResult, GetReadableStreamOptions } from '@dpuse/dpuse-shared';
-import type { ListNodesOptions, ListNodesResult } from '@dpuse/dpuse-shared';
+import type { IndexObjectStructureOptions, ListNodesOptions, ListNodesResult } from '@dpuse/dpuse-shared';
+import { indexObjectStructureWithParser, listObjectStructureEntriesWithParser } from '@dpuse/dpuse-shared';
+import type { ListObjectStructureEntriesOptions, ListStructureEntriesResult } from '@dpuse/dpuse-shared';
 import { normalizeToError, readTableSchema, resolveRequestSignal, retrieveRecordsWithParser } from '@dpuse/dpuse-shared';
 import type { ParsedRecordsChunk, PreviewObjectOptions, PreviewObjectResult, RetrieveRecordsOptions } from '@dpuse/dpuse-shared';
-import type { RetrieveRecordsSummary, ToolConfig } from '@dpuse/dpuse-shared';
+import type { RetrieveRecordsSummary, StructureIndex, StructureLocator, ToolConfig } from '@dpuse/dpuse-shared';
 
 // ── Types ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
@@ -69,10 +71,10 @@ export class Connector implements ConnectorInterface {
             if (!Object.hasOwn(fileStoreIndex, folderPath)) continue;
 
             const folderPathNodes = fileStoreIndex[folderPath];
-            const folderPathNode = folderPathNodes?.find((folderPathNode) => folderPathNode.typeId === 'object' && folderPathNode.id === options.nodeId);
-            if (folderPathNode) return { path: folderPath };
+            const folderPathNode = folderPathNodes?.find((folderPathNode) => folderPathNode.typeId === 'object' && folderPathNode.id === options.id);
+            if (folderPathNode) return { path: `${folderPath}/${folderPathNode.name}` };
         }
-        throw new ConnectorError(`Object '${options.nodeId}' not found.`, 'dpuse-connector-file-store-emulator.Connector.findObject');
+        throw new ConnectorError(`Object '${options.id}' not found.`, 'dpuse-connector-file-store-emulator.Connector.findObject');
     }
 
     async getReadableStream(options: GetReadableStreamOptions): Promise<ReadableStream<Uint8Array>> {
@@ -80,6 +82,18 @@ export class Connector implements ConnectorInterface {
 
         try {
             return await fetchObjectStream(options.path, signal);
+        } catch (error) {
+            throw normalizeToError(error);
+        }
+    }
+
+    // Maps the structure of a whole nested file, such as JSON, so the user can choose the part read as the table.
+    async indexObjectStructure(options: IndexObjectStructureOptions, chunk: (byteCount: number) => void): Promise<StructureIndex> {
+        const signal = resolveRequestSignal(options);
+
+        try {
+            const stream = await fetchObjectStream(options.path, signal);
+            return await indexObjectStructureWithParser({ onProgress: chunk, options, signal, stream, toolConfigs: this.toolConfigs });
         } catch (error) {
             throw normalizeToError(error);
         }
@@ -100,6 +114,18 @@ export class Connector implements ConnectorInterface {
             return constructFolderNodeConfig(options.folderPath, folderNode.id, folderNode.name, childCount);
         });
         return { cursor: undefined, isMore: false, connectionNodeConfigs, totalCount: connectionNodeConfigs.length };
+    }
+
+    // Lists one page of a part of a nested file, reading only the bytes the parser's locator names.
+    async listObjectStructureEntries(options: ListObjectStructureEntriesOptions): Promise<ListStructureEntriesResult> {
+        const signal = resolveRequestSignal(options);
+
+        try {
+            const stream = await fetchObjectRangeStream(options.path, options.locator, signal);
+            return await listObjectStructureEntriesWithParser({ options, signal, stream, toolConfigs: this.toolConfigs });
+        } catch (error) {
+            throw normalizeToError(error);
+        }
     }
 
     async previewObject(options: PreviewObjectOptions): Promise<PreviewObjectResult> {
@@ -132,6 +158,7 @@ export class Connector implements ConnectorInterface {
                     encodingId: options.encodingId,
                     hasHeaders: undefined,
                     parserId: options.parserId,
+                    structurePath: options.structurePath,
                     valueDelimiterId: options.valueDelimiterId // Replaced by the resource's delimiter, when it gives one.
                 },
                 startedAt,
@@ -210,6 +237,32 @@ async function fetchObjectStream(path: string, signal: AbortSignal): Promise<Rea
     if (!response.ok) throw await buildFetchError(response, `Failed to fetch '${path}' file.`, 'dpuse-connector-file-store-emulator.fetchObjectStream');
     if (response.body == null) throw new ConnectorError('Readable streams are not supported in this runtime.', 'dpuse-connector-file-store-emulator.fetchObjectStream.unsupported');
     return response.body;
+}
+
+// Fetches the bytes a locator names. A server that ignores the range sends the whole file, so the bytes before the start
+// are skipped instead.
+async function fetchObjectRangeStream(path: string, locator: StructureLocator, signal: AbortSignal): Promise<ReadableStream<Uint8Array>> {
+    const lastOffset = locator.endOffset == null ? '' : String(locator.endOffset - 1); // HTTP ranges include their last byte.
+    const response = await fetch(encodeURI(`${URL_PREFIX}${path}`), { headers: { Range: `bytes=${String(locator.startOffset)}-${lastOffset}` }, signal });
+    if (!response.ok) throw await buildFetchError(response, `Failed to fetch '${path}' file.`, 'dpuse-connector-file-store-emulator.fetchObjectRangeStream');
+    if (response.body == null)
+        throw new ConnectorError('Readable streams are not supported in this runtime.', 'dpuse-connector-file-store-emulator.fetchObjectRangeStream.unsupported');
+    return response.status === 206 ? response.body : response.body.pipeThrough(constructByteSkipper(locator.startOffset));
+}
+
+// Drops the first bytes of a stream and passes on the rest.
+function constructByteSkipper(byteCount: number): TransformStream<Uint8Array, Uint8Array> {
+    let remainingByteCount = byteCount;
+    return new TransformStream({
+        transform: (chunk, controller) => {
+            if (remainingByteCount >= chunk.length) {
+                remainingByteCount -= chunk.length;
+                return;
+            }
+            controller.enqueue(remainingByteCount === 0 ? chunk : chunk.subarray(remainingByteCount));
+            remainingByteCount = 0;
+        }
+    });
 }
 
 function constructFolderNodeConfig(folderPath: string, id: string, name: string, childCount: number): ConnectionNodeConfig {

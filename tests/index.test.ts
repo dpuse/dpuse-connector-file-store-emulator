@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, type Mock, vi } from 'vitest';
 
 // ── DPUse Framework
 import type { AuditObjectContentOptions, ConnectorActionName, DeclaredColumnConfig, FindObjectOptions } from '@dpuse/dpuse-shared';
+import type { IndexObjectStructureOptions, ListObjectStructureEntriesOptions } from '@dpuse/dpuse-shared';
 import type { ParsedRecordsChunk, PreviewObjectOptions, RetrieveRecordsOptions, RetrieveRecordsSummary } from '@dpuse/dpuse-shared';
 
 // ── Local Framework
@@ -27,7 +28,13 @@ type AbortableOperation = Required<Operation>;
 // fail. The shared preview, retrieve and audit functions have their own tests in dpuse-shared, so here they only record
 // what the connector hands them.
 const tools = vi.hoisted((): { byName: Record<string, unknown> } => ({ byName: {} }));
-const shared = vi.hoisted(() => ({ auditObjectContentWithParser: vi.fn(), buildPreviewObjectResult: vi.fn(), retrieveRecordsWithParser: vi.fn() }));
+const shared = vi.hoisted(() => ({
+    auditObjectContentWithParser: vi.fn(),
+    buildPreviewObjectResult: vi.fn(),
+    indexObjectStructureWithParser: vi.fn(),
+    listObjectStructureEntriesWithParser: vi.fn(),
+    retrieveRecordsWithParser: vi.fn()
+}));
 vi.mock('@dpuse/dpuse-shared', async (importOriginal) => ({
     ...(await importOriginal<object>()),
     ...shared,
@@ -42,6 +49,7 @@ vi.mock('@dpuse/dpuse-shared', async (importOriginal) => ({
 const INDEX_URL = 'https://sample-data-eu.dpuse.app/fileStoreIndex.json';
 const URL_PREFIX = 'https://sample-data-eu.dpuse.app/fileStore';
 const OBJECT_PATH = '/WDI_Data.csv';
+const JSON_PATH = '/orders.json';
 
 // A small stand-in for the published file store index.
 const FILE_STORE_INDEX = {
@@ -99,7 +107,9 @@ const CONNECTOR_ACTION_NAMES = Object.keys({
     getInfo: true,
     getReadableStream: true,
     getRecord: true,
+    indexObjectStructure: true,
     listNodes: true,
+    listObjectStructureEntries: true,
     loadObjectRecords: true,
     openStore: true,
     previewObject: true,
@@ -143,6 +153,16 @@ const OPERATIONS: Operation[] = [
             return started.promise;
         },
         start: (connector, signal) => connector.previewObject(buildPreviewOptions({ signal }))
+    },
+    {
+        name: 'indexObjectStructure',
+        holdUntil: holdFetchUntil,
+        start: (connector, signal) => connector.indexObjectStructure(buildIndexStructureOptions({ signal }), vi.fn())
+    },
+    {
+        name: 'listObjectStructureEntries',
+        holdUntil: holdFetchUntil,
+        start: (connector, signal) => connector.listObjectStructureEntries(buildListStructureOptions({ signal }))
     },
     {
         name: 'retrieveRecords',
@@ -361,10 +381,10 @@ describe('Connector', () => {
     });
 
     describe('findObject', () => {
-        it('returns the folder holding an object', async () => {
+        it("returns an object's path, wherever it is", async () => {
             stubIndexFetch();
 
-            expect(await createConnector().findObject(buildFindOptions('asciiId'))).toEqual({ path: '/Encoding Samples' });
+            expect(await createConnector().findObject(buildFindOptions('asciiId'))).toEqual({ path: '/Encoding Samples/ascii.txt' });
         });
 
         it('rejects an object that does not exist', async () => {
@@ -490,12 +510,95 @@ describe('Connector', () => {
             expect(previewFile).toHaveBeenCalledWith(`${URL_PREFIX}/Type Samples/people.csv`, expect.any(AbortSignal), undefined, undefined, undefined);
         });
 
+        it('hands on the part of a nested file the user chose to read as the table', async () => {
+            stubIndexFetch();
+            tools.byName['file-previewer'] = { previewFile: vi.fn().mockResolvedValue({}) };
+
+            await createConnector().previewObject(buildPreviewOptions({ dataFormatId: 'json', path: JSON_PATH, structurePath: ['orders'] }));
+
+            expect(shared.buildPreviewObjectResult).toHaveBeenCalledWith(
+                expect.objectContaining({ readingChoiceConfig: expect.objectContaining({ structurePath: ['orders'] }) as unknown })
+            );
+        });
+
         it('fails when the file previewer tool cannot be loaded', async () => {
             stubIndexFetch();
             tools.byName['file-previewer'] = new Error('Failed to load the file previewer.');
 
             await expect(createConnector().previewObject(buildPreviewOptions())).rejects.toThrow('Failed to load the file previewer.');
             expect(shared.buildPreviewObjectResult).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('indexObjectStructure', () => {
+        it('fetches the whole file and maps its structure with the parser that read its preview', async () => {
+            const body = new ReadableStream<Uint8Array>();
+            const fetchMock = stubObjectFetch({ ok: true, body });
+            const structureIndex = { byteCount: 30, nodes: [] };
+            shared.indexObjectStructureWithParser.mockResolvedValue(structureIndex);
+            const chunk = vi.fn();
+            const options = buildIndexStructureOptions({ parserId: 'dpuse-tool-streamparser-json-parser' });
+
+            expect(await createConnector().indexObjectStructure(options, chunk)).toBe(structureIndex);
+            expect(fetchMock).toHaveBeenCalledWith(`${URL_PREFIX}${JSON_PATH}`, { signal: expect.any(AbortSignal) as AbortSignal });
+            expect(shared.indexObjectStructureWithParser).toHaveBeenCalledWith({
+                onProgress: chunk,
+                options,
+                signal: expect.any(AbortSignal) as AbortSignal,
+                stream: body,
+                toolConfigs: []
+            });
+        });
+
+        it('fails when the file cannot be fetched', async () => {
+            stubObjectFetch(buildNotFoundResponse());
+
+            await expect(createConnector().indexObjectStructure(buildIndexStructureOptions(), vi.fn())).rejects.toThrow(`Failed to fetch '${JSON_PATH}' file.`);
+            expect(shared.indexObjectStructureWithParser).not.toHaveBeenCalled();
+        });
+    });
+
+    // A page of a large file is read from where the parser's locator says it starts, so the bytes before it are not
+    // fetched.
+    describe('listObjectStructureEntries', () => {
+        it('fetches only the bytes the locator names and lists them with the parser that read its preview', async () => {
+            const body = new ReadableStream<Uint8Array>();
+            const fetchMock = stubObjectFetch({ ok: true, body, status: 206 });
+            const listResult = { entries: [], issues: [], nextLocator: undefined };
+            shared.listObjectStructureEntriesWithParser.mockResolvedValue(listResult);
+            const options = buildListStructureOptions();
+
+            expect(await createConnector().listObjectStructureEntries(options)).toBe(listResult);
+            expect(fetchMock).toHaveBeenCalledWith(`${URL_PREFIX}${JSON_PATH}`, { headers: { Range: 'bytes=10-29' }, signal: expect.any(AbortSignal) as AbortSignal });
+            expect(shared.listObjectStructureEntriesWithParser).toHaveBeenCalledWith({ options, signal: expect.any(AbortSignal) as AbortSignal, stream: body, toolConfigs: [] });
+        });
+
+        it('reads on to the end of the file when the locator has no end', async () => {
+            const fetchMock = stubObjectFetch({ ok: true, body: new ReadableStream<Uint8Array>(), status: 206 });
+
+            await createConnector().listObjectStructureEntries(buildListStructureOptions({ locator: { endOffset: undefined, startOffset: 10, state: undefined } }));
+
+            expect(fetchMock).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({ headers: { Range: 'bytes=10-' } }));
+        });
+
+        // A server may ignore a range and send the whole file. The parser expects the stream to start at the locator.
+        it('skips to the start of the locator when the whole file is sent', async () => {
+            stubObjectFetch(new Response(buildChunkedStream(['01234', '5678', '9{"a"', ':1}']), { status: 200 }));
+            let streamText: string | undefined;
+            shared.listObjectStructureEntriesWithParser.mockImplementation(async ({ stream }: { stream: ReadableStream<Uint8Array> }) => {
+                streamText = await new Response(stream).text();
+            });
+
+            await createConnector().listObjectStructureEntries(buildListStructureOptions());
+
+            expect(streamText).toBe('{"a":1}');
+        });
+
+        it('fails when the file cannot be fetched', async () => {
+            stubObjectFetch(buildNotFoundResponse());
+
+            await expect(createConnector().listObjectStructureEntries(buildListStructureOptions())).rejects.toThrow(`Failed to fetch '${JSON_PATH}' file.`);
+            expect(shared.listObjectStructureEntriesWithParser).not.toHaveBeenCalled();
         });
     });
 
@@ -604,8 +707,25 @@ function buildAuditOptions(overrides: Partial<AuditObjectContentOptions> = {}): 
     };
 }
 
-function buildFindOptions(nodeId: string): FindObjectOptions {
-    return { nodeId, storeId: undefined };
+function buildFindOptions(id: string): FindObjectOptions {
+    return { id };
+}
+
+function buildIndexStructureOptions(overrides: Partial<IndexObjectStructureOptions> = {}): IndexObjectStructureOptions {
+    return { dataFormatId: 'json', encodingId: 'utf-8', parserId: undefined, path: JSON_PATH, ...overrides };
+}
+
+function buildListStructureOptions(overrides: Partial<ListObjectStructureEntriesOptions> = {}): ListObjectStructureEntriesOptions {
+    return {
+        dataFormatId: 'json',
+        entryCount: 50,
+        locator: { endOffset: 30, startOffset: 10, state: undefined },
+        maxValueLength: undefined,
+        parserId: undefined,
+        path: JSON_PATH,
+        structurePath: ['orders'],
+        ...overrides
+    };
 }
 
 function buildPreviewOptions(overrides: Partial<PreviewObjectOptions> = {}): PreviewObjectOptions {
@@ -642,6 +762,17 @@ async function* buildRetrieval(chunks: ParsedRecordsChunk[], ending: Error | Ret
     }
     if (ending instanceof Error) throw ending;
     return ending;
+}
+
+// A stream that hands over the text in the chunks given, as a network read does.
+function buildChunkedStream(chunks: string[]): ReadableStream<Uint8Array> {
+    const encoder = new TextEncoder();
+    return new ReadableStream({
+        start: (controller) => {
+            for (const chunk of chunks) controller.enqueue(encoder.encode(chunk));
+            controller.close();
+        }
+    });
 }
 
 function buildNotFoundResponse(): Response {
