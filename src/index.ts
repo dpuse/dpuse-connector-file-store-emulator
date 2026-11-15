@@ -22,6 +22,7 @@ type TableResource = ReturnType<typeof readTableSchema>;
 
 const INDEX_URL = 'https://sample-data-eu.dpuse.app/fileStoreIndex.json'; // Fetched from the bucket rather than bundled, so changing the sample files needs no connector release.
 const INDEX_TIMEOUT_MS = 30_000; // A stalled index request fails after this, rather than holding up 'listNodes' and 'getObject'.
+const RANGE_BYTE_COUNT = 8_388_608; // An object is fetched 8 MiB at a time, so the browser never holds more of it than that.
 const URL_PREFIX = 'https://sample-data-eu.dpuse.app/fileStore';
 const RESOURCE_FILE_SUFFIX = '.resource.json'; // A file's Data Resource sits beside it, e.g. 'people.resource.json' for 'people.csv'.
 
@@ -240,12 +241,44 @@ function isSmallChunkTest(): boolean {
     return /iPhone|iPad/u.test(globalThis.navigator.userAgent);
 }
 
-// Fetches an object's content. Aborting the signal stops the fetch and the reading of the stream it returns.
+// Fetches an object's content a range at a time. Safari downloads a response as fast as the network allows, however
+// slowly the page reads it, and holds the unread bytes in memory, about 1.5 times the size of a 200 MB file. So the next
+// range is fetched only when the reader asks for more bytes. A server that ignores ranges sends the whole object in one
+// response, which is read as it is. Aborting the signal stops the fetch and the reading of the stream it returns.
 async function fetchObjectStream(path: string, signal: AbortSignal): Promise<ReadableStream<Uint8Array>> {
-    const response = await fetch(encodeURI(`${URL_PREFIX}${path}`), { signal }); // Encoded the same way the file previewer encodes its URL, so both fetch the same file. 'encodeURI' leaves '#' and '?' as they are, but the files are managed in dpuse-resources and no name holds them.
+    const url = encodeURI(`${URL_PREFIX}${path}`); // Encoded the same way the file previewer encodes its URL, so both fetch the same file. 'encodeURI' leaves '#' and '?' as they are, but the files are managed in dpuse-resources and no name holds them.
+    const firstResponse = await fetchObjectRange(url, path, 0, signal);
+    if (firstResponse.status !== 206) {
+        if (firstResponse.body == null)
+            throw new ConnectorError('Readable streams are not supported in this runtime.', 'dpuse-connector-file-store-emulator.fetchObjectStream.unsupported');
+        return firstResponse.body;
+    }
+    const totalByteCount = Number(/\/(\d+)$/u.exec(firstResponse.headers.get('Content-Range') ?? '')?.[1]);
+    if (!Number.isFinite(totalByteCount)) throw new ConnectorError(`Failed to read the size of '${path}' file.`, 'dpuse-connector-file-store-emulator.fetchObjectStream.size');
+    let nextResponse: Response | undefined = firstResponse;
+    let nextOffset = 0;
+    return new ReadableStream<Uint8Array>(
+        {
+            pull: async (controller): Promise<void> => {
+                const response = nextResponse ?? (await fetchObjectRange(url, path, nextOffset, signal));
+                nextResponse = undefined;
+                if (response.status !== 206) throw new ConnectorError(`Failed to fetch part of '${path}' file.`, 'dpuse-connector-file-store-emulator.fetchObjectStream.range');
+                const bytes = new Uint8Array(await response.arrayBuffer());
+                nextOffset += bytes.length;
+                if (bytes.length > 0) controller.enqueue(bytes);
+                if (bytes.length === 0 || nextOffset >= totalByteCount) controller.close(); // An empty range would otherwise be asked for again and again.
+            }
+        },
+        { highWaterMark: 0 } // Fetches nothing until the reader asks.
+    );
+}
+
+// The browser cache is not used, for the reason 'fetchObjectRangeStream' gives.
+async function fetchObjectRange(url: string, path: string, startOffset: number, signal: AbortSignal): Promise<Response> {
+    const headers = { Range: `bytes=${String(startOffset)}-${String(startOffset + RANGE_BYTE_COUNT - 1)}` }; // HTTP ranges include their last byte.
+    const response = await fetch(url, { cache: 'no-store', headers, signal });
     if (!response.ok) throw await buildFetchError(response, `Failed to fetch '${path}' file.`, 'dpuse-connector-file-store-emulator.fetchObjectStream');
-    if (response.body == null) throw new ConnectorError('Readable streams are not supported in this runtime.', 'dpuse-connector-file-store-emulator.fetchObjectStream.unsupported');
-    return response.body;
+    return response;
 }
 
 // Fetches the bytes a locator names. A server that ignores the range sends the whole file, so the bytes before the start
