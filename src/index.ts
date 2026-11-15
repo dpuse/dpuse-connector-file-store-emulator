@@ -241,6 +241,7 @@ export class Connector implements ConnectorInterface {
 // the fetch and the reading of the stream it returns.
 async function fetchObjectStream(path: string, signal: AbortSignal): Promise<ReadableStream<Uint8Array>> {
     const url = encodeURI(`${URL_PREFIX}${path}`); // Encoded the same way the file previewer encodes its URL, so both fetch the same file. 'encodeURI' leaves '#' and '?' as they are, but the files are managed in dpuse-resources and no name holds them.
+    const firstFetchStartedAt = performance.now();
     const firstResponse = await fetchObjectRange(url, path, 0, signal);
     if (firstResponse.status !== 206 && firstResponse.status !== RANGE_NOT_SATISFIABLE_STATUS) {
         if (firstResponse.body == null)
@@ -249,24 +250,42 @@ async function fetchObjectStream(path: string, signal: AbortSignal): Promise<Rea
     }
     let nextResponse: Response | undefined = firstResponse;
     let nextOffset = 0;
+    const fetchTiming = { milliseconds: 0, rangeCount: 1 }; // Time waiting for each range's bytes, the first range's request included.
+    let fetchStartedAt = firstFetchStartedAt;
     return new ReadableStream<Uint8Array>(
         {
             pull: async (controller): Promise<void> => {
+                if (nextResponse == null) {
+                    fetchStartedAt = performance.now();
+                    fetchTiming.rangeCount++;
+                }
                 const response = nextResponse ?? (await fetchObjectRange(url, path, nextOffset, signal));
                 nextResponse = undefined;
                 if (response.status === RANGE_NOT_SATISFIABLE_STATUS) {
+                    fetchTiming.milliseconds += performance.now() - fetchStartedAt;
+                    logFetchTiming(nextOffset, fetchTiming);
                     controller.close();
                     return;
                 }
                 if (response.status !== 206) throw new ConnectorError(`Failed to fetch part of '${path}' file.`, 'dpuse-connector-file-store-emulator.fetchObjectStream.range');
                 const bytes = new Uint8Array(await response.arrayBuffer());
+                fetchTiming.milliseconds += performance.now() - fetchStartedAt;
                 nextOffset += bytes.length;
                 if (bytes.length > 0) controller.enqueue(bytes);
-                if (bytes.length < RANGE_BYTE_COUNT) controller.close();
+                if (bytes.length >= RANGE_BYTE_COUNT) return;
+                logFetchTiming(nextOffset, fetchTiming);
+                controller.close();
             }
         },
         { highWaterMark: 0 } // Fetches nothing until the reader asks.
     );
+}
+
+// Temporary load timing test. Logs how long a ranged read of an object waited for its bytes, to show how much of a load
+// is the fetch. Remove this and its uses in 'fetchObjectStream' once tested.
+function logFetchTiming(byteCount: number, fetchTiming: { milliseconds: number; rangeCount: number }): void {
+    const seconds = (Math.round(fetchTiming.milliseconds / 100) / 10).toFixed(1);
+    console.info(`[emulator fetch] ${String(Math.round(byteCount / 1_048_576))} MB in ${String(fetchTiming.rangeCount)} ranges: fetch ${seconds} s`);
 }
 
 // A range that starts past the end comes back as 'Range Not Satisfiable', which ends the object rather than failing. The
