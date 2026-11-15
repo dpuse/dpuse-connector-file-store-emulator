@@ -1,12 +1,13 @@
 // ── DPUse Framework
 import type { AuditObjectContentOptions, AuditObjectContentResult, ConnectionNodeConfig } from '@dpuse/dpuse-shared';
 import { auditObjectContentWithParser, buildFetchError, buildPreviewObjectResult } from '@dpuse/dpuse-shared';
-import { ConnectorError, extractExtensionFromPath, extractPathWithoutExtension, loadTool } from '@dpuse/dpuse-shared';
+import { ConnectorError, extractExtensionFromPath, extractPathWithoutExtension } from '@dpuse/dpuse-shared';
 import type { ConnectorInterface, ConnectorUtilities, FilePreviewerInterface } from '@dpuse/dpuse-shared';
+import { fetchObjectContentStream, indexObjectStructureWithParser } from '@dpuse/dpuse-shared';
 import type { GetObjectOptions, GetObjectResult, GetReadableStreamOptions } from '@dpuse/dpuse-shared';
 import type { IndexObjectStructureOptions, ListNodesOptions, ListNodesResult } from '@dpuse/dpuse-shared';
-import { indexObjectStructureWithParser, listObjectStructureEntriesWithParser } from '@dpuse/dpuse-shared';
 import type { ListObjectStructureEntriesOptions, ListStructureEntriesResult } from '@dpuse/dpuse-shared';
+import { listObjectStructureEntriesWithParser, loadTool } from '@dpuse/dpuse-shared';
 import { normalizeToError, readTableSchema, resolveRequestSignal, retrieveRecordsWithParser } from '@dpuse/dpuse-shared';
 import type { ParsedRecordsChunk, PreviewObjectOptions, PreviewObjectResult, RetrieveRecordsOptions } from '@dpuse/dpuse-shared';
 import type { RetrieveRecordsSummary, StructureIndex, StructureLocator, ToolConfig } from '@dpuse/dpuse-shared';
@@ -22,8 +23,6 @@ type TableResource = ReturnType<typeof readTableSchema>;
 
 const INDEX_URL = 'https://sample-data-eu.dpuse.app/fileStoreIndex.json'; // Fetched from the bucket rather than bundled, so changing the sample files needs no connector release.
 const INDEX_TIMEOUT_MS = 30_000; // A stalled index request fails after this, rather than holding up 'listNodes' and 'getObject'.
-const RANGE_BYTE_COUNT = 8_388_608; // An object is fetched 8 MiB at a time, so the browser never holds more of it than that.
-const RANGE_NOT_SATISFIABLE_STATUS = 416;
 const URL_PREFIX = 'https://sample-data-eu.dpuse.app/fileStore';
 const RESOURCE_FILE_SUFFIX = '.resource.json'; // A file's Data Resource sits beside it, e.g. 'people.resource.json' for 'people.csv'.
 
@@ -233,70 +232,10 @@ export class Connector implements ConnectorInterface {
 
 // ── Helpers ──────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-// Fetches an object's content a range at a time. Safari downloads a response as fast as the network allows, however
-// slowly the page reads it, and holds the unread bytes in memory, about 1.5 times the size of a 200 MB file. So the next
-// range is fetched only when the reader asks for more bytes. The object ends at the first range that comes back short,
-// or that starts past the end, because the bucket does not let the page read the object's size from 'Content-Range'.
-// A server that ignores ranges sends the whole object in one response, which is read as it is. Aborting the signal stops
-// the fetch and the reading of the stream it returns.
+// Fetches an object's content without the browser holding more of it than the reader is about to use.
 async function fetchObjectStream(path: string, signal: AbortSignal): Promise<ReadableStream<Uint8Array>> {
     const url = encodeURI(`${URL_PREFIX}${path}`); // Encoded the same way the file previewer encodes its URL, so both fetch the same file. 'encodeURI' leaves '#' and '?' as they are, but the files are managed in dpuse-resources and no name holds them.
-    const firstFetchStartedAt = performance.now();
-    const firstResponse = await fetchObjectRange(url, path, 0, signal);
-    if (firstResponse.status !== 206 && firstResponse.status !== RANGE_NOT_SATISFIABLE_STATUS) {
-        if (firstResponse.body == null)
-            throw new ConnectorError('Readable streams are not supported in this runtime.', 'dpuse-connector-file-store-emulator.fetchObjectStream.unsupported');
-        return firstResponse.body;
-    }
-    let nextResponse: Response | undefined = firstResponse;
-    let nextOffset = 0;
-    const fetchTiming = { milliseconds: 0, rangeCount: 1 }; // Time waiting for each range's bytes, the first range's request included.
-    let fetchStartedAt = firstFetchStartedAt;
-    return new ReadableStream<Uint8Array>(
-        {
-            pull: async (controller): Promise<void> => {
-                if (nextResponse == null) {
-                    fetchStartedAt = performance.now();
-                    fetchTiming.rangeCount++;
-                }
-                const response = nextResponse ?? (await fetchObjectRange(url, path, nextOffset, signal));
-                nextResponse = undefined;
-                if (response.status === RANGE_NOT_SATISFIABLE_STATUS) {
-                    fetchTiming.milliseconds += performance.now() - fetchStartedAt;
-                    logFetchTiming(nextOffset, fetchTiming);
-                    controller.close();
-                    return;
-                }
-                if (response.status !== 206) throw new ConnectorError(`Failed to fetch part of '${path}' file.`, 'dpuse-connector-file-store-emulator.fetchObjectStream.range');
-                const bytes = new Uint8Array(await response.arrayBuffer());
-                fetchTiming.milliseconds += performance.now() - fetchStartedAt;
-                nextOffset += bytes.length;
-                if (bytes.length > 0) controller.enqueue(bytes);
-                if (bytes.length >= RANGE_BYTE_COUNT) return;
-                logFetchTiming(nextOffset, fetchTiming);
-                controller.close();
-            }
-        },
-        { highWaterMark: 0 } // Fetches nothing until the reader asks.
-    );
-}
-
-// Temporary load timing test. Logs how long a ranged read of an object waited for its bytes, to show how much of a load
-// is the fetch. Remove this and its uses in 'fetchObjectStream' once tested.
-function logFetchTiming(byteCount: number, fetchTiming: { milliseconds: number; rangeCount: number }): void {
-    const seconds = (Math.round(fetchTiming.milliseconds / 100) / 10).toFixed(1);
-    console.info(`[emulator fetch] ${String(Math.round(byteCount / 1_048_576))} MB in ${String(fetchTiming.rangeCount)} ranges: fetch ${seconds} s`);
-}
-
-// A range that starts past the end comes back as 'Range Not Satisfiable', which ends the object rather than failing. The
-// browser cache is not used, for the reason 'fetchObjectRangeStream' gives.
-async function fetchObjectRange(url: string, path: string, startOffset: number, signal: AbortSignal): Promise<Response> {
-    const headers = { Range: `bytes=${String(startOffset)}-${String(startOffset + RANGE_BYTE_COUNT - 1)}` }; // HTTP ranges include their last byte.
-    const response = await fetch(url, { cache: 'no-store', headers, signal });
-    if (!response.ok && response.status !== RANGE_NOT_SATISFIABLE_STATUS) {
-        throw await buildFetchError(response, `Failed to fetch '${path}' file.`, 'dpuse-connector-file-store-emulator.fetchObjectStream');
-    }
-    return response;
+    return fetchObjectContentStream(url, { locator: 'dpuse-connector-file-store-emulator.fetchObjectStream', path, signal });
 }
 
 // Fetches the bytes a locator names. A server that ignores the range sends the whole file, so the bytes before the start

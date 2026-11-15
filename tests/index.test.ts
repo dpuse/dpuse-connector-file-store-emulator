@@ -49,7 +49,6 @@ vi.mock('@dpuse/dpuse-shared', async (importOriginal) => ({
 const INDEX_URL = 'https://sample-data-eu.dpuse.app/fileStoreIndex.json';
 const URL_PREFIX = 'https://sample-data-eu.dpuse.app/fileStore';
 const OBJECT_PATH = '/WDI_Data.csv';
-const RANGE_BYTE_COUNT = 8_388_608; // The most of an object the connector fetches at a time.
 const JSON_PATH = '/orders.json';
 
 // A small stand-in for the published file store index.
@@ -432,47 +431,6 @@ describe('Connector', () => {
 
             await expect(createConnector().getReadableStream({ path: OBJECT_PATH })).rejects.toThrow(`Failed to fetch '${OBJECT_PATH}' file.`);
         });
-
-        it('fetches a large object a range at a time, each only when the reader asks for more', async () => {
-            const fetchMock = vi.fn((_url: string, init: RequestInit) => Promise.resolve(buildRangeResponse(init, RANGE_BYTE_COUNT + 3)));
-            vi.stubGlobal('fetch', fetchMock);
-            const stream = await createConnector().getReadableStream({ path: OBJECT_PATH });
-            const reader = stream.getReader();
-
-            expect(fetchMock).toHaveBeenCalledTimes(1);
-            const firstRead = await reader.read();
-            expect(firstRead.value?.length).toBe(RANGE_BYTE_COUNT);
-            expect(fetchMock).toHaveBeenCalledTimes(1);
-            const secondRead = await reader.read();
-            expect(secondRead.value?.length).toBe(3);
-            expect(fetchMock).toHaveBeenCalledTimes(2);
-            expect(fetchMock).toHaveBeenLastCalledWith(`${URL_PREFIX}${OBJECT_PATH}`, expect.objectContaining({ headers: { Range: 'bytes=8388608-16777215' } }));
-            const lastRead = await reader.read();
-            expect(lastRead.done).toBe(true);
-        });
-
-        it('fails when a later range comes back as the whole object', async () => {
-            const firstResponse = buildRangeResponse({ headers: { Range: 'bytes=0-8388607' } }, RANGE_BYTE_COUNT + 3);
-            vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(firstResponse).mockResolvedValueOnce(new Response('whole object')));
-            const stream = await createConnector().getReadableStream({ path: OBJECT_PATH });
-            const reader = stream.getReader();
-
-            await reader.read();
-            await expect(reader.read()).rejects.toThrow(`Failed to fetch part of '${OBJECT_PATH}' file.`);
-        });
-
-        it('ends an object that fills its last range exactly when the next range starts past the end', async () => {
-            const fetchMock = vi.fn((_url: string, init: RequestInit) => Promise.resolve(buildRangeResponse(init, RANGE_BYTE_COUNT)));
-            vi.stubGlobal('fetch', fetchMock);
-            const stream = await createConnector().getReadableStream({ path: OBJECT_PATH });
-            const reader = stream.getReader();
-
-            const firstRead = await reader.read();
-            expect(firstRead.value?.length).toBe(RANGE_BYTE_COUNT);
-            const lastRead = await reader.read();
-            expect(lastRead.done).toBe(true);
-            expect(fetchMock).toHaveBeenCalledTimes(2);
-        });
     });
 
     describe('previewObject', () => {
@@ -583,11 +541,7 @@ describe('Connector', () => {
             const options = buildIndexStructureOptions({ parserId: 'dpuse-tool-streamparser-json-parser' });
 
             expect(await createConnector().indexObjectStructure(options, chunk)).toBe(structureIndex);
-            expect(fetchMock).toHaveBeenCalledWith(`${URL_PREFIX}${JSON_PATH}`, {
-                cache: 'no-store',
-                headers: { Range: 'bytes=0-8388607' },
-                signal: expect.any(AbortSignal) as AbortSignal
-            });
+            expect(fetchMock).toHaveBeenCalledWith(`${URL_PREFIX}${JSON_PATH}`, expect.objectContaining({ signal: expect.any(AbortSignal) as AbortSignal }));
             expect(shared.indexObjectStructureWithParser).toHaveBeenCalledWith({
                 onProgress: chunk,
                 options,
@@ -848,17 +802,6 @@ function stubIndexFetch(): ReturnType<typeof vi.fn> {
 }
 
 // Serves the index and the resource beside 'people.csv', and the response given for any other request.
-// The bucket's answer to a range request, as the page sees it: the bytes asked for, up to the end of an object of the
-// size given, or 'Range Not Satisfiable' for a range that starts past the end. No 'Content-Range', because the bucket
-// does not expose it to the page.
-function buildRangeResponse(init: RequestInit, totalByteCount: number): Response {
-    const range = /bytes=(\d+)-(\d+)/u.exec((init.headers as { Range: string }).Range);
-    const startOffset = Number(range?.[1]);
-    if (startOffset >= totalByteCount) return new Response(null, { status: 416 });
-    const lastOffset = Math.min(Number(range?.[2]), totalByteCount - 1);
-    return new Response(new Uint8Array(lastOffset - startOffset + 1), { status: 206 });
-}
-
 function stubObjectFetch(response: unknown): FetchMock {
     const fetchMock: FetchMock = vi.fn((url: string) => Promise.resolve(isDescriptionUrl(url) ? buildDescriptionResponse(url) : response));
     vi.stubGlobal('fetch', fetchMock);
