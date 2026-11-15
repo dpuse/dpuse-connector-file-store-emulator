@@ -2,7 +2,7 @@
 import { afterEach, describe, expect, it, type Mock, vi } from 'vitest';
 
 // ── DPUse Framework
-import type { AuditObjectContentOptions, ConnectorActionName, DeclaredColumnConfig, FindObjectOptions } from '@dpuse/dpuse-shared';
+import type { AuditObjectContentOptions, ConnectorActionName, DeclaredColumnConfig, GetObjectOptions } from '@dpuse/dpuse-shared';
 import type { IndexObjectStructureOptions, ListObjectStructureEntriesOptions } from '@dpuse/dpuse-shared';
 import type { ParsedRecordsChunk, PreviewObjectOptions, RetrieveRecordsOptions, RetrieveRecordsSummary } from '@dpuse/dpuse-shared';
 
@@ -105,6 +105,7 @@ const CONNECTOR_ACTION_NAMES = Object.keys({
     dropObject: true,
     findObject: true,
     getInfo: true,
+    getObject: true,
     getReadableStream: true,
     getRecord: true,
     indexObjectStructure: true,
@@ -131,8 +132,8 @@ const OPERATIONS: Operation[] = [
         start: (connector) => connector.listNodes({ folderPath: '' })
     },
     {
-        name: 'findObject',
-        start: (connector) => connector.findObject(buildFindOptions('asciiId'))
+        name: 'getObject',
+        start: (connector) => connector.getObject(buildGetObjectOptions('asciiId'))
     },
     {
         name: 'getReadableStream',
@@ -380,23 +381,23 @@ describe('Connector', () => {
         });
     });
 
-    describe('findObject', () => {
+    describe('getObject', () => {
         it("returns an object's path, wherever it is", async () => {
             stubIndexFetch();
 
-            expect(await createConnector().findObject(buildFindOptions('asciiId'))).toEqual({ path: '/Encoding Samples/ascii.txt' });
+            expect(await createConnector().getObject(buildGetObjectOptions('asciiId'))).toEqual({ path: '/Encoding Samples/ascii.txt' });
         });
 
         it('rejects an object that does not exist', async () => {
             stubIndexFetch();
 
-            await expect(createConnector().findObject(buildFindOptions('missing'))).rejects.toThrow("Object 'missing' not found.");
+            await expect(createConnector().getObject(buildGetObjectOptions('missing'))).rejects.toThrow("Object 'missing' not found.");
         });
 
         it('finds only files, not a folder with the same id', async () => {
             stubIndexFetch();
 
-            await expect(createConnector().findObject(buildFindOptions('encodingSamplesId'))).rejects.toThrow("Object 'encodingSamplesId' not found.");
+            await expect(createConnector().getObject(buildGetObjectOptions('encodingSamplesId'))).rejects.toThrow("Object 'encodingSamplesId' not found.");
         });
     });
 
@@ -721,7 +722,7 @@ function buildAuditOptions(overrides: Partial<AuditObjectContentOptions> = {}): 
     };
 }
 
-function buildFindOptions(id: string): FindObjectOptions {
+function buildGetObjectOptions(id: string): GetObjectOptions {
     return { id };
 }
 
