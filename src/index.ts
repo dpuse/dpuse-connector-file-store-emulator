@@ -175,7 +175,7 @@ export class Connector implements ConnectorInterface {
 
         try {
             const stream = await fetchObjectStream(options.path, signal);
-            return yield* retrieveRecordsWithParser({ options, signal, stream, toolConfigs: this.toolConfigs });
+            return isParseSkipped() ? await discardStreamAfterDelay(stream) : yield* retrieveRecordsWithParser({ options, signal, stream, toolConfigs: this.toolConfigs });
         } catch (error) {
             throw normalizeToError(error);
         }
@@ -230,6 +230,24 @@ export class Connector implements ConnectorInterface {
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+// Temporary iOS memory test. A retrieve leaves the file unread for 20 seconds while it downloads, then reads and drops
+// every byte without parsing, to show what Safari holds for a download the page has not read yet. Only on an iPhone or
+// iPad. Remove this, 'discardStreamAfterDelay' and their use in 'retrieveRecords' once tested.
+function isParseSkipped(): boolean {
+    // eslint-disable-next-line n/no-unsupported-features/node-builtins -- This is the browser's 'navigator', not Node's experimental one.
+    return /iPhone|iPad/u.test(globalThis.navigator.userAgent);
+}
+
+async function discardStreamAfterDelay(stream: ReadableStream<Uint8Array>): Promise<RetrieveRecordsSummary> {
+    await new Promise((resolve) => {
+        setTimeout(resolve, 20_000);
+    });
+    const reader = stream.getReader();
+    let result = await reader.read();
+    while (!result.done) result = await reader.read();
+    return { recordCount: 0 };
+}
 
 // Fetches an object's content. Aborting the signal stops the fetch and the reading of the stream it returns.
 async function fetchObjectStream(path: string, signal: AbortSignal): Promise<ReadableStream<Uint8Array>> {
