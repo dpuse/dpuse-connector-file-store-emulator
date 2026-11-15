@@ -177,8 +177,7 @@ export class Connector implements ConnectorInterface {
 
         try {
             const stream = await fetchObjectStream(options.path, signal);
-            const testOptions = isSmallChunkTest() ? { ...options, chunkSize: 1000 } : options;
-            return yield* retrieveRecordsWithParser({ options: testOptions, signal, stream, toolConfigs: this.toolConfigs });
+            return yield* retrieveRecordsWithParser({ options, signal, stream, toolConfigs: this.toolConfigs });
         } catch (error) {
             throw normalizeToError(error);
         }
@@ -233,13 +232,6 @@ export class Connector implements ConnectorInterface {
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-// Temporary iOS memory test. A retrieve parses in chunks of 1,000 records rather than 10,000, to show whether smaller
-// chunks lower the memory parsing uses. Switched off for now, to test a load on an iPhone with the parser's own 10,000.
-// Remove this and its use in 'retrieveRecords' once tested.
-function isSmallChunkTest(): boolean {
-    return false;
-}
 
 // Fetches an object's content a range at a time. Safari downloads a response as fast as the network allows, however
 // slowly the page reads it, and holds the unread bytes in memory, about 1.5 times the size of a 200 MB file. So the next
