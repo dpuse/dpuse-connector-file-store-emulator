@@ -235,11 +235,10 @@ export class Connector implements ConnectorInterface {
 // ── Helpers ──────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 // Temporary iOS memory test. A retrieve parses in chunks of 1,000 records rather than 10,000, to show whether smaller
-// chunks lower the memory parsing uses. Only on an iPhone or iPad. Remove this and its use in 'retrieveRecords' once
-// tested.
+// chunks lower the memory parsing uses. Switched off for now, to test a load on an iPhone with the parser's own 10,000.
+// Remove this and its use in 'retrieveRecords' once tested.
 function isSmallChunkTest(): boolean {
-    // eslint-disable-next-line n/no-unsupported-features/node-builtins -- This is the browser's 'navigator', not Node's experimental one.
-    return /iPhone|iPad/u.test(globalThis.navigator.userAgent);
+    return false;
 }
 
 // Fetches an object's content a range at a time. Safari downloads a response as fast as the network allows, however
