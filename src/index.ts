@@ -223,7 +223,7 @@ export class Connector implements ConnectorInterface {
             this.pendingFileStoreIndex = undefined;
             if (error instanceof Error && error.name === 'TimeoutError') {
                 const message = `Failed to fetch the file store index within ${String(INDEX_TIMEOUT_MS / 1000)} seconds.`;
-                throw new ConnectorError(message, 'dpuse-connector-file-store-emulator.Connector.fetchFileStoreIndex.timeout', undefined, { cause: error });
+                throw new ConnectorError(message, 'dpuse-connector-file-store-emulator.Connector.fetchFileStoreIndex.timeout', { cause: error });
             }
             throw normalizeToError(error);
         }
