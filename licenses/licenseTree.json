@@ -1,5 +1,5 @@
 {
-  "version": "1.0.376",
+  "version": "1.0.377",
   "name": "@dpuse/dpuse-connector-file-store-emulator",
   "dependencies": {
     "@dpuse/dpuse-development": {
@@ -8,7 +8,7 @@
       "overridden": false,
       "dependencies": {
         "@dpuse/dpuse-shared": {
-          "version": "1.0.225"
+          "version": "1.0.227"
         },
         "license-checker-rseidelsohn": {
           "version": "5.0.1",
@@ -1201,8 +1201,8 @@
       }
     },
     "@dpuse/dpuse-shared": {
-      "version": "1.0.225",
-      "resolved": "https://registry.npmjs.org/@dpuse/dpuse-shared/-/dpuse-shared-1.0.225.tgz",
+      "version": "1.0.227",
+      "resolved": "https://registry.npmjs.org/@dpuse/dpuse-shared/-/dpuse-shared-1.0.227.tgz",
       "overridden": false,
       "dependencies": {
         "file-type": {
@@ -1276,7 +1276,7 @@
       "overridden": false,
       "dependencies": {
         "@dpuse/dpuse-shared": {
-          "version": "1.0.225"
+          "version": "1.0.227"
         },
         "csv-parse": {
           "version": "7.0.3",
@@ -1286,12 +1286,12 @@
       }
     },
     "@dpuse/dpuse-tool-rust-csv-core-parser": {
-      "version": "1.0.120",
-      "resolved": "https://registry.npmjs.org/@dpuse/dpuse-tool-rust-csv-core-parser/-/dpuse-tool-rust-csv-core-parser-1.0.120.tgz",
+      "version": "1.0.121",
+      "resolved": "https://registry.npmjs.org/@dpuse/dpuse-tool-rust-csv-core-parser/-/dpuse-tool-rust-csv-core-parser-1.0.121.tgz",
       "overridden": false,
       "dependencies": {
         "@dpuse/dpuse-shared": {
-          "version": "1.0.225"
+          "version": "1.0.227"
         }
       }
     },
